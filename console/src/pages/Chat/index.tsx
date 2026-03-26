@@ -173,6 +173,16 @@ export default function ChatPage() {
 
   const isComposingRef = useRef(false);
   const isChatActiveRef = useRef(false);
+  const optionsRef = useRef<IAgentScopeRuntimeWebUIOptions | null>(null);
+
+  // Listen for theme changes and update options without full remount
+  useEffect(() => {
+    if (optionsRef.current?.theme) {
+      optionsRef.current.theme.darkMode = isDark;
+      // Force re-render of AgentScopeRuntimeWebUI by updating key
+      setRefreshKey(prev => prev + 1);
+    }
+  }, [isDark]);
 
   // Multimodal capability state for the active model
   const [multimodalCaps, setMultimodalCaps] = useState<{
@@ -653,7 +663,12 @@ export default function ChatPage() {
         replace: true,
       },
     } as unknown as IAgentScopeRuntimeWebUIOptions;
-  }, [wrappedSessionApi, customFetch, copyResponse, t, isDark, multimodalCaps]);
+  }, [wrappedSessionApi, customFetch, copyResponse, t, multimodalCaps]); // Remove isDark from dependencies
+
+  // Store options ref for theme updates
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
 
   return (
     <div

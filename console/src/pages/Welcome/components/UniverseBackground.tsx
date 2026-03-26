@@ -25,12 +25,13 @@ export default function UniverseBackground({
   const { isDark } = useTheme();
   const animationRef = useRef<number>();
 
+  // Refs to store Three.js objects for color updates
+  const particlesMeshRef = useRef<THREE.Points | null>(null);
+  const factionsArrayRef = useRef<Uint8Array | null>(null);
+
   // Shockwave system
   const shockwaveRef = useRef({ x: 0, y: 0, intensity: 0 });
   const mouseRef = useRef({ x: 0, y: 0, worldX: 0, worldY: 0 });
-
-  // Debug log to verify component is rendering
-  console.log('[UniverseBackground] Component rendered, isDark:', isDark);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -38,8 +39,6 @@ export default function UniverseBackground({
       console.error('[UniverseBackground] Canvas ref is null!');
       return;
     }
-
-    console.log('[UniverseBackground] Initializing Three.js with', PARTICLES_COUNT, 'particles');
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -58,8 +57,6 @@ export default function UniverseBackground({
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     camera.position.z = 30;
-
-    console.log('[UniverseBackground] Renderer created, camera positioned');
 
     // Particle system
     const particlesGeometry = new THREE.BufferGeometry();
@@ -97,16 +94,15 @@ export default function UniverseBackground({
       depthWrite: false
     });
 
-    console.log('[UniverseBackground] Material created with size:', particlesMaterial.size);
-
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    console.log('[UniverseBackground] Particles mesh added to scene');
+    // Store refs for color updates
+    particlesMeshRef.current = particlesMesh;
+    factionsArrayRef.current = factionsArray;
 
     // Initial colors
     updateParticleColors(particlesGeometry, factionsArray, isDark);
-    console.log('[UniverseBackground] Particle colors updated, isDark:', isDark);
 
     // Mouse interaction
     const handleMouseMove = (e: MouseEvent) => {
@@ -288,8 +284,6 @@ export default function UniverseBackground({
 
     animate();
 
-    console.log('[UniverseBackground] Animation loop started');
-
     // Handle resize
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -310,28 +304,40 @@ export default function UniverseBackground({
       renderer.dispose();
       particlesGeometry.dispose();
       particlesMaterial.dispose();
+
+      // Clear refs
+      particlesMeshRef.current = null;
+      factionsArrayRef.current = null;
     };
-  }, [isDark, onSeasonChange, onTeamStatusChange]);
+  }, [onSeasonChange, onTeamStatusChange]); // Remove isDark from dependencies
+
+  // Separate effect for color updates only (no scene rebuild)
+  useEffect(() => {
+    const particlesMesh = particlesMeshRef.current;
+    const factionsArray = factionsArrayRef.current;
+
+    if (particlesMesh && factionsArray) {
+      const geometry = particlesMesh.geometry;
+      updateParticleColors(geometry, factionsArray, isDark);
+    }
+  }, [isDark]); // Only depends on isDark
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        className="universe-canvas"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: -1,
-          pointerEvents: 'none',
-          transition: 'opacity 0.5s ease',
-          background: 'transparent'
-        }}
-      />
-      {console.log('[UniverseBackground] Canvas rendered to DOM')}
-    </>
+    <canvas
+      ref={canvasRef}
+      className="universe-canvas"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -1,
+        pointerEvents: 'none',
+        transition: 'opacity 0.5s ease',
+        background: 'transparent'
+      }}
+    />
   );
 }
 
@@ -341,8 +347,6 @@ function updateParticleColors(
   isDark: boolean
 ) {
   const colorArray = geometry.attributes.color.array;
-
-  console.log('[UniverseBackground] Updating particle colors for', factionsArray.length, 'particles, isDark:', isDark);
 
   for (let i = 0; i < factionsArray.length; i++) {
     const isTeamA = factionsArray[i] === 0;
@@ -367,7 +371,6 @@ function updateParticleColors(
   }
 
   geometry.attributes.color.needsUpdate = true;
-  console.log('[UniverseBackground] Colors updated, first particle:', colorArray[0], colorArray[1], colorArray[2]);
 }
 
 function lerpColor(c1: number[], c2: number[], t: number): number[] {
