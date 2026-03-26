@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:proxy": "vite --config vite.config.dev.ts",
+    "dev:no-proxy": "./dev-no-proxy.sh",
     "build": "tsc -b && vite build",
     "build:prod": "tsc -b && vite build --mode production",
     "build:test": "tsc -b && vite build --mode test",
@@ -13,7 +15,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:prod": "vite preview --mode production",
-    "preview:test": "vite preview --mode test"
+    "preview:test": "vite preview --mode test",
+    "watch": "vite build --watch --mode development"
   },
   "dependencies": {
     "@agentscope-ai/chat": "^1.1.54",

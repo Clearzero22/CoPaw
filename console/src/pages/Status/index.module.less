@@ -1,0 +1,116 @@
+.statusPage {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 16px;
+  color: #999;
+}
+
+.headerCard {
+  margin-bottom: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .icon {
+    color: #1890ff;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .description {
+    margin: 4px 0 0 0;
+    color: #666;
+    font-size: 14px;
+  }
+}
+
+.refreshBtn {
+  margin-left: auto;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.statusCard {
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #666;
+    font-size: 14px;
+
+    .cardIcon {
+      color: #1890ff;
+    }
+  }
+
+  .cardValue {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .progressBar {
+    width: 100%;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #1890ff, #36cfc9);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+  }
+}
+
+.detailsCard {
+  :global(.ant-descriptions-header) {
+    margin-bottom: 16px;
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .statusPage {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .refreshBtn {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 12px;
+    }
+  }
+
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+}

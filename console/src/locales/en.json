@@ -33,6 +33,7 @@
     "sessions": "Sessions",
     "cronJobs": "Cron Jobs",
     "heartbeat": "Heartbeat",
+    "status": "System Status",
     "agent": "Agent",
     "workspace": "Workspace",
     "skills": "Skills",
@@ -927,5 +928,21 @@
     "nothingToUpdate": "Please enter a new username or password",
     "passwordEmpty": "Password cannot be blank",
     "usernameEmpty": "Username cannot be blank"
+  },
+  "status": {
+    "title": "System Status",
+    "description": "Monitor your CoPaw system performance and health",
+    "refresh": "Refresh",
+    "loadFailed": "Failed to load system status",
+    "cpu": "CPU Usage",
+    "memory": "Memory Usage",
+    "disk": "Disk Usage",
+    "api": "API Status",
+    "agents": "Active Agents",
+    "uptime": "System Uptime",
+    "channels": "Active Channels",
+    "details": "System Details",
+    "online": "Online",
+    "offline": "Offline"
   }
 }

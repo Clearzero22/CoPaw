@@ -43,6 +43,7 @@ import {
   Bot,
   LogOut,
   UserCog,
+  Gauge,
 } from "lucide-react";
 import api from "../api";
 import { clearAuthToken } from "../api/config";
@@ -311,6 +312,11 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           key: "heartbeat",
           label: t("nav.heartbeat"),
           icon: <Activity size={16} />,
+        },
+        {
+          key: "status",
+          label: t("nav.status"),
+          icon: <Gauge size={16} />,
         },
       ],
     },

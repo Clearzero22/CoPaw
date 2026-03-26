@@ -33,6 +33,7 @@
     "sessions": "会话",
     "cronJobs": "定时任务",
     "heartbeat": "心跳",
+    "status": "系统状态",
     "agent": "智能体",
     "workspace": "工作区",
     "skills": "技能",
@@ -927,5 +928,21 @@
     "transcriptionInfoTitle": "转写工作原理",
     "transcriptionInfoDesc": "Whisper API 转写使用 OpenAI 兼容的 /v1/audio/transcriptions 端点。需要配置一个支持 Whisper 端点的提供商（如 OpenAI）。请在上方选择具体的提供商以启用转写。",
     "transcriptionInfoDescLocal": "本地 Whisper 转写直接在您的设备上运行 openai-whisper 库。需要同时安装 ffmpeg（用于音频解码）和 openai-whisper Python 包。无需 API Key 或网络连接。安装命令：uv pip install 'copaw[whisper]'。"
+  },
+  "status": {
+    "title": "系统状态",
+    "description": "监控 CoPaw 系统性能和健康状况",
+    "refresh": "刷新",
+    "loadFailed": "加载系统状态失败",
+    "cpu": "CPU 使用率",
+    "memory": "内存使用率",
+    "disk": "磁盘使用率",
+    "api": "API 状态",
+    "agents": "活跃智能体",
+    "uptime": "系统运行时间",
+    "channels": "活跃渠道",
+    "details": "系统详情",
+    "online": "在线",
+    "offline": "离线"
   }
 }
