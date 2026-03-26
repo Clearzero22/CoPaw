@@ -24,7 +24,7 @@ export default function HeroContent({ onBlackSwanTriggered, scrambleTrigger = fa
     <div className={styles.heroContent}>
       <div className={styles.statusBadge}>
         <span className={styles.statusDot} />
-        Dynamic Game Analysis Engine v0.1 动态博弈分析引擎
+        AI Personal Assistant v0.2 智能个人助理系统
       </div>
 
       <div className={styles.titleContainer}>
@@ -36,17 +36,17 @@ export default function HeroContent({ onBlackSwanTriggered, scrambleTrigger = fa
             <ScrambleText text={keyword} trigger={scrambleTrigger} />
           </span>
           <br />
-          <span className={styles.subtitle}>Welcome to Xing Chenxin AI</span>
+          <span className={styles.subtitle}>懂你所需，伴你左右</span>
         </h1>
       </div>
 
       <p className={styles.description}>
-        从量子波动到银河文明，每一次互动都是一场博弈。
-        实时分析所有尺度和时间线上的无限动态。
+        从社交媒体到生产力工具，一个 CoPaw 连接所有频道。
+        支持钉钉、飞书、QQ、Discord 等多平台智能助手。
       </p>
 
       <p className={styles.blackSwanHint}>
-        [ 点击任意位置触发黑天鹅事件 ]
+        [ 点击任意位置触发粒子特效 ]
       </p>
     </div>
   );
