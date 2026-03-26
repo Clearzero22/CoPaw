@@ -1,0 +1,197 @@
+/* ---- Trigger button ---- */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.15s ease;
+  user-select: none;
+  max-width: 260px;
+
+  &:hover,
+  &.triggerActive {
+    border-color: #615ced;
+    color: #615ced;
+    background: rgba(97, 92, 237, 0.06);
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  color: #615ced;
+}
+
+.triggerLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+.triggerArrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #999;
+  transition:
+    transform 0.2s,
+    color 0.15s;
+
+  &.triggerArrowOpen {
+    transform: rotate(180deg);
+    color: #615ced;
+  }
+}
+
+/* ---- Dropdown panel ---- */
+.panel {
+  min-width: 280px;
+  max-width: 400px;
+  max-height: 400px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 4px 0;
+  overflow-y: auto;
+}
+
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skillItem {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+  border-radius: 8px;
+  position: relative;
+
+  &:hover {
+    background: rgba(97, 92, 237, 0.06);
+  }
+
+  &.skillItemEnabled {
+    background: rgba(97, 92, 237, 0.04);
+
+    &:hover {
+      background: rgba(97, 92, 237, 0.08);
+    }
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+
+  :global(.ant-checkbox) {
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+}
+
+.skillName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+  word-break: break-word;
+}
+
+.skillDescription {
+  font-size: 12px;
+  color: #999;
+  margin-left: 24px;
+  margin-top: 2px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.loadingIcon {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: #615ced;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.emptyTip {
+  padding: 20px 16px;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+}
+
+.spinWrapper {
+  padding: 20px 16px;
+  text-align: center;
+}
+
+/* ─── Dark mode overrides ─────────────────────────────────────────────────── */
+:global(.dark-mode) {
+  .trigger {
+    color: rgba(255, 255, 255, 0.65);
+
+    &:hover,
+    &.triggerActive {
+      color: #8b87f0;
+      background: rgba(97, 92, 237, 0.15);
+    }
+  }
+
+  .triggerArrow {
+    color: rgba(255, 255, 255, 0.25);
+
+    &.triggerArrowOpen {
+      color: #8b87f0;
+    }
+  }
+
+  .panel {
+    background: #1f1f1f;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .skillItem {
+    &.skillItemEnabled {
+      background: rgba(97, 92, 237, 0.1);
+
+      &:hover {
+        background: rgba(97, 92, 237, 0.15);
+      }
+    }
+  }
+
+  .skillName {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .skillDescription {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .emptyTip {
+    color: rgba(255, 255, 255, 0.25);
+  }
+}
