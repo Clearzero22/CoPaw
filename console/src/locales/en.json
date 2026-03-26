@@ -956,8 +956,13 @@
     "offline": "Offline"
   },
   "welcome": {
-    "title": "Welcome to Xing Chenxin AI",
+    "title": "Welcome to",
+    "keyword": "Xing Chenxin AI",
     "subtitle": "Understanding your needs, always by your side",
+    "statusBadge": "AI Personal Assistant v0.2",
+    "description": "From social media to productivity tools, one CoPaw connects all channels. Supporting multi-platform intelligent assistants for DingTalk, Feishu, QQ, Discord, and more.",
+    "particleHint": "Click anywhere to trigger particle effects",
+    "blackSwanEvent": "BLACK SWAN EVENT",
     "features": {
       "chat": {
         "title": "Smart Chat",

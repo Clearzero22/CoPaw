@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import ScrambleText from "./ScrambleText";
 import styles from "../index.module.less";
 
@@ -8,45 +9,45 @@ interface HeroContentProps {
 }
 
 export default function HeroContent({ onBlackSwanTriggered, scrambleTrigger = false }: HeroContentProps) {
-  const [keyword, setKeyword] = useState("兴宸鑫 AI");
+  const { t } = useTranslation();
+  const [keyword, setKeyword] = useState(t("welcome.keyword"));
 
   useEffect(() => {
     if (scrambleTrigger) {
-      setKeyword("BLACK SWAN EVENT");
+      setKeyword(t("welcome.blackSwanEvent"));
       const timeout = setTimeout(() => {
-        setKeyword("兴宸鑫 AI");
+        setKeyword(t("welcome.keyword"));
       }, 2500);
       return () => clearTimeout(timeout);
     }
-  }, [scrambleTrigger]);
+  }, [scrambleTrigger, t]);
 
   return (
     <div className={styles.heroContent}>
       <div className={styles.statusBadge}>
         <span className={styles.statusDot} />
-        AI Personal Assistant v0.2 智能个人助理系统
+        {t("welcome.statusBadge")}
       </div>
 
       <div className={styles.titleContainer}>
         <h1 className={styles.mainTitle}>
-          欢迎使用<br />
+          {t("welcome.title")}<br />
           <span
             className={`${styles.keyword} ${scrambleTrigger ? styles.blackSwan : ""}`}
           >
             <ScrambleText text={keyword} trigger={scrambleTrigger} />
           </span>
           <br />
-          <span className={styles.subtitle}>懂你所需，伴你左右</span>
+          <span className={styles.subtitle}>{t("welcome.subtitle")}</span>
         </h1>
       </div>
 
       <p className={styles.description}>
-        从社交媒体到生产力工具，一个 CoPaw 连接所有频道。
-        支持钉钉、飞书、QQ、Discord 等多平台智能助手。
+        {t("welcome.description")}
       </p>
 
       <p className={styles.blackSwanHint}>
-        [ 点击任意位置触发粒子特效 ]
+        [ {t("welcome.particleHint")} ]
       </p>
     </div>
   );
