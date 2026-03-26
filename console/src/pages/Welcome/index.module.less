@@ -1,0 +1,478 @@
+/* ─── Container ───────────────────────────────────────────────────── */
+.welcomeContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(5, 20, 15);
+  transition: background 0.5s ease;
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  z-index: 9999;
+}
+
+/* ─── CSS Gradient Background ───────────────────────────────────── */
+.gradientBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── CSS Particles ────────────────────────────────────────────────── */
+.particlesContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: float 20s infinite ease-in-out;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* ─── Additional Dynamic Effects ───────────────────────────────────── */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Add stars effect */
+.welcomeContainer::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.3) 0 0 4px 0),
+    radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.3) 0 0 4px 0),
+    radial-gradient(1px 1px at 50px 160px, rgba(255, 255, 255, 0.3) 0 0 4px 0),
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.3) 0 0 4px 0),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.3) 0 0 4px 0);
+  z-index: -1;
+  animation: twinkle 8s ease-in-out infinite;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  max-width: 1200px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.content > * {
+  pointer-events: auto;
+}
+
+/* ─── Hero Section ──────────────────────────────────────────────────── */
+.heroSection {
+  margin-bottom: 40px;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 16px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.titleContainer {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.mainTitle {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+  animation: textPulse 4s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    text-shadow: 0 0 50px rgba(102, 126, 234, 0.9);
+  }
+}
+
+.keyword {
+  background: linear-gradient(270deg, #667eea, #764ba2, #ff7eb3, #667eea);
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.keyword.blackSwan {
+  -webkit-text-fill-color: #ff3333;
+  animation: none;
+}
+
+.subtitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+}
+
+.description {
+  font-size: 20px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 800px;
+  margin: 24px auto 0;
+  line-height: 1.6;
+}
+
+.blackSwanHint {
+  font-size: 12px;
+  color: rgba(239, 68, 68, 0.8);
+  animation: pulse 2s ease-in-out infinite;
+  margin-top: 16px;
+  font-family: monospace;
+}
+
+/* ─── Buttons Section ───────────────────────────────────────────────── */
+.buttonsSection {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.primaryButton {
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.primaryButton:hover {
+  box-shadow: 0 0 60px rgba(102, 126, 234, 0.6);
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Game Telemetry Panel ───────────────────────────────────────────── */
+.telemetryPanel {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 40;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 288px;
+  transition: opacity 0.5s ease;
+  opacity: 0.8;
+}
+
+.telemetryPanel:hover {
+  opacity: 1;
+}
+
+.telemetryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+.seasonIndicator {
+  font-weight: 700;
+  color: #22c55e;
+  transition: color 0.5s ease;
+}
+
+.progressContainer {
+  position: relative;
+  height: 6px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressBar {
+  height: 100%;
+  background: #3b82f6;
+  transition: all 0.1s ease linear;
+}
+
+.progressCenter {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.teamStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: monospace;
+  margin-bottom: 16px;
+}
+
+.teamA {
+  color: #60a5fa;
+  transition: all 0.3s ease;
+}
+
+.teamB {
+  color: #f87171;
+  transition: all 0.3s ease;
+}
+
+.vs {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 8px;
+}
+
+.historyGraph {
+  width: 100%;
+  height: 40px;
+  margin-top: 16px;
+}
+
+/* ─── Black Swan Event Overlay ───────────────────────────────────────── */
+.blackSwanOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.blackSwanText {
+  font-size: 72px;
+  font-weight: 900;
+  color: #ff3333;
+  text-shadow: 0 0 50px rgba(255, 51, 51, 0.8);
+  letter-spacing: 0.05em;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .mainTitle {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .buttonsSection {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px 32px;
+  }
+
+  .telemetryPanel {
+    display: none;
+  }
+
+  .blackSwanText {
+    font-size: 36px;
+  }
+}
+
+/* ─── Dark Mode Support ─────────────────────────────────────────────── */
+:global(.dark-mode) .welcomeContainer {
+  /* Dark mode styles are the default for this cosmic theme */
+}
+
+/* ─── Light Mode Variants ──────────────────────────────────────────── */
+:global(html:not(.dark-mode)) .welcomeContainer {
+  background: rgb(240, 255, 245);
+}
+
+:global(html:not(.dark-mode)) .statusBadge {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+:global(html:not(.dark-mode)) .mainTitle {
+  color: #000000;
+}
+
+:global(html:not(.dark-mode)) .subtitle {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+:global(html:not(.dark-mode)) .description {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+:global(html:not(.dark-mode)) .telemetryPanel {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+:global(html:not(.dark-mode)) .telemetryHeader {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+:global(html:not(.dark-mode)) .teamA {
+  color: #2563eb;
+}
+
+:global(html:not(.dark-mode)) .teamB {
+  color: #dc2626;
+}
+
+:global(html:not(.dark-mode)) .vs {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+:global(html:not(.dark-mode)) .progressCenter {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+:global(html:not(.dark-mode)) .progressContainer {
+  background: rgba(0, 0, 0, 0.1);
+}

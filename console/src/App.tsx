@@ -16,10 +16,32 @@ import "dayjs/locale/ru";
 import MainLayout from "./layouts/MainLayout";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import LoginPage from "./pages/Login";
+import WelcomePage from "./pages/Welcome";
 import { authApi } from "./api/modules/auth";
 import { getApiUrl, getApiToken, clearAuthToken } from "./api/config";
 import "./styles/layout.css";
 import "./styles/form-override.css";
+
+// Welcome screen persistence helper
+const WELCOME_SHOWN_KEY = "copaw_welcome_shown";
+const WELCOME_VERSION_KEY = "copaw_welcome_version";
+const CURRENT_VERSION = "1.0.0";
+
+function shouldShowWelcome(): boolean {
+  // TODO: For testing purposes, always show welcome screen on refresh
+  // Change this back to: return !shown || version !== CURRENT_VERSION;
+  return true;
+
+  // Original logic (enable this after testing):
+  // const shown = localStorage.getItem(WELCOME_SHOWN_KEY);
+  // const version = localStorage.getItem(WELCOME_VERSION_KEY);
+  // return !shown || version !== CURRENT_VERSION;
+}
+
+function markWelcomeShown(): void {
+  localStorage.setItem(WELCOME_SHOWN_KEY, "true");
+  localStorage.setItem(WELCOME_VERSION_KEY, CURRENT_VERSION);
+}
 
 const antdLocaleMap: Record<string, Locale> = {
   zh: zhCN,
@@ -111,6 +133,7 @@ function AppInner() {
   const [antdLocale, setAntdLocale] = useState<Locale>(
     antdLocaleMap[lang] ?? enUS,
   );
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     const handleLanguageChanged = (lng: string) => {
@@ -127,6 +150,41 @@ function AppInner() {
       i18n.off("languageChanged", handleLanguageChanged);
     };
   }, [i18n]);
+
+  // Check if we should show welcome screen on mount
+  useEffect(() => {
+    if (shouldShowWelcome()) {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  const handleWelcomeComplete = () => {
+    markWelcomeShown();
+    setShowWelcome(false);
+  };
+
+  // Show welcome screen if needed
+  if (showWelcome) {
+    return (
+      <BrowserRouter basename={basename}>
+        <GlobalStyle />
+        <ConfigProvider
+          {...bailianTheme}
+          prefix="copaw"
+          prefixCls="copaw"
+          locale={antdLocale}
+          theme={{
+            ...(bailianTheme as any)?.theme,
+            algorithm: isDark
+              ? antdTheme.darkAlgorithm
+              : antdTheme.defaultAlgorithm,
+          }}
+        >
+          <WelcomePage onComplete={handleWelcomeComplete} />
+        </ConfigProvider>
+      </BrowserRouter>
+    );
+  }
 
   return (
     <BrowserRouter basename={basename}>

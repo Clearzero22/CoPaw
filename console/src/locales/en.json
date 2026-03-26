@@ -441,6 +441,16 @@
     "noConfiguredModels": "No configured models",
     "switchFailed": "Failed to switch model"
   },
+  "skillSelector": {
+    "selectSkills": "Select skills",
+    "loading": "Loading...",
+    "oneSkill": "1 skill",
+    "multipleSkills": "{{count}} skills",
+    "noSkills": "No skills available",
+    "skillEnabled": "Skill {{name}} enabled",
+    "skillDisabled": "Skill {{name}} disabled",
+    "toggleFailed": "Failed to toggle skill"
+  },
   "tokenUsage": {
     "title": "Token Usage",
     "description": "View LLM token consumption over time, by date and model.",
@@ -944,5 +954,25 @@
     "details": "System Details",
     "online": "Online",
     "offline": "Offline"
+  },
+  "welcome": {
+    "title": "Welcome to Xing Chenxin AI",
+    "subtitle": "Understanding your needs, always by your side",
+    "features": {
+      "chat": {
+        "title": "Smart Chat",
+        "description": "Natural and smooth interaction experience"
+      },
+      "multimodal": {
+        "title": "Multimodal Support",
+        "description": "Comprehensive understanding of text, images, and voice"
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Rich skill ecosystem, continuously expanding"
+      }
+    },
+    "getStarted": "Get Started",
+    "skip": "Skip"
   }
 }

@@ -423,6 +423,16 @@
     "noConfiguredModels": "暂无已配置模型",
     "switchFailed": "切换模型失败"
   },
+  "skillSelector": {
+    "selectSkills": "选择技能",
+    "loading": "加载中...",
+    "oneSkill": "1 个技能",
+    "multipleSkills": "{{count}} 个技能",
+    "noSkills": "暂无可用技能",
+    "skillEnabled": "技能 {{name}} 已启用",
+    "skillDisabled": "技能 {{name}} 已禁用",
+    "toggleFailed": "切换技能失败"
+  },
   "models": {
     "llmConfiguration": "LLM 配置",
     "providersTitle": "提供商",
@@ -944,5 +954,25 @@
     "details": "系统详情",
     "online": "在线",
     "offline": "离线"
+  },
+  "welcome": {
+    "title": "欢迎使用兴宸鑫 AI",
+    "subtitle": "懂你所需，伴你左右",
+    "features": {
+      "chat": {
+        "title": "智能对话",
+        "description": "自然流畅的交互体验"
+      },
+      "multimodal": {
+        "title": "多模态支持",
+        "description": "文本、图像、语音全方位理解"
+      },
+      "skills": {
+        "title": "技能扩展",
+        "description": "丰富的技能生态，持续扩展"
+      }
+    },
+    "getStarted": "开始使用",
+    "skip": "跳过"
   }
 }
