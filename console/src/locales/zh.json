@@ -1069,7 +1069,8 @@
       "executionFailed": "执行失败",
       "openDashboard": "打开控制台",
       "openInNewTab": "新标签页打开",
-      "dashboard": "控制台"
+      "dashboard": "控制台",
+      "chatbot": "聊天机器人"
     },
     "n8n": {
       "title": "n8n 集成",

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Input, Button, Table, Tag, Space, Modal, Form, message, List, Switch } from "antd";
+import { Card, Input, Button, Table, Tag, Space, Modal, Form, message, List } from "antd";
 import { Settings, Play, Key, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
@@ -12,6 +12,8 @@ interface DifyApp {
   status: "active" | "inactive";
 }
 
+type ViewMode = "apps" | "dashboard" | "chatbot";
+
 function Dify() {
   const { t } = useTranslation();
   const [configModalOpen, setConfigModalOpen] = useState(false);
@@ -19,8 +21,11 @@ function Dify() {
   const [selectedApp, setSelectedApp] = useState<DifyApp | null>(null);
   const [apps, setApps] = useState<DifyApp[]>([]);
   const [loading, setLoading] = useState(false);
-  const [showDashboard, setShowDashboard] = useState(false);
-  const [dashboardUrl, setDashboardUrl] = useState("http://localhost:3001");
+  const [viewMode, setViewMode] = useState<ViewMode>("apps");
+  const [dashboardUrl, setDashboardUrl] = useState("http://localhost:3000");
+  const [iframeLoaded, setIframeLoaded] = useState(true);
+  const [iframeError, setIframeError] = useState(false);
+  const [chatbotUrl, setChatbotUrl] = useState("http://localhost/chatbot/inTp9FWc07YL9ICW");
 
   // 配置表单
   const [configForm] = Form.useForm();
@@ -230,11 +235,27 @@ function Dify() {
         }
         extra={
           <Space>
-            <Switch
-              checkedChildren={showDashboard ? t("integration.dify.dashboard") : t("integration.dify.apps")}
-              checked={showDashboard}
-              onChange={(checked) => setShowDashboard(checked)}
-            />
+            <Button
+              size="small"
+              type={viewMode === "apps" ? "primary" : "default"}
+              onClick={() => setViewMode("apps")}
+            >
+              {t("integration.dify.apps")}
+            </Button>
+            <Button
+              size="small"
+              type={viewMode === "chatbot" ? "primary" : "default"}
+              onClick={() => setViewMode("chatbot")}
+            >
+              {t("integration.dify.chatbot")}
+            </Button>
+            <Button
+              size="small"
+              type={viewMode === "dashboard" ? "primary" : "default"}
+              onClick={() => setViewMode("dashboard")}
+            >
+              {t("integration.dify.dashboard")}
+            </Button>
             <Button
               icon={<ExternalLink size={14} />}
               onClick={() => window.open("http://localhost/apps", "_blank")}
@@ -254,7 +275,7 @@ function Dify() {
           </Space>
         }
       >
-        {!showDashboard ? (
+        {viewMode === "apps" && (
           <>
             <List.Item>
               <List.Item.Meta
@@ -276,7 +297,71 @@ function Dify() {
               pagination={false}
             />
           </>
-        ) : (
+        )}
+
+        {viewMode === "chatbot" && (
+          <div className={styles.chatbotContainer}>
+            <Space
+              style={{ marginBottom: 16, padding: "8px" }}
+              className={styles.dashboardBar}
+            >
+              <span>聊天机器人地址：</span>
+              <Input
+                value={chatbotUrl}
+                onChange={(e) => setChatbotUrl(e.target.value)}
+                style={{ width: 400 }}
+                placeholder="http://localhost/chatbot/xxx"
+                status={iframeError ? "error" : ""}
+              />
+              <Button
+                type="primary"
+                size="small"
+                onClick={() => {
+                  setIframeLoaded(false);
+                  setIframeError(false);
+                  const iframe = document.querySelector(
+                    `.${styles.chatbotIframe}`
+                  ) as HTMLIFrameElement;
+                  if (iframe) {
+                    iframe.src = chatbotUrl;
+                  }
+                }}
+              >
+                加载
+              </Button>
+              {!iframeLoaded && (
+                <span style={{ color: "#1890ff" }}>⏳ 加载中...</span>
+              )}
+            </Space>
+            <iframe
+              src={chatbotUrl}
+              className={styles.chatbotIframe}
+              title="Dify Chatbot"
+              allow="microphone"
+              onLoad={() => {
+                setIframeLoaded(true);
+                setIframeError(false);
+              }}
+              onError={() => {
+                setIframeLoaded(true);
+                setIframeError(true);
+                message.error("无法加载聊天机器人，请检查地址是否正确");
+              }}
+            />
+            {iframeError && (
+              <div className={styles.dashboardHelp} style={{ display: "block" }}>
+                <p>⚠️ 无法连接到 Dify 聊天机器人</p>
+                <ul>
+                  <li>确认 Dify 运行在 <code>http://localhost:3000</code></li>
+                  <li>检查聊天机器人 ID 是否正确</li>
+                  <li>检查防火墙和网络连接</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {viewMode === "dashboard" && (
           <div className={styles.dashboardContainer}>
             <Space
               style={{ marginBottom: 16, padding: "8px" }}
@@ -287,12 +372,15 @@ function Dify() {
                 value={dashboardUrl}
                 onChange={(e) => setDashboardUrl(e.target.value)}
                 style={{ width: 300 }}
-                placeholder="http://localhost:3001"
+                placeholder="http://localhost:3000"
+                status={iframeError ? "error" : ""}
               />
               <Button
                 type="primary"
                 size="small"
                 onClick={() => {
+                  setIframeLoaded(false);
+                  setIframeError(false);
                   const iframe = document.querySelector(
                     `.${styles.dashboardIframe}`
                   ) as HTMLIFrameElement;
@@ -303,20 +391,34 @@ function Dify() {
               >
                 加载
               </Button>
+              {!iframeLoaded && (
+                <span style={{ color: "#1890ff" }}>⏳ 加载中...</span>
+              )}
             </Space>
             <iframe
               src={dashboardUrl}
               className={styles.dashboardIframe}
               title="Dify Dashboard"
+              onLoad={() => {
+                setIframeLoaded(true);
+                setIframeError(false);
+              }}
+              onError={() => {
+                setIframeLoaded(true);
+                setIframeError(true);
+                message.error("无法加载 Dify 控制台，请检查地址是否正确");
+              }}
             />
-            <div className={styles.dashboardHelp}>
-              <p>💡 如果无法显示 Dify 控制台：</p>
-              <ul>
-                <li>确认 Dify 运行在正确地址</li>
-                <li>Dify 可能设置了安全策略禁止 iframe 嵌入</li>
-                <li>尝试使用"在新标签页打开"按钮</li>
-              </ul>
-            </div>
+            {iframeError && (
+              <div className={styles.dashboardHelp} style={{ display: "block" }}>
+                <p>⚠️ 无法连接到 Dify 控制台</p>
+                <ul>
+                  <li>确认 Dify 运行在 <code>http://localhost:3000</code></li>
+                  <li>检查防火墙和网络连接</li>
+                  <li>Dify 可能需要登录（点击"在新标签页打开"）</li>
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </Card>

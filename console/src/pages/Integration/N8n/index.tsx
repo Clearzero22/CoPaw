@@ -21,6 +21,8 @@ function N8n() {
   const [loading, setLoading] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [dashboardUrl, setDashboardUrl] = useState("http://localhost:5678");
+  const [iframeLoaded, setIframeLoaded] = useState(true);
+  const [iframeError, setIframeError] = useState(false);
 
   const [configForm] = Form.useForm();
 
@@ -293,11 +295,14 @@ function N8n() {
                 onChange={(e) => setDashboardUrl(e.target.value)}
                 style={{ width: 300 }}
                 placeholder="http://localhost:5678"
+                status={iframeError ? "error" : ""}
               />
               <Button
                 type="primary"
                 size="small"
                 onClick={() => {
+                  setIframeLoaded(false);
+                  setIframeError(false);
                   const iframe = document.querySelector(
                     `.${styles.dashboardIframe}`
                   ) as HTMLIFrameElement;
@@ -308,20 +313,34 @@ function N8n() {
               >
                 加载
               </Button>
+              {!iframeLoaded && (
+                <span style={{ color: "#ff6d5a" }}>⏳ 加载中...</span>
+              )}
             </Space>
             <iframe
               src={`${dashboardUrl}/home/workflows`}
               className={styles.dashboardIframe}
               title="n8n Dashboard"
+              onLoad={() => {
+                setIframeLoaded(true);
+                setIframeError(false);
+              }}
+              onError={() => {
+                setIframeLoaded(true);
+                setIframeError(true);
+                message.error("无法加载 n8n 控制台，请检查地址是否正确");
+              }}
             />
-            <div className={styles.dashboardHelp}>
-              <p>💡 如果无法显示 n8n 控制台：</p>
-              <ul>
-                <li>确认 n8n 运行在正确地址</li>
-                <li>n8n 可能设置了安全策略禁止 iframe 嵌入</li>
-                <li>尝试使用"在新标签页打开"按钮</li>
-              </ul>
-            </div>
+            {iframeError && (
+              <div className={styles.dashboardHelp} style={{ display: "block" }}>
+                <p>⚠️ 无法连接到 n8n 控制台</p>
+                <ul>
+                  <li>确认 n8n 运行在 <code>http://localhost:5678</code></li>
+                  <li>检查防火墙和网络连接</li>
+                  <li>n8n 可能需要登录（点击"在新标签页打开"）</li>
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </Card>
