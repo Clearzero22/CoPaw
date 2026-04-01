@@ -113,7 +113,7 @@ export default function UniverseBackground({
     };
 
     // Black swan event trigger
-    const handleMouseDown = (e: MouseEvent) => {
+    const handleMouseDown = (_e: MouseEvent) => {
       shockwaveRef.current.x = mouseRef.current.worldX * 30;
       shockwaveRef.current.y = mouseRef.current.worldY * 30;
       shockwaveRef.current.intensity = 12.0;

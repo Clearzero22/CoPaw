@@ -31,7 +31,7 @@ export default function ScrambleText({
     clearInterval(intervalRef.current);
 
     intervalRef.current = window.setInterval(() => {
-      element.innerText = targetText.split("").map((letter, index) => {
+      element.innerText = targetText.split("").map((_letter, index) => {
         if (index < iteration) return targetText[index];
         if (targetText[index] === " ") return " ";
         return CHARS[Math.floor(Math.random() * CHARS.length)];

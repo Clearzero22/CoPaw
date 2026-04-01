@@ -8,7 +8,7 @@ interface HeroContentProps {
   scrambleTrigger?: boolean;
 }
 
-export default function HeroContent({ onBlackSwanTriggered, scrambleTrigger = false }: HeroContentProps) {
+export default function HeroContent({ scrambleTrigger = false }: HeroContentProps) {
   const { t } = useTranslation();
   const [keyword, setKeyword] = useState(t("welcome.keyword"));
 

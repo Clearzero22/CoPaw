@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Descriptions, Button, message, Tag } from "@agentscope-ai/design";
+import { Card, Descriptions, Button, message, Tag } from "antd";
 import { useTranslation } from "react-i18next";
 import { Cpu, HardDrive, Activity, Wifi } from "lucide-react";
 import styles from "./index.module.less";

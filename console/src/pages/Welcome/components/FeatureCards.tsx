@@ -5,7 +5,7 @@ import styles from "../index.module.less";
 
 interface FeatureCard {
   key: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: React.ComponentType<{ className?: string; size?: number | string }>;
 }
 
 const features: FeatureCard[] = [
