@@ -51,7 +51,11 @@
     "productResearch": "产品调研",
     "competitorAnalysis": "竞品分析",
     "keywordResearch": "关键词研究",
-    "supplierManagement": "供应商管理"
+    "supplierManagement": "供应商管理",
+    "integration": "工作流集成",
+    "dify": "Dify",
+    "n8n": "n8n",
+    "integrationHistory": "执行历史"
   },
   "workspace": {
     "title": "工作区",
@@ -1036,6 +1040,52 @@
       "products": "产品数",
       "actions": "操作",
       "contact": "联系"
+    }
+  },
+  "integration": {
+    "configure": "配置",
+    "configured": "已配置",
+    "notConfigured": "未配置",
+    "configSaved": "配置已保存",
+    "connectionFailed": "连接失败",
+    "configError": "配置错误",
+    "loadFailed": "加载失败",
+    "run": "运行",
+    "trigger": "触发",
+    "actions": "操作",
+    "apiKey": "API 密钥",
+    "dify": {
+      "title": "Dify 集成",
+      "config": "Dify 配置",
+      "apiUrl": "API 地址",
+      "baseUrl": "基础 URL",
+      "apps": "应用列表",
+      "appName": "应用名称",
+      "description": "描述",
+      "mode": "模式",
+      "status": "状态",
+      "inputs": "输入参数",
+      "executionStarted": "执行已启动",
+      "executionFailed": "执行失败"
+    },
+    "n8n": {
+      "title": "n8n 集成",
+      "config": "n8n 配置",
+      "apiUrl": "API 地址",
+      "baseUrl": "基础 URL",
+      "workflows": "工作流列表",
+      "workflowName": "工作流名称",
+      "active": "活跃",
+      "inactive": "未激活",
+      "nodes": "个节点",
+      "lastExecuted": "最后执行",
+      "workflowData": "工作流数据",
+      "workflowTriggered": "工作流已触发"
+    },
+    "history": {
+      "title": "执行历史",
+      "clear": "清空历史",
+      "empty": "暂无执行历史"
     }
   }
 }

@@ -22,6 +22,7 @@ import VoiceTranscriptionPage from "../../pages/Settings/VoiceTranscription";
 import AgentsPage from "../../pages/Settings/Agents";
 import StatusPage from "../../pages/Status";
 import EcommercePage from "../../pages/Ecommerce";
+import IntegrationPage from "../../pages/Integration";
 
 const { Content } = Layout;
 
@@ -45,6 +46,8 @@ const pathToKey: Record<string, string> = {
   "/status": "status",
   "/ecommerce": "ecommerce",
   "/ecommerce/*": "ecommerce",
+  "/integration": "integration",
+  "/integration/*": "integration",
 };
 
 export default function MainLayout() {
@@ -83,6 +86,7 @@ export default function MainLayout() {
               />
               <Route path="/status" element={<StatusPage />} />
               <Route path="/ecommerce/*" element={<EcommercePage />} />
+              <Route path="/integration/*" element={<IntegrationPage />} />
             </Routes>
           </div>
         </Content>

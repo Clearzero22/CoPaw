@@ -15,6 +15,7 @@ export const DEFAULT_OPEN_KEYS = [
   "control-group",
   "agent-group",
   "ecommerce-group",
+  "integration-group",
   "settings-group",
 ];
 
@@ -40,6 +41,9 @@ export const KEY_TO_PATH: Record<string, string> = {
   "ecommerce-competitor-analysis": "/ecommerce/competitor-analysis",
   "ecommerce-keyword-research": "/ecommerce/keyword-research",
   "ecommerce-supplier-management": "/ecommerce/supplier-management",
+  "integration-dify": "/integration/dify",
+  "integration-n8n": "/integration/n8n",
+  "integration-history": "/integration/history",
 };
 
 export const KEY_TO_LABEL: Record<string, string> = {
@@ -63,6 +67,9 @@ export const KEY_TO_LABEL: Record<string, string> = {
   "ecommerce-competitor-analysis": "nav.competitorAnalysis",
   "ecommerce-keyword-research": "nav.keywordResearch",
   "ecommerce-supplier-management": "nav.supplierManagement",
+  "integration-dify": "nav.dify",
+  "integration-n8n": "nav.n8n",
+  "integration-history": "nav.integrationHistory",
 };
 
 // ── URL helpers ───────────────────────────────────────────────────────────

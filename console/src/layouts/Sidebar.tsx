@@ -49,6 +49,8 @@ import {
   Target,
   Key,
   Truck,
+  Workflow,
+  History,
 } from "lucide-react";
 import api from "../api";
 import { clearAuthToken } from "../api/config";
@@ -369,6 +371,28 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           key: "ecommerce-supplier-management",
           label: t("nav.supplierManagement"),
           icon: <Truck size={16} />,
+        },
+      ],
+    },
+    {
+      key: "integration-group",
+      label: t("nav.integration"),
+      icon: <Workflow size={16} />,
+      children: [
+        {
+          key: "integration-dify",
+          label: t("nav.dify"),
+          icon: <Zap size={16} />,
+        },
+        {
+          key: "integration-n8n",
+          label: t("nav.n8n"),
+          icon: <Target size={16} />,
+        },
+        {
+          key: "integration-history",
+          label: t("nav.integrationHistory"),
+          icon: <History size={16} />,
         },
       ],
     },

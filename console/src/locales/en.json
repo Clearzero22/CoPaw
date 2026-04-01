@@ -51,7 +51,11 @@
     "productResearch": "Product Research",
     "competitorAnalysis": "Competitor Analysis",
     "keywordResearch": "Keyword Research",
-    "supplierManagement": "Supplier Management"
+    "supplierManagement": "Supplier Management",
+    "integration": "Integrations",
+    "dify": "Dify",
+    "n8n": "n8n",
+    "integrationHistory": "History"
   },
   "voiceTranscription": {
     "title": "Voice Transcription",
@@ -1036,6 +1040,52 @@
       "products": "Products",
       "actions": "Actions",
       "contact": "Contact"
+    }
+  },
+  "integration": {
+    "configure": "Configure",
+    "configured": "Configured",
+    "notConfigured": "Not Configured",
+    "configSaved": "Configuration saved",
+    "connectionFailed": "Connection failed",
+    "configError": "Configuration error",
+    "loadFailed": "Failed to load",
+    "run": "Run",
+    "trigger": "Trigger",
+    "actions": "Actions",
+    "apiKey": "API Key",
+    "dify": {
+      "title": "Dify Integration",
+      "config": "Dify Configuration",
+      "apiUrl": "API URL",
+      "baseUrl": "Base URL",
+      "apps": "Applications",
+      "appName": "App Name",
+      "description": "Description",
+      "mode": "Mode",
+      "status": "Status",
+      "inputs": "Inputs",
+      "executionStarted": "Execution started",
+      "executionFailed": "Execution failed"
+    },
+    "n8n": {
+      "title": "n8n Integration",
+      "config": "n8n Configuration",
+      "apiUrl": "API URL",
+      "baseUrl": "Base URL",
+      "workflows": "Workflows",
+      "workflowName": "Workflow Name",
+      "active": "Active",
+      "inactive": "Inactive",
+      "nodes": "nodes",
+      "lastExecuted": "Last Executed",
+      "workflowData": "Workflow Data",
+      "workflowTriggered": "Workflow triggered"
+    },
+    "history": {
+      "title": "Execution History",
+      "clear": "Clear History",
+      "empty": "No execution history yet"
     }
   }
 }
