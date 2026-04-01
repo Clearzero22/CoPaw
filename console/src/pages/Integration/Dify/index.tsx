@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Input, Button, Table, Tag, Space, Modal, Form, message, List } from "antd";
+import { Card, Input, Button, Table, Tag, Space, Modal, Form, message, List, Switch } from "antd";
 import { Settings, Play, Key, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
@@ -19,6 +19,8 @@ function Dify() {
   const [selectedApp, setSelectedApp] = useState<DifyApp | null>(null);
   const [apps, setApps] = useState<DifyApp[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [dashboardUrl, setDashboardUrl] = useState("http://localhost:3001");
 
   // 配置表单
   const [configForm] = Form.useForm();
@@ -228,11 +230,16 @@ function Dify() {
         }
         extra={
           <Space>
+            <Switch
+              checkedChildren={showDashboard ? t("integration.dify.dashboard") : t("integration.dify.apps")}
+              checked={showDashboard}
+              onChange={(checked) => setShowDashboard(checked)}
+            />
             <Button
               icon={<ExternalLink size={14} />}
               onClick={() => window.open("http://localhost/apps", "_blank")}
             >
-              {t("integration.dify.openDashboard")}
+              {t("integration.dify.openInNewTab")}
             </Button>
             <Button
               type="primary"
@@ -247,31 +254,71 @@ function Dify() {
           </Space>
         }
       >
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Key size={24} className={styles.icon} />}
-            title={t("integration.dify.apiUrl")}
-            description={
-              localStorage.getItem("dify_config")
-                ? "● " + t("integration.configured")
-                : "○ " + t("integration.notConfigured")
-            }
-          />
-        </List.Item>
-      </Card>
+        {!showDashboard ? (
+          <>
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Key size={24} className={styles.icon} />}
+                title={t("integration.dify.apiUrl")}
+                description={
+                  localStorage.getItem("dify_config")
+                    ? "● " + t("integration.configured")
+                    : "○ " + t("integration.notConfigured")
+                }
+              />
+            </List.Item>
 
-      {/* 应用列表 */}
-      <Card
-        title={t("integration.dify.apps")}
-        style={{ marginTop: 16 }}
-      >
-        <Table
-          columns={columns}
-          dataSource={apps}
-          loading={loading}
-          rowKey="id"
-          pagination={false}
-        />
+            <Table
+              columns={columns}
+              dataSource={apps}
+              loading={loading}
+              rowKey="id"
+              pagination={false}
+            />
+          </>
+        ) : (
+          <div className={styles.dashboardContainer}>
+            <Space
+              style={{ marginBottom: 16, padding: "8px" }}
+              className={styles.dashboardBar}
+            >
+              <span>控制台地址：</span>
+              <Input
+                value={dashboardUrl}
+                onChange={(e) => setDashboardUrl(e.target.value)}
+                style={{ width: 300 }}
+                placeholder="http://localhost:3001"
+              />
+              <Button
+                type="primary"
+                size="small"
+                onClick={() => {
+                  const iframe = document.querySelector(
+                    `.${styles.dashboardIframe}`
+                  ) as HTMLIFrameElement;
+                  if (iframe) {
+                    iframe.src = dashboardUrl;
+                  }
+                }}
+              >
+                加载
+              </Button>
+            </Space>
+            <iframe
+              src={dashboardUrl}
+              className={styles.dashboardIframe}
+              title="Dify Dashboard"
+            />
+            <div className={styles.dashboardHelp}>
+              <p>💡 如果无法显示 Dify 控制台：</p>
+              <ul>
+                <li>确认 Dify 运行在正确地址</li>
+                <li>Dify 可能设置了安全策略禁止 iframe 嵌入</li>
+                <li>尝试使用"在新标签页打开"按钮</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </Card>
 
       {/* 配置对话框 */}

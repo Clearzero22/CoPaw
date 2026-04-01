@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Input, Button, Table, Badge, Space, Modal, Form, message } from "antd";
+import { Card, Input, Button, Table, Badge, Space, Modal, Form, message, Switch } from "antd";
 import { Settings, Play, Zap, Key, Clock, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
@@ -19,6 +19,8 @@ function N8n() {
   const [selectedWorkflow, setSelectedWorkflow] = useState<N8nWorkflow | null>(null);
   const [workflows, setWorkflows] = useState<N8nWorkflow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [dashboardUrl, setDashboardUrl] = useState("http://localhost:5678");
 
   const [configForm] = Form.useForm();
 
@@ -232,11 +234,16 @@ function N8n() {
         }
         extra={
           <Space>
+            <Switch
+              checkedChildren={showDashboard ? t("integration.n8n.dashboard") : t("integration.n8n.workflows")}
+              checked={showDashboard}
+              onChange={(checked) => setShowDashboard(checked)}
+            />
             <Button
               icon={<ExternalLink size={14} />}
               onClick={() => window.open("http://localhost:5678/home/workflows", "_blank")}
             >
-              {t("integration.n8n.openDashboard")}
+              {t("integration.n8n.openInNewTab")}
             </Button>
             <Button
               type="primary"
@@ -251,30 +258,72 @@ function N8n() {
           </Space>
         }
       >
-        <Space direction="vertical" style={{ width: "100%" }}>
-          <Space>
-            <Zap size={20} className={styles.icon} />
-            <span>{t("integration.n8n.apiUrl")}</span>
-            <span>
-              {localStorage.getItem("n8n_config")
-                ? "● " + t("integration.configured")
-                : "○ " + t("integration.notConfigured")}
-            </span>
-          </Space>
-        </Space>
-      </Card>
+        {!showDashboard ? (
+          <>
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Space>
+                <Zap size={20} className={styles.icon} />
+                <span>{t("integration.n8n.apiUrl")}</span>
+                <span>
+                  {localStorage.getItem("n8n_config")
+                    ? "● " + t("integration.configured")
+                    : "○ " + t("integration.notConfigured")}
+                </span>
+              </Space>
+            </Space>
 
-      <Card
-        title={t("integration.n8n.workflows")}
-        style={{ marginTop: 16 }}
-      >
-        <Table
-          columns={columns}
-          dataSource={workflows}
-          loading={loading}
-          rowKey="id"
-          pagination={false}
-        />
+            <Table
+              columns={columns}
+              dataSource={workflows}
+              loading={loading}
+              rowKey="id"
+              pagination={false}
+              style={{ marginTop: 16 }}
+            />
+          </>
+        ) : (
+          <div className={styles.dashboardContainer}>
+            <Space
+              style={{ marginBottom: 16, padding: "8px" }}
+              className={styles.dashboardBar}
+            >
+              <span>控制台地址：</span>
+              <Input
+                value={dashboardUrl}
+                onChange={(e) => setDashboardUrl(e.target.value)}
+                style={{ width: 300 }}
+                placeholder="http://localhost:5678"
+              />
+              <Button
+                type="primary"
+                size="small"
+                onClick={() => {
+                  const iframe = document.querySelector(
+                    `.${styles.dashboardIframe}`
+                  ) as HTMLIFrameElement;
+                  if (iframe) {
+                    iframe.src = dashboardUrl + "/home/workflows";
+                  }
+                }}
+              >
+                加载
+              </Button>
+            </Space>
+            <iframe
+              src={`${dashboardUrl}/home/workflows`}
+              className={styles.dashboardIframe}
+              title="n8n Dashboard"
+            />
+            <div className={styles.dashboardHelp}>
+              <p>💡 如果无法显示 n8n 控制台：</p>
+              <ul>
+                <li>确认 n8n 运行在正确地址</li>
+                <li>n8n 可能设置了安全策略禁止 iframe 嵌入</li>
+                <li>尝试使用"在新标签页打开"按钮</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </Card>
 
       <Modal

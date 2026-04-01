@@ -1067,7 +1067,9 @@
       "inputs": "Inputs",
       "executionStarted": "Execution started",
       "executionFailed": "Execution failed",
-      "openDashboard": "Open Dashboard"
+      "openDashboard": "Open Dashboard",
+      "openInNewTab": "Open in New Tab",
+      "dashboard": "Dashboard"
     },
     "n8n": {
       "title": "n8n Integration",
@@ -1082,7 +1084,9 @@
       "lastExecuted": "Last Executed",
       "workflowData": "Workflow Data",
       "workflowTriggered": "Workflow triggered",
-      "openDashboard": "Open Dashboard"
+      "openDashboard": "Open Dashboard",
+      "openInNewTab": "Open in New Tab",
+      "dashboard": "Dashboard"
     },
     "history": {
       "title": "Execution History",
