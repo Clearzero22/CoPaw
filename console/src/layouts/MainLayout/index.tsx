@@ -21,6 +21,7 @@ import TokenUsagePage from "../../pages/Settings/TokenUsage";
 import VoiceTranscriptionPage from "../../pages/Settings/VoiceTranscription";
 import AgentsPage from "../../pages/Settings/Agents";
 import StatusPage from "../../pages/Status";
+import EcommercePage from "../../pages/Ecommerce";
 
 const { Content } = Layout;
 
@@ -42,6 +43,8 @@ const pathToKey: Record<string, string> = {
   "/token-usage": "token-usage",
   "/voice-transcription": "voice-transcription",
   "/status": "status",
+  "/ecommerce": "ecommerce",
+  "/ecommerce/*": "ecommerce",
 };
 
 export default function MainLayout() {
@@ -79,6 +82,7 @@ export default function MainLayout() {
                 element={<VoiceTranscriptionPage />}
               />
               <Route path="/status" element={<StatusPage />} />
+              <Route path="/ecommerce/*" element={<EcommercePage />} />
             </Routes>
           </div>
         </Content>

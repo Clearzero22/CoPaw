@@ -46,7 +46,12 @@
     "environments": "Environments",
     "security": "Security",
     "tokenUsage": "Token Usage",
-    "voiceTranscription": "Voice Transcription"
+    "voiceTranscription": "Voice Transcription",
+    "ecommerce": "E-Commerce",
+    "productResearch": "Product Research",
+    "competitorAnalysis": "Competitor Analysis",
+    "keywordResearch": "Keyword Research",
+    "supplierManagement": "Supplier Management"
   },
   "voiceTranscription": {
     "title": "Voice Transcription",
@@ -979,5 +984,58 @@
     },
     "getStarted": "Get Started",
     "skip": "Skip"
+  },
+  "ecommerce": {
+    "productResearch": {
+      "title": "Product Research",
+      "search": "Search",
+      "searchPlaceholder": "Enter product keyword (e.g., wireless mouse)",
+      "asin": "ASIN",
+      "title": "Title",
+      "price": "Price",
+      "rating": "Rating",
+      "rank": "Rank",
+      "estimatedSales": "Est. Sales",
+      "pleaseEnterKeyword": "Please enter a keyword",
+      "searchFailed": "Search failed"
+    },
+    "competitorAnalysis": {
+      "title": "Competitor Analysis",
+      "totalCompetitors": "Total Competitors",
+      "companies": "companies",
+      "avgMarketShare": "Avg Market Share",
+      "totalMonthlySales": "Total Monthly Sales",
+      "units": "units",
+      "avgRating": "Avg Rating",
+      "competitorList": "Competitor List",
+      "marketShare": "Market Share",
+      "monthlySales": "Monthly Sales",
+      "avgPrice": "Avg Price",
+      "marketPosition": "Position"
+    },
+    "keywordResearch": {
+      "title": "Keyword Research",
+      "analyze": "Analyze",
+      "searchPlaceholder": "Enter seed keyword",
+      "keyword": "Keyword",
+      "searchVolume": "Search Volume",
+      "competition": "Competition",
+      "cpc": "CPC",
+      "trend": "Trend",
+      "pleaseEnterKeyword": "Please enter a keyword",
+      "searchFailed": "Analysis failed"
+    },
+    "supplierManagement": {
+      "title": "Supplier Management",
+      "addSupplier": "Add Supplier",
+      "supplier": "Supplier",
+      "moq": "MOQ",
+      "leadTime": "Lead Time",
+      "rating": "Rating",
+      "responseRate": "Response Rate",
+      "products": "Products",
+      "actions": "Actions",
+      "contact": "Contact"
+    }
   }
 }

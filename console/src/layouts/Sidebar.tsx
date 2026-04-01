@@ -44,6 +44,11 @@ import {
   LogOut,
   UserCog,
   Gauge,
+  ShoppingBag,
+  Search,
+  Target,
+  Key,
+  Truck,
 } from "lucide-react";
 import api from "../api";
 import { clearAuthToken } from "../api/config";
@@ -337,6 +342,33 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           key: "agent-config",
           label: t("nav.agentConfig"),
           icon: <Settings size={16} />,
+        },
+      ],
+    },
+    {
+      key: "ecommerce-group",
+      label: t("nav.ecommerce"),
+      icon: <ShoppingBag size={16} />,
+      children: [
+        {
+          key: "ecommerce-product-research",
+          label: t("nav.productResearch"),
+          icon: <Search size={16} />,
+        },
+        {
+          key: "ecommerce-competitor-analysis",
+          label: t("nav.competitorAnalysis"),
+          icon: <Target size={16} />,
+        },
+        {
+          key: "ecommerce-keyword-research",
+          label: t("nav.keywordResearch"),
+          icon: <Key size={16} />,
+        },
+        {
+          key: "ecommerce-supplier-management",
+          label: t("nav.supplierManagement"),
+          icon: <Truck size={16} />,
         },
       ],
     },

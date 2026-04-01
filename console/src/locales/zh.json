@@ -46,7 +46,12 @@
     "environments": "环境变量",
     "security": "安全",
     "tokenUsage": "Token 消耗",
-    "voiceTranscription": "语音转写"
+    "voiceTranscription": "语音转写",
+    "ecommerce": "跨境电商",
+    "productResearch": "产品调研",
+    "competitorAnalysis": "竞品分析",
+    "keywordResearch": "关键词研究",
+    "supplierManagement": "供应商管理"
   },
   "workspace": {
     "title": "工作区",
@@ -979,5 +984,58 @@
     },
     "getStarted": "开始使用",
     "skip": "跳过"
+  },
+  "ecommerce": {
+    "productResearch": {
+      "title": "产品调研",
+      "search": "搜索",
+      "searchPlaceholder": "输入产品关键词（如：无线鼠标）",
+      "asin": "ASIN",
+      "title": "标题",
+      "price": "价格",
+      "rating": "评分",
+      "rank": "排名",
+      "estimatedSales": "预估销量",
+      "pleaseEnterKeyword": "请输入关键词",
+      "searchFailed": "搜索失败"
+    },
+    "competitorAnalysis": {
+      "title": "竞品分析",
+      "totalCompetitors": "竞品总数",
+      "companies": "家公司",
+      "avgMarketShare": "平均市场份额",
+      "totalMonthlySales": "总月销量",
+      "units": "件",
+      "avgRating": "平均评分",
+      "competitorList": "竞品列表",
+      "marketShare": "市场份额",
+      "monthlySales": "月销量",
+      "avgPrice": "平均价格",
+      "marketPosition": "市场地位"
+    },
+    "keywordResearch": {
+      "title": "关键词研究",
+      "analyze": "分析",
+      "searchPlaceholder": "输入种子关键词",
+      "keyword": "关键词",
+      "searchVolume": "搜索量",
+      "competition": "竞争度",
+      "cpc": "点击成本",
+      "trend": "趋势",
+      "pleaseEnterKeyword": "请输入关键词",
+      "searchFailed": "分析失败"
+    },
+    "supplierManagement": {
+      "title": "供应商管理",
+      "addSupplier": "添加供应商",
+      "supplier": "供应商",
+      "moq": "最小起订量",
+      "leadTime": "交货期",
+      "rating": "评分",
+      "responseRate": "响应率",
+      "products": "产品数",
+      "actions": "操作",
+      "contact": "联系"
+    }
   }
 }

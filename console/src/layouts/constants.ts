@@ -14,6 +14,7 @@ export const DEFAULT_OPEN_KEYS = [
   "chat-group",
   "control-group",
   "agent-group",
+  "ecommerce-group",
   "settings-group",
 ];
 
@@ -35,6 +36,10 @@ export const KEY_TO_PATH: Record<string, string> = {
   security: "/security",
   "token-usage": "/token-usage",
   "voice-transcription": "/voice-transcription",
+  "ecommerce-product-research": "/ecommerce/product-research",
+  "ecommerce-competitor-analysis": "/ecommerce/competitor-analysis",
+  "ecommerce-keyword-research": "/ecommerce/keyword-research",
+  "ecommerce-supplier-management": "/ecommerce/supplier-management",
 };
 
 export const KEY_TO_LABEL: Record<string, string> = {
@@ -54,6 +59,10 @@ export const KEY_TO_LABEL: Record<string, string> = {
   security: "nav.security",
   "token-usage": "nav.tokenUsage",
   agents: "nav.agents",
+  "ecommerce-product-research": "nav.productResearch",
+  "ecommerce-competitor-analysis": "nav.competitorAnalysis",
+  "ecommerce-keyword-research": "nav.keywordResearch",
+  "ecommerce-supplier-management": "nav.supplierManagement",
 };
 
 // ── URL helpers ───────────────────────────────────────────────────────────
