@@ -1066,7 +1066,8 @@
       "status": "Status",
       "inputs": "Inputs",
       "executionStarted": "Execution started",
-      "executionFailed": "Execution failed"
+      "executionFailed": "Execution failed",
+      "openDashboard": "Open Dashboard"
     },
     "n8n": {
       "title": "n8n Integration",
@@ -1080,7 +1081,8 @@
       "nodes": "nodes",
       "lastExecuted": "Last Executed",
       "workflowData": "Workflow Data",
-      "workflowTriggered": "Workflow triggered"
+      "workflowTriggered": "Workflow triggered",
+      "openDashboard": "Open Dashboard"
     },
     "history": {
       "title": "Execution History",

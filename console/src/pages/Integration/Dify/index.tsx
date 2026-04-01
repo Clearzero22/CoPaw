@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Input, Button, Table, Tag, Space, Modal, Form, message, List } from "antd";
-import { Settings, Play, Key } from "lucide-react";
+import { Settings, Play, Key, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
 
@@ -227,16 +227,24 @@ function Dify() {
           </Space>
         }
         extra={
-          <Button
-            type="primary"
-            icon={<Key size={16} />}
-            onClick={() => {
-              loadConfig();
-              setConfigModalOpen(true);
-            }}
-          >
-            {t("integration.configure")}
-          </Button>
+          <Space>
+            <Button
+              icon={<ExternalLink size={14} />}
+              onClick={() => window.open("http://localhost/apps", "_blank")}
+            >
+              {t("integration.dify.openDashboard")}
+            </Button>
+            <Button
+              type="primary"
+              icon={<Key size={16} />}
+              onClick={() => {
+                loadConfig();
+                setConfigModalOpen(true);
+              }}
+            >
+              {t("integration.configure")}
+            </Button>
+          </Space>
         }
       >
         <List.Item>

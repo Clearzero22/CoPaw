@@ -1066,7 +1066,8 @@
       "status": "状态",
       "inputs": "输入参数",
       "executionStarted": "执行已启动",
-      "executionFailed": "执行失败"
+      "executionFailed": "执行失败",
+      "openDashboard": "打开控制台"
     },
     "n8n": {
       "title": "n8n 集成",
@@ -1080,7 +1081,8 @@
       "nodes": "个节点",
       "lastExecuted": "最后执行",
       "workflowData": "工作流数据",
-      "workflowTriggered": "工作流已触发"
+      "workflowTriggered": "工作流已触发",
+      "openDashboard": "打开控制台"
     },
     "history": {
       "title": "执行历史",

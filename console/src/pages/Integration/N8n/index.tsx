@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Input, Button, Table, Badge, Space, Modal, Form, message } from "antd";
-import { Settings, Play, Zap, Key, Clock } from "lucide-react";
+import { Settings, Play, Zap, Key, Clock, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
 
@@ -231,16 +231,24 @@ function N8n() {
           </Space>
         }
         extra={
-          <Button
-            type="primary"
-            icon={<Key size={16} />}
-            onClick={() => {
-              loadConfig();
-              setConfigModalOpen(true);
-            }}
-          >
-            {t("integration.configure")}
-          </Button>
+          <Space>
+            <Button
+              icon={<ExternalLink size={14} />}
+              onClick={() => window.open("http://localhost:5678/home/workflows", "_blank")}
+            >
+              {t("integration.n8n.openDashboard")}
+            </Button>
+            <Button
+              type="primary"
+              icon={<Key size={16} />}
+              onClick={() => {
+                loadConfig();
+                setConfigModalOpen(true);
+              }}
+            >
+              {t("integration.configure")}
+            </Button>
+          </Space>
         }
       >
         <Space direction="vertical" style={{ width: "100%" }}>
