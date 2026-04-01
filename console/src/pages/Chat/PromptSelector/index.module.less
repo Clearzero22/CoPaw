@@ -1,0 +1,308 @@
+/* ---- Trigger button ---- */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.15s ease;
+  user-select: none;
+
+  &:hover,
+  &.triggerActive {
+    border-color: #615ced;
+    color: #615ced;
+    background: rgba(97, 92, 237, 0.06);
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  color: #615ced;
+}
+
+.triggerLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+}
+
+.triggerArrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #999;
+  transition: transform 0.2s;
+
+  &.triggerArrowOpen {
+    transform: rotate(180deg);
+    color: #615ced;
+  }
+}
+
+/* ---- Dropdown panel ---- */
+.panel {
+  min-width: 320px;
+  max-width: 420px;
+  max-height: 500px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Category tabs ---- */
+.categories {
+  display: flex;
+  gap: 4px;
+  padding: 8px 8px 0 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(97, 92, 237, 0.06);
+    color: #615ced;
+  }
+
+  &.categoryActive {
+    background: rgba(97, 92, 237, 0.1);
+    color: #615ced;
+  }
+}
+
+.categoryCount {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  color: #999;
+}
+
+/* ---- Prompts list ---- */
+.promptsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promptItem {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: rgba(97, 92, 237, 0.06);
+    border-color: rgba(97, 92, 237, 0.1);
+  }
+
+  &.promptSelected {
+    background: rgba(97, 92, 237, 0.1);
+    border-color: rgba(97, 92, 237, 0.2);
+  }
+}
+
+.promptHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.promptIcon {
+  color: #615ced;
+  flex-shrink: 0;
+}
+
+.promptName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+}
+
+.checkIcon {
+  color: #615ced;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.promptDescription {
+  font-size: 12px;
+  color: #999;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  padding-left: 22px;
+}
+
+.promptTags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding-left: 22px;
+
+  :global(.ant-tag) {
+    margin: 0;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(97, 92, 237, 0.06);
+    color: #615ced;
+    border-color: rgba(97, 92, 237, 0.15);
+  }
+}
+
+/* ---- Footer ---- */
+.footer {
+  padding: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.addPromptBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #615ced;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(97, 92, 237, 0.1);
+  }
+}
+
+/* ---- Loading & Empty states ---- */
+.spinWrapper {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.emptyTip {
+  padding: 40px 20px;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+}
+
+/* ---- Dark mode ---- */
+:global(.dark-mode) {
+  .trigger {
+    color: rgba(255, 255, 255, 0.65);
+
+    &:hover,
+    &.triggerActive {
+      color: #8b87f0;
+      background: rgba(97, 92, 237, 0.15);
+    }
+  }
+
+  .triggerArrow {
+    color: rgba(255, 255, 255, 0.25);
+
+    &.triggerArrowOpen {
+      color: #8b87f0;
+    }
+  }
+
+  .panel {
+    background: #1f1f1f;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .categories {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .categoryItem {
+    color: rgba(255, 255, 255, 0.65);
+
+    &:hover {
+      background: rgba(97, 92, 237, 0.1);
+      color: #8b87f0;
+    }
+
+    &.categoryActive {
+      background: rgba(97, 92, 237, 0.15);
+      color: #8b87f0;
+    }
+  }
+
+  .categoryCount {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .promptItem {
+    &:hover {
+      background: rgba(97, 92, 237, 0.1);
+      border-color: rgba(97, 92, 237, 0.2);
+    }
+
+    &.promptSelected {
+      background: rgba(97, 92, 237, 0.15);
+      border-color: rgba(97, 92, 237, 0.3);
+    }
+  }
+
+  .promptName {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .promptDescription {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .promptTags {
+    :global(.ant-tag) {
+      background: rgba(97, 92, 237, 0.1);
+      color: #8b87f0;
+      border-color: rgba(97, 92, 237, 0.2);
+    }
+  }
+
+  .footer {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .addPromptBtn {
+    color: #8b87f0;
+
+    &:hover {
+      background: rgba(97, 92, 237, 0.15);
+    }
+  }
+
+  .emptyTip {
+    color: rgba(255, 255, 255, 0.25);
+  }
+}

@@ -442,6 +442,68 @@
     "skillDisabled": "技能 {{name}} 已禁用",
     "toggleFailed": "切换技能失败"
   },
+  "promptSelector": {
+    "selectPrompt": "预制 Prompt",
+    "loading": "加载中...",
+    "noPrompts": "暂无可用 Prompt",
+    "promptApplied": "{{name}} 已应用",
+    "loadFailed": "加载 Prompt 失败",
+    "addCustom": "添加自定义 Prompt",
+    "addPromptHint": "自定义 Prompt 功能即将推出！",
+    "category": {
+      "all": "全部",
+      "system": "系统",
+      "user": "用户",
+      "custom": "自定义"
+    }
+  },
+  "agentSelector": {
+    "title": "选择智能体",
+    "selectAgent": "选择智能体",
+    "loading": "加载中...",
+    "noAgents": "暂无可用智能体",
+    "loadFailed": "加载智能体失败",
+    "agentSwitched": "{{name}} 已激活",
+    "switchFailed": "切换智能体失败",
+    "manageAgents": "管理智能体",
+    "createAgent": "创建智能体"
+  },
+  "toolSelector": {
+    "title": "工具设置",
+    "selectTools": "选择工具",
+    "loading": "加载中...",
+    "noTools": "暂无可用工具",
+    "loadFailed": "加载工具失败",
+    "toolCount": "{{count}} 个工具",
+    "toolEnabled": "{{name}} 已启用",
+    "toolDisabled": "{{name}} 已禁用",
+    "toggleFailed": "切换工具失败",
+    "categoryEnabled": "{{category}} 已启用",
+    "categoryDisabled": "{{category}} 已禁用"
+  },
+  "workflowSelector": {
+    "title": "工作流执行",
+    "selectWorkflow": "选择工作流",
+    "loading": "加载中...",
+    "noWorkflows": "暂无可用工作流",
+    "loadFailed": "加载工作流失败",
+    "workflowSelected": "{{name}} 已选中",
+    "workflowExecuted": "{{name}} 执行成功",
+    "executionFailed": "工作流执行失败",
+    "customWorkflowHint": "自定义工作流在集成设置中配置",
+    "inactive": "未激活",
+    "executionMode": "执行模式",
+    "manual": "手动",
+    "auto": "自动",
+    "manageWorkflows": "管理工作流",
+    "category": {
+      "all": "全部",
+      "automation": "自动化",
+      "data": "数据处理",
+      "integration": "系统集成",
+      "ai": "AI 应用"
+    }
+  },
   "models": {
     "llmConfiguration": "LLM 配置",
     "providersTitle": "提供商",

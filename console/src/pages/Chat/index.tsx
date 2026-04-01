@@ -18,6 +18,10 @@ import { providerApi } from "../../api/modules/provider";
 import type { ProviderInfo, ModelInfo } from "../../api/types";
 import ModelSelector from "./ModelSelector";
 import SkillSelector from "./SkillSelector";
+import PromptSelector from "./PromptSelector";
+import AgentSelector from "./AgentSelector";
+import ToolSelector from "./ToolSelector";
+import WorkflowSelector from "./WorkflowSelector";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAgentStore } from "../../stores/agentStore";
 import { useChatAnywhereInput } from "@agentscope-ai/chat/lib/AgentScopeRuntimeWebUI/core/Context/ChatAnywhereInputContext.js";
@@ -357,6 +361,68 @@ export default function ChatPage() {
     return () => window.removeEventListener("model-switched", handler);
   }, [fetchMultimodalCaps]);
 
+  // Listen for prompt-selected event from PromptSelector
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const { content } = e.detail;
+      // 将 Prompt 内容插入到输入框
+      // 这里需要使用 AgentScope 的 API 来设置输入框内容
+      // 暂时使用简单的提示，实际集成可能需要调用 runtime 的方法
+      message.info(`Prompt 已选中: ${content.substring(0, 50)}...`);
+    };
+    window.addEventListener("prompt-selected", handler as EventListener);
+    return () =>
+      window.removeEventListener("prompt-selected", handler as EventListener);
+  }, []);
+
+  // Listen for agent-switched event from AgentSelector
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const { agentId } = e.detail;
+      // Agent 切换后可能需要刷新会话或重新初始化
+      message.info(`Agent 已切换到: ${agentId}`);
+    };
+    window.addEventListener("agent-switched", handler as EventListener);
+    return () =>
+      window.removeEventListener("agent-switched", handler as EventListener);
+  }, []);
+
+  // Listen for tools-changed event from ToolSelector
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const { enabledTools } = e.detail;
+      // 工具状态改变后可能需要刷新可用工具列表
+      message.info(`工具状态已更新: ${enabledTools.length} 个已启用`);
+    };
+    window.addEventListener("tools-changed", handler as EventListener);
+    return () =>
+      window.removeEventListener("tools-changed", handler as EventListener);
+  }, []);
+
+  // Listen for workflow-selected event from WorkflowSelector
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const { name, source } = e.detail;
+      // 工作流被选中
+      message.info(`工作流已选中: ${name} (${source})`);
+    };
+    window.addEventListener("workflow-selected", handler as EventListener);
+    return () =>
+      window.removeEventListener("workflow-selected", handler as EventListener);
+  }, []);
+
+  // Listen for workflow-executed event from WorkflowSelector
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const { name } = e.detail;
+      // 工作流已执行
+      message.success(`工作流执行完成: ${name}`);
+    };
+    window.addEventListener("workflow-executed", handler as EventListener);
+    return () =>
+      window.removeEventListener("workflow-executed", handler as EventListener);
+  }, []);
+
   const getSessionListWrapped = useCallback(async () => {
     const sessions = await sessionApi.getSessionList();
     const currentChatId = chatIdRef.current;
@@ -545,8 +611,12 @@ export default function ChatPage() {
         rightHeader: (
           <>
             <RuntimeLoadingBridge bridgeRef={runtimeLoadingBridgeRef} />
+            <AgentSelector />
             <SkillSelector />
+            <ToolSelector />
+            <WorkflowSelector />
             <ModelSelector />
+            <PromptSelector />
           </>
         ),
       },

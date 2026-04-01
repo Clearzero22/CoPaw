@@ -460,6 +460,68 @@
     "skillDisabled": "Skill {{name}} disabled",
     "toggleFailed": "Failed to toggle skill"
   },
+  "promptSelector": {
+    "selectPrompt": "Prompt Template",
+    "loading": "Loading...",
+    "noPrompts": "No prompts available",
+    "promptApplied": "{{name}} applied",
+    "loadFailed": "Failed to load prompts",
+    "addCustom": "Add Custom Prompt",
+    "addPromptHint": "Custom prompt feature coming soon!",
+    "category": {
+      "all": "All",
+      "system": "System",
+      "user": "User",
+      "custom": "Custom"
+    }
+  },
+  "agentSelector": {
+    "title": "Select Agent",
+    "selectAgent": "Select Agent",
+    "loading": "Loading...",
+    "noAgents": "No agents available",
+    "loadFailed": "Failed to load agents",
+    "agentSwitched": "{{name}} activated",
+    "switchFailed": "Failed to switch agent",
+    "manageAgents": "Manage Agents",
+    "createAgent": "Create Agent"
+  },
+  "toolSelector": {
+    "title": "Tool Settings",
+    "selectTools": "Select Tools",
+    "loading": "Loading...",
+    "noTools": "No tools available",
+    "loadFailed": "Failed to load tools",
+    "toolCount": "{{count}} tools",
+    "toolEnabled": "{{name}} enabled",
+    "toolDisabled": "{{name}} disabled",
+    "toggleFailed": "Failed to toggle tool",
+    "categoryEnabled": "{{category}} enabled",
+    "categoryDisabled": "{{category}} disabled"
+  },
+  "workflowSelector": {
+    "title": "Workflow Execution",
+    "selectWorkflow": "Select Workflow",
+    "loading": "Loading...",
+    "noWorkflows": "No workflows available",
+    "loadFailed": "Failed to load workflows",
+    "workflowSelected": "{{name}} selected",
+    "workflowExecuted": "{{name}} executed successfully",
+    "executionFailed": "Workflow execution failed",
+    "customWorkflowHint": "Custom workflows are configured in integration settings",
+    "inactive": "Inactive",
+    "executionMode": "Execution Mode",
+    "manual": "Manual",
+    "auto": "Auto",
+    "manageWorkflows": "Manage Workflows",
+    "category": {
+      "all": "All",
+      "automation": "Automation",
+      "data": "Data",
+      "integration": "Integration",
+      "ai": "AI"
+    }
+  },
   "tokenUsage": {
     "title": "Token Usage",
     "description": "View LLM token consumption over time, by date and model.",
