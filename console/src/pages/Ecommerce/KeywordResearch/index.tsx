@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Input, Button, Table, Tag, Space, Progress, message } from "@agentscope-ai/design";
+import { Card, Input, Button, Table, Tag, Space, Progress, message } from "antd";
 import { Search, TrendingUp, Eye, DollarSign } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";

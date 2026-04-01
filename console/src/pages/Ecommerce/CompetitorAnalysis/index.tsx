@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Card, Row, Col, Statistic, Progress, List, Tag, Space } from "@agentscope-ai/design";
-import { Target, TrendingUp, Users, ShoppingCart } from "lucide-react";
+import { Card, Row, Col, Statistic, Progress, List, Tag, Space } from "antd";
+import { Target, TrendingUp, ShoppingCart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
 
@@ -98,7 +98,7 @@ function CompetitorAnalysis() {
           >
             <List
               dataSource={competitors}
-              renderItem={(competitor) => (
+              renderItem={(competitor: Competitor) => (
                 <List.Item key={competitor.asin}>
                   <List.Item.Meta
                     title={

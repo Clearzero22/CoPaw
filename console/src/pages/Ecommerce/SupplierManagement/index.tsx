@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Card, Row, Col, Table, Tag, Button, Space, Avatar, Rate } from "@agentscope-ai/design";
-import { Package, MapPin, Mail, Phone, Star } from "lucide-react";
+import { Card, Row, Col, Table, Tag, Button, Space, Avatar, Rate } from "antd";
+import { Package, MapPin, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.less";
 
