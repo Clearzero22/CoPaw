@@ -448,7 +448,8 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
               alt="CoPaw"
               className={styles.logoImg}
             />
-            {version && (
+            {/* 显示更新版本的代码修改注释 */}
+            {/* {version && (
               <Badge dot={!!hasUpdate} color="red" offset={[4, 18]}>
                 <span
                   className={`${styles.versionBadge} ${
@@ -461,7 +462,7 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
                   v{version}
                 </span>
               </Badge>
-            )}
+            )} */}
           </div>
         )}
         <Button
