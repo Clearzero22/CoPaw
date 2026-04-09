@@ -46,6 +46,7 @@ export default function Header({ selectedKey }: HeaderProps) {
       </span>
       <Space size="middle">
         <AgentSelector />
+        {/* Hidden external link buttons
         <Tooltip title={t("header.changelog")}>
           <Button
             icon={<FileTextOutlined />}
@@ -82,6 +83,7 @@ export default function Header({ selectedKey }: HeaderProps) {
             {t("header.github")}
           </Button>
         </Tooltip>
+        */}
         <LanguageSwitcher />
         <ThemeToggleButton />
       </Space>

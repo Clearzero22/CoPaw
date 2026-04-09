@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keepa数据深度解析报告 - 卖家精灵AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAFAFA;
+            --bg-dark: #0A0A0A;
+            --bg-secondary: #F0F0F0;
+            --text-primary: #0A0A0A;
+            --text-secondary: #737373;
+            --text-muted: #A3A3A3;
+            --border-light: #E5E5E5;
+            --border-medium: #D4D4D4;
+            --border-dark: #262626;
+            --accent-white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .font-serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .bg-paper {
+            background-color: var(--bg-primary);
+        }
+        
+        .bg-dark-zone {
+            background-color: var(--bg-dark);
+        }
+        
+        .bg-secondary {
+            background-color: var(--bg-secondary);
+        }
+        
+        .text-ink {
+            color: var(--text-primary);
+        }
+        
+        .text-gray-secondary {
+            color: var(--text-secondary);
+        }
+        
+        .text-gray-muted {
+            color: var(--text-muted);
+        }
+        
+        .border-light {
+            border-color: var(--border-light);
+        }
+        
+        .border-medium {
+            border-color: var(--border-medium);
+        }
+        
+        .border-dark {
+            border-color: var(--border-dark);
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 3px;
+        }
+        
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .timeline-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid var(--bg-primary);
+            box-shadow: 0 0 0 1px var(--text-primary);
+        }
+        
+        .timeline-dot-filled {
+            background-color: var(--text-primary);
+        }
+        
+        .timeline-dot-outline {
+            background-color: transparent;
+        }
+        
+        .tag {
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.125rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 1px solid;
+        }
+        
+        .tag-solid {
+            background-color: var(--text-primary);
+            color: var(--accent-white);
+            border-color: var(--text-primary);
+        }
+        
+        .tag-outline {
+            background-color: transparent;
+            color: var(--text-primary);
+            border-color: var(--border-medium);
+        }
+        
+        .math-box {
+            font-family: 'Courier New', monospace;
+            background: var(--bg-secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            letter-spacing: -0.02em;
+        }
+        
+        .highlight-mark {
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.15) 60%);
+            padding: 0 2px;
+        }
+        
+        .layer-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--text-primary);
+        }
+        
+        .divider-vertical {
+            width: 1px;
+            background: linear-gradient(180deg, transparent 0%, var(--border-medium) 20%, var(--border-medium) 80%, transparent 100%);
+        }
+        
+        .card-border-left {
+            border-left: 3px solid var(--text-primary);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen bg-paper selection:bg-black selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="px-6 py-5 flex items-center justify-between border-b border-light">
+        <div class="flex items-center gap-3">
+            <span class="tag tag-solid">Keepa分析</span>
+            <span class="tag tag-outline">亚马逊选品</span>
+            <span class="tag tag-outline">数据监控</span>
+            <span class="tag tag-outline">SELLERELF</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs text-gray-secondary font-medium tracking-widest">TLDR</span>
+            <span class="text-xs text-gray-muted">·</span>
+            <span class="tag tag-solid bg-dark-zone">5分钟读完</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        
+        <!-- Header Section -->
+        <header class="mb-10">
+            <div class="flex items-center gap-3 text-sm text-gray-secondary mb-5">
+                <span class="font-medium text-ink">分析师 卖家精灵AI</span>
+                <span class="text-gray-muted">·</span>
+                <span>@sellerelf</span>
+                <span class="text-gray-muted">·</span>
+                <span>DeepResearch Project</span>
+                <span class="text-gray-muted">·</span>
+                <span>电商数据观察</span>
+            </div>
+            
+            <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink leading-[1.15] mb-5 tracking-tight">
+                Keepa数据深度解析报告
+            </h1>
+            
+            <p class="text-lg text-gray-secondary font-normal max-w-2xl leading-relaxed">
+                ASIN: B0DNTQZYNT · Under-Sink Organizers类目竞争态势与运营策略全拆解
+            </p>
+        </header>
+
+        <!-- Core Concept Box -->
+        <div class="bg-dark-zone text-white rounded-sm p-8 mb-12 relative">
+            <div class="absolute top-0 left-0 w-[2px] h-full bg-white/20"></div>
+            <div class="flex gap-5">
+                <div class="flex-shrink-0">
+                    <span class="inline-block px-2 py-1 bg-white/10 text-white text-[0.65rem] font-bold tracking-widest border border-white/20">CORE</span>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-sm leading-[1.8] text-gray-300">
+                        该ASIN在<span class="text-white font-semibold border-b border-white/30 pb-0.5">2025年1月3日</span>上架，<span class="text-white font-semibold border-b border-white/30 pb-0.5">7天后出单</span>，<span class="text-white font-semibold border-b border-white/30 pb-0.5">4天后获9条评论</span>，上评速度异常。通过<span class="text-white font-semibold border-b border-white/30 pb-0.5">高频小幅调价</span>（18.99-21.99美元波动）配合<span class="text-white font-semibold border-b border-white/30 pb-0.5">Deal促销</span>，3月底销量达<span class="text-white font-semibold border-b border-white/30 pb-0.5">10000个峰值</span>，小类目稳定<span class="text-white font-semibold border-b border-white/30 pb-0.5">Top 1-2</span>。无断货、无跟卖，品牌保护完善。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="mb-14 border border-light rounded-sm p-6 bg-secondary/30">
+            <div class="flex items-center gap-3">
+                <span class="inline-block px-2 py-1 bg-yellow-500/20 text-yellow-700 border border-yellow-500/30 text-[0.65rem] font-bold tracking-widest">WARNING</span>
+                <p class="text-sm text-gray-secondary">
+                    该ASIN存在评论数异常波动（单日激增30-40条），3月19日数据暴跌后次日恢复，可能存在站外放量或变体合并操作，请谨慎参考数据。
+                </p>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="grid lg:grid-cols-2 gap-12 relative">
+            
+            <!-- Divider for desktop -->
+            <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 divider-vertical transform -translate-x-1/2"></div>
+
+            <!-- Left Column: Time Analysis -->
+            <section class="pr-0 lg:pr-8">
+                <div class="flex items-center gap-3 mb-8 pb-4 border-b border-light">
+                    <h2 class="font-serif text-2xl font-bold text-ink tracking-tight">关键时间点分析</h2>
+                    <span class="text-[0.65rem] text-gray-muted uppercase tracking-[0.2em] font-medium">TIMELINE</span>
+                </div>
+
+                <!-- Time Point 1 -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-ink text-white text-[0.6rem] font-bold tracking-widest mb-3">2025.01.03</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">最早在售日期</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        FBA价格<span class="text-ink font-semibold">29.99美元</span>上架，开启销售周期。
+                    </p>
+                </div>
+
+                <!-- Time Point 2 -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-secondary text-ink border border-medium text-[0.6rem] font-bold tracking-widest mb-3">2025.01.10</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">首单出单日期</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        大类BSR=<span class="text-ink font-semibold">206744</span>，上架7天后获得首单。
+                    </p>
+                </div>
+
+                <!-- Time Point 3 -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-dark-zone text-white text-[0.6rem] font-bold tracking-widest mb-3">2025.01.14</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">首条评论时间</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        出单4天后即获<span class="text-ink font-semibold">9条评论</span>，评分<span class="text-ink font-semibold">4.3</span>，上评速度<span class="highlight-mark">异常快</span>。
+                    </p>
+                    <div class="math-box text-sm">
+                        上评速度 → <span class="text-lg font-bold">2.25条/天</span> <span class="text-gray-secondary text-xs font-normal">(首周)</span>
+                    </div>
+                </div>
+
+                <!-- Review Growth -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-ink text-white text-[0.6rem] font-bold tracking-widest mb-3">226天数据</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">评分数曲线分析</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        226天内增长<span class="text-ink font-semibold">2729条</span>，日均约<span class="text-ink font-semibold">12.07条</span>，稳步上升。多次单日激增<span class="highlight-mark">30-40+条</span>（1月18日、1月22日、3月29日）。
+                    </p>
+                    <div class="math-box text-sm">
+                        总评论 → <span class="text-lg font-bold">2729条</span> <span class="text-gray-secondary text-xs font-normal">(评分4.3)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Strategy Analysis -->
+            <section class="pl-0 lg:pl-8">
+                <div class="flex items-center gap-3 mb-8 pb-4 border-b border-light">
+                    <h2 class="font-serif text-2xl font-bold text-ink tracking-tight">价格策略与运营分析</h2>
+                    <span class="text-[0.65rem] text-gray-muted uppercase tracking-[0.2em] font-medium">STRATEGY</span>
+                </div>
+
+                <!-- Price Strategy -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-ink text-white text-[0.6rem] font-bold tracking-widest mb-3">PRICE</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">动态调价策略</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        初始<span class="text-ink font-semibold">29.99美元</span>，后在<span class="highlight-mark">18.99-21.99美元</span>区间小幅高频波动。长期设置<span class="text-ink font-semibold">27.98-29.99美元</span>划线价，营造高折扣感。
+                    </p>
+                    <div class="math-box text-sm">
+                        实际售价 → <span class="text-lg font-bold">18.99-21.99</span> <span class="text-gray-secondary text-xs font-normal">(折扣率27-37%)</span>
+                    </div>
+                </div>
+
+                <!-- Promotion -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-secondary text-ink border border-medium text-[0.6rem] font-bold tracking-widest mb-3">PROMO</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">促销与Deal策略</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        频繁使用<span class="text-ink font-semibold">Deal和Prime价格</span>（18.99-19.79），<span class="highlight-mark">未见Coupon</span>。降价（如3月3日）能显著提升BSR排名。
+                    </p>
+                    <div class="border border-medium rounded-sm p-4 bg-secondary/20">
+                        <p class="text-xs text-gray-secondary leading-relaxed">
+                            <span class="text-ink font-semibold">BSR关联：</span>价格调整与排名提升高度正相关，促销期间销量激增。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Inventory -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-dark-zone text-white text-[0.6rem] font-bold tracking-widest mb-3">STOCK</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">FBA库存管理</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        数据范围内<span class="text-ink font-semibold">未出现断货</span>，断货次数<span class="text-ink font-semibold">0次</span>。卖家具备极强的库存管理能力，持续供应。
+                    </p>
+                    <div class="mt-4 p-5 border border-dark rounded-sm bg-ink text-white">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="inline-block px-2 py-0.5 bg-white text-ink text-[0.6rem] font-bold tracking-widest">RESULT</span>
+                        </div>
+                        <p class="text-sm text-gray-300 leading-[1.8]">
+                            <span class="text-white font-semibold">库存表现：</span>FBA库存管理<span class="text-white font-bold border-b border-white/30 pb-0.5">卓越</span>，无断货风险，供应链稳定性为排名提供坚实基础。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hijacking -->
+                <div class="mb-10 relative pl-6 card-border-left">
+                    <div class="layer-line"></div>
+                    <div class="mb-4">
+                        <span class="inline-block px-2 py-1 bg-ink text-white text-[0.6rem] font-bold tracking-widest mb-3">PROTECT</span>
+                        <h3 class="font-serif text-xl font-bold text-ink mt-2 tracking-tight">品牌保护与跟卖</h3>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-4">
+                        数据中卖家数始终为<span class="text-ink font-semibold">1</span>，<span class="highlight-mark">未出现跟卖</span>。可能已注册品牌并采取有效保护措施（如透明计划）。
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sales & Seasonality Section -->
+        <section class="mt-16 pt-10 border-t border-medium">
+            <h3 class="font-serif text-2xl font-bold text-ink mb-8 tracking-tight">子体销量与季节性分析</h3>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 rounded-full bg-ink text-white flex items-center justify-center font-bold text-sm">01</span>
+                        <div>
+                            <h4 class="font-bold text-ink text-lg">销量爆发</h4>
+                            <span class="text-xs text-gray-muted">2025年2-3月</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-3">
+                        2月初<span class="text-ink font-semibold">1000个</span>，3月底达<span class="text-ink font-semibold">10000个</span>峰值，后稳定在<span class="highlight-mark">8000-10000个</span>。
+                    </p>
+                    <div class="math-box text-xs w-full text-center">
+                        增长率 → <span class="text-lg font-bold">900%</span> <span class="text-gray-secondary">(2-3月)</span>
+                    </div>
+                </div>
+                
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 rounded-full bg-secondary text-ink border border-medium flex items-center justify-center font-bold text-sm">02</span>
+                        <div>
+                            <h4 class="font-bold text-ink text-lg">季节性判断</h4>
+                            <span class="text-xs text-gray-muted">春季家居整理</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-3">
+                        2-3月增长可能与<span class="text-ink font-semibold">春季家居整理需求</span>相关。当前数据不足以判断完整季节性。
+                    </p>
+                    <div class="border border-medium rounded-sm p-2 bg-white/50 text-center">
+                        <span class="text-xs text-gray-secondary">推测：季节性品类</span>
+                    </div>
+                </div>
+                
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-10 rounded-full bg-dark-zone text-white flex items-center justify-center font-bold text-sm">03</span>
+                        <div>
+                            <h4 class="font-bold text-ink text-lg">BSR排名</h4>
+                            <span class="text-xs text-gray-muted">类目地位</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8] mb-3">
+                        大类从<span class="text-ink font-semibold">20万+</span>升至几十名，小类目<span class="highlight-mark">稳定Top 1-2</span>。
+                    </p>
+                    <div class="math-box text-xs w-full text-center">
+                        小类目排名 → <span class="text-lg font-bold">Top 1-2</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lifecycle Section -->
+        <section class="mt-16 pt-10 border-t border-medium">
+            <div class="flex items-center gap-3 mb-8">
+                <h3 class="font-serif text-2xl font-bold text-ink tracking-tight">生命周期判断与依据</h3>
+                <span class="text-[0.65rem] text-gray-muted uppercase tracking-[0.2em] font-medium">LIFECYCLE</span>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="p-6 border border-light rounded-sm bg-secondary/20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="inline-block px-3 py-1 bg-ink text-white text-xs font-bold tracking-widest">快速增长期</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-arrow-up text-ink mt-1 text-sm"></i>
+                            <div>
+                                <div class="font-semibold text-ink text-sm">BSR跃升</div>
+                                <div class="text-xs text-gray-secondary">从20万+迅速升至几十名，小类目稳定Top 1-5</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-arrow-up text-ink mt-1 text-sm"></i>
+                            <div>
+                                <div class="font-semibold text-ink text-sm">销量爆发</div>
+                                <div class="text-xs text-gray-secondary">从1000个增长至10000个并保持高位</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-arrow-up text-ink mt-1 text-sm"></i>
+                            <div>
+                                <div class="font-semibold text-ink text-sm">评论积累</div>
+                                <div class="text-xs text-gray-secondary">从9个快速增长至2700+个</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-tags text-ink mt-1 text-sm"></i>
+                            <div>
+                                <div class="font-semibold text-ink text-sm">积极运营</div>
+                                <div class="text-xs text-gray-secondary">价格和促销策略活跃</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 border border-dark rounded-sm bg-ink text-white">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="inline-block px-3 py-1 bg-white text-ink text-xs font-bold tracking-widest">排除依据</span>
+                    </div>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-center gap-3 text-gray-300">
+                            <i class="fas fa-times-circle text-gray-500"></i>
+                            <span>非新品期（已过初期推广）</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-300">
+                            <i class="fas fa-times-circle text-gray-500"></i>
+                            <span>非成熟期（增速仍快）</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-300">
+                            <i class="fas fa-times-circle text-gray-500"></i>
+                            <span>非衰退期（排名稳定上升）</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-white/20">
+                        <p class="text-white font-semibold text-center">
+                            产品处于市场份额快速扩张的增长阶段
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="mt-16 pt-10 border-t border-medium">
+            <h3 class="font-serif text-2xl font-bold text-ink mb-8 tracking-tight">全盘总结与建议</h3>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-shield-alt text-ink text-lg"></i>
+                        <h4 class="font-bold text-ink">竞争壁垒</h4>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8]">
+                        在"Under-Sink Organizers"类目中占据<span class="text-ink font-semibold">领先地位</span>，库存管理出色，品牌保护完善。
+                    </p>
+                </div>
+                
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-rocket text-ink text-lg"></i>
+                        <h4 class="font-bold text-ink">优化方向</h4>
+                    </div>
+                    <ul class="text-sm text-gray-secondary space-y-2">
+                        <li>• 持续深耕优势类目</li>
+                        <li>• 精细化价格管理</li>
+                        <li>• 拓展站外流量渠道</li>
+                    </ul>
+                </div>
+                
+                <div class="p-6 border border-light rounded-sm hover-lift bg-secondary/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-exclamation-triangle text-ink text-lg"></i>
+                        <h4 class="font-bold text-ink">防御策略</h4>
+                    </div>
+                    <p class="text-sm text-gray-secondary leading-[1.8]">
+                        密切监控竞品，维护品牌保护，保持用户体验，防范季节性波动。
+                    </p>
+                </div>
+                
+                <div class="p-6 border border-dark rounded-sm bg-ink text-white flex flex-col justify-center">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold metric-number mb-2">Top 1-2</div>
+                        <div class="text-sm text-gray-400">小类目排名</div>
+                        <div class="mt-4 text-xs text-gray-300">
+                            保持积极运营<br>巩固市场领导地位
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-light flex flex-wrap items-center justify-between text-xs text-gray-secondary">
+            <div class="flex items-center gap-3">
+                <span>原文：市场有气候，交易要看天色</span>
+                <span class="text-gray-muted">·</span>
+                <span>@sellerelf</span>
+                <span class="text-gray-muted">·</span>
+                <span>卖家精灵AI</span>
+                <span class="text-gray-muted">·</span>
+                <span>数据仅供参考</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3 sm:mt-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-ink"></span>
+                <span>整理 @leifuchen</span>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
