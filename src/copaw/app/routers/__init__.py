@@ -17,6 +17,7 @@ from .tools import router as tools_router
 from ..crons.api import router as cron_router
 from ..runner.api import router as runner_router
 from .listings import router as listings_router
+from .crawler import router as crawler_router
 from .console import router as console_router
 from .token_usage import router as token_usage_router
 from .auth import router as auth_router
@@ -43,6 +44,7 @@ router.include_router(envs_router)
 router.include_router(token_usage_router)
 router.include_router(auth_router)
 router.include_router(listings_router)
+router.include_router(crawler_router)
 
 
 def create_agent_scoped_router() -> APIRouter:

@@ -4,6 +4,7 @@ import CompetitorAnalysis from "./CompetitorAnalysis";
 import KeywordResearch from "./KeywordResearch";
 import SupplierManagement from "./SupplierManagement";
 import ListingManagement from "./ListingManagement";
+import CrawlerData from "./CrawlerData";
 
 function Ecommerce() {
   return (
@@ -15,6 +16,7 @@ function Ecommerce() {
         <Route path="/keyword-research" element={<KeywordResearch />} />
         <Route path="/supplier-management" element={<SupplierManagement />} />
         <Route path="/listing-management" element={<ListingManagement />} />
+        <Route path="/crawler-data" element={<CrawlerData />} />
       </Routes>
     </div>
   );

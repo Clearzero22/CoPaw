@@ -334,6 +334,11 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           label: t("nav.listingManagement"),
           icon: <FileText size={16} />,
         },
+        {
+          key: "ecommerce-crawler-data",
+          label: t("nav.crawlerData"),
+          icon: <Globe size={16} />,
+        },
       ],
     },
     {
