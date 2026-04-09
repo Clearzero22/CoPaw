@@ -21,6 +21,7 @@ import { mcpApi } from "./modules/mcp";
 import { listingApi } from "./modules/listing";
 import { crawlerApi } from "./modules/crawler";
 import { xiyouzhaociApi } from "./modules/xiyouzhaoci";
+import { promptTemplateApi } from "./modules/promptTemplate";
 import { tokenUsageApi } from "./modules/tokenUsage";
 import { toolsApi } from "./modules/tools";
 import { securityApi } from "./modules/security";
@@ -77,6 +78,9 @@ export const api = {
 
   // XiYouZhaoCi
   ...xiyouzhaociApi,
+
+  // Prompt Templates
+  ...promptTemplateApi,
 
   // Token Usage
   ...tokenUsageApi,

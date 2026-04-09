@@ -6,6 +6,7 @@ import SupplierManagement from "./SupplierManagement";
 import ListingManagement from "./ListingManagement";
 import CrawlerData from "./CrawlerData";
 import XiYouZhaoCi from "./XiYouZhaoCi";
+import PromptTemplates from "./PromptTemplates";
 
 function Ecommerce() {
   return (
@@ -19,6 +20,7 @@ function Ecommerce() {
         <Route path="/listing-management" element={<ListingManagement />} />
         <Route path="/crawler-data" element={<CrawlerData />} />
         <Route path="/xiyouzhaoci" element={<XiYouZhaoCi />} />
+        <Route path="/prompt-templates" element={<PromptTemplates />} />
       </Routes>
     </div>
   );

@@ -344,6 +344,11 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           label: t("nav.xiyouzhaoci"),
           icon: <Search size={16} />,
         },
+        {
+          key: "ecommerce-prompt-templates",
+          label: t("nav.promptTemplates"),
+          icon: <FileText size={16} />,
+        },
       ],
     },
     {
