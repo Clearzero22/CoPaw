@@ -306,3 +306,32 @@ API 层：
 | Commit | 说明 |
 |--------|------|
 | `3e3f426` | feat: add XiYouZhaoCi keyword research integration page |
+
+---
+
+## 2026-04-09 — Windows 迁移指南 + 兼容性分析
+
+> 全面分析 CoPaw 从 Linux 迁移到 Windows 所需的操作。核心代码已具备 Windows 兼容性，文档覆盖外部依赖、通道兼容性、安装步骤。
+
+### 核心结论
+
+CoPaw Python 后端已内置 Windows 支持（`sys.platform == "win32"` 分支覆盖时区检测、进程管理、Shell 执行、信号处理、ANSI 颜色等），**无需代码修改即可在 Windows 运行**。
+
+### 文档内容
+
+新增 `docs/guides/windows-migration.md`，包含：
+
+- **Quick Start** — PowerShell 一键安装命令（Python → uv → Bun → Playwright → 构建 → 启动）
+- **Shell 脚本迁移** — 5 个 `.sh` 脚本需要创建 `.ps1` 等效版本（install.sh 显式拒绝 Windows）
+- **外部基础设施** — PostgreSQL（Docker Desktop）、Playwright Chromium、Bun 运行时
+- **Channel 兼容性矩阵** — 12 个通道中 11 个可用，iMessage 不可用（依赖 macOS SQLite）
+- **Skills 外部工具** — poppler、LibreOffice、pandoc、ffmpeg、himalaya 等安装方式
+- **LLM 提供商** — 全部云端提供商可用；本地提供商中 MLX 不可用（Apple Silicon 专属）
+- **已处理清单** — 15+ 处跨平台代码已正确分支（时区、进程、Shell、权限、信号、路径等）
+- **已知限制** — iMessage（macOS only）、MLX（Apple Silicon only）
+
+### 提交记录
+
+| Commit | 说明 |
+|--------|------|
+| `f90cc3c` | docs: add Windows migration guide |
