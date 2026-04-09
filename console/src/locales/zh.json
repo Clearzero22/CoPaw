@@ -463,6 +463,14 @@
       "custom": "自定义"
     }
   },
+  "productSelector": {
+    "title": "商品上下文",
+    "searchPlaceholder": "按 ASIN 或关键词搜索...",
+    "empty": "未找到商品",
+    "selected": "已选择 ASIN {{asin}} 作为上下文",
+    "clear": "清除选择",
+    "loading": "加载中..."
+  },
   "agentSelector": {
     "title": "选择智能体",
     "selectAgent": "选择智能体",

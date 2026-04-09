@@ -16,12 +16,14 @@ import { getApiUrl } from "../../api/config";
 import { buildAuthHeaders } from "../../api/authHeaders";
 import { providerApi } from "../../api/modules/provider";
 import type { ProviderInfo, ModelInfo } from "../../api/types";
+
 import ModelSelector from "./ModelSelector";
 import SkillSelector from "./SkillSelector";
 import PromptSelector from "./PromptSelector";
 import AgentSelector from "./AgentSelector";
 import ToolSelector from "./ToolSelector";
 import WorkflowSelector from "./WorkflowSelector";
+import ProductSelector from "./ProductSelector";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAgentStore } from "../../stores/agentStore";
 import { useChatAnywhereInput } from "@agentscope-ai/chat/lib/AgentScopeRuntimeWebUI/core/Context/ChatAnywhereInputContext.js";
@@ -617,6 +619,7 @@ export default function ChatPage() {
             <WorkflowSelector />
             <ModelSelector />
             <PromptSelector />
+            <ProductSelector />
           </>
         ),
       },

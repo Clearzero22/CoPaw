@@ -481,6 +481,14 @@
       "custom": "Custom"
     }
   },
+  "productSelector": {
+    "title": "Product Context",
+    "searchPlaceholder": "Search by ASIN or keyword...",
+    "empty": "No products found",
+    "selected": "ASIN {{asin}} selected as context",
+    "clear": "Clear",
+    "loading": "Loading..."
+  },
   "agentSelector": {
     "title": "Select Agent",
     "selectAgent": "Select Agent",
