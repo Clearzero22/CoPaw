@@ -13,6 +13,9 @@ import {
   Select,
   Progress,
   Upload,
+  Collapse,
+  Popconfirm,
+  Empty,
 } from "@agentscope-ai/design";
 import { Space, List } from "antd";
 import {
@@ -27,8 +30,13 @@ import {
   XCircle,
   Trash2,
   Inbox,
+  Clock,
+  Pencil,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { getApiUrl } from "@/api/config";
 import styles from "./index.module.less";
 
 /* ─── Helpers ─── */
@@ -62,6 +70,122 @@ interface BatchImageItem {
   elapsed?: number;
 }
 
+interface BatchSummary {
+  batch_id: string;
+  total: number;
+  succeeded: number;
+  failed: number;
+  created_at: string | null;
+  variable_name: string;
+}
+
+interface HistoryRecord {
+  id: number;
+  batch_id: string;
+  source: string;
+  source_detail: string;
+  status: string;
+  result: string;
+  error: string;
+  elapsed: number;
+  variable_name: string;
+  created_at: string | null;
+}
+
+interface BatchDetail {
+  batch_id: string;
+  items: HistoryRecord[];
+  total: number;
+  succeeded: number;
+  failed: number;
+  created_at: string | null;
+}
+
+/* ─── Dify History API helpers ─── */
+
+async function saveRecognitionResult(data: {
+  batch_id: string;
+  variable_name: string;
+  source: string;
+  source_detail: string;
+  status: string;
+  result?: string;
+  error?: string;
+  elapsed: number;
+}): Promise<boolean> {
+  try {
+    const resp = await fetch(
+      getApiUrl("/crawler/dify/history"),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          batch_id: data.batch_id,
+          variable_name: data.variable_name,
+          items: [
+            {
+              source: data.source,
+              source_detail: data.source_detail,
+              status: data.status,
+              result: data.result || "",
+              error: data.error || "",
+              elapsed: data.elapsed,
+            },
+          ],
+        }),
+      }
+    );
+    return resp.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function getBatchList(
+  limit = 20,
+  offset = 0
+): Promise<{ batches: BatchSummary[]; total: number }> {
+  const resp = await fetch(
+    `${getApiUrl("/crawler/dify/history/batches")}?limit=${limit}&offset=${offset}`
+  );
+  if (!resp.ok) throw new Error("Failed to load history");
+  return resp.json();
+}
+
+async function getBatchDetail(
+  batchId: string
+): Promise<BatchDetail> {
+  const resp = await fetch(
+    getApiUrl(`/crawler/dify/history/batches/${batchId}`)
+  );
+  if (!resp.ok) throw new Error("Failed to load batch detail");
+  return resp.json();
+}
+
+async function deleteBatch(batchId: string): Promise<boolean> {
+  const resp = await fetch(
+    getApiUrl(`/crawler/dify/history/batches/${batchId}`),
+    { method: "DELETE" }
+  );
+  return resp.ok;
+}
+
+async function updateHistoryRecord(
+  recordId: number,
+  updates: { result?: string; status?: string; error?: string }
+): Promise<HistoryRecord> {
+  const resp = await fetch(
+    getApiUrl(`/crawler/dify/history/${recordId}`),
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    }
+  );
+  if (!resp.ok) throw new Error("Failed to update record");
+  return resp.json();
+}
+
 /* ─── Batch Recognition Component ─── */
 
 function BatchRecognitionSection() {
@@ -81,6 +205,27 @@ function BatchRecognitionSection() {
   const [progress, setProgress] = useState({ current: 0, total: 0 });
   const [concurrency, setConcurrency] = useState(1);
   const processingRef = useRef(false);
+  const currentBatchIdRef = useRef("");
+
+  // History state
+  const [historyBatches, setHistoryBatches] = useState<BatchSummary[]>([]);
+  const [expandedBatch, setExpandedBatch] = useState<string | null>(null);
+  const [batchDetail, setBatchDetail] = useState<BatchDetail | null>(null);
+  const [loadingHistory, setLoadingHistory] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  // Edit modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editRecord, setEditRecord] = useState<HistoryRecord | null>(null);
+  const [editResult, setEditResult] = useState("");
+  const [editStatus, setEditStatus] = useState("");
+  const [editError, setEditError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  // Preview modal state
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewMarkdown, setPreviewMarkdown] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
 
   // Load Dify config on mount
   useEffect(() => {
@@ -93,6 +238,25 @@ function BatchRecognitionSection() {
       }
     }
   }, []);
+
+  // Load history batches on mount
+  const loadHistory = useCallback(async () => {
+    setLoadingHistory(true);
+    try {
+      const data = await getBatchList();
+      setHistoryBatches(data.batches);
+    } catch {
+      message.warning(
+        t("integration.dify.batchRecognition.loadHistoryFailed")
+      );
+    } finally {
+      setLoadingHistory(false);
+    }
+  }, [t]);
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   // Auto-detect workflow parameters from /v1/parameters
   // This works for both app-specific keys and platform keys
@@ -192,6 +356,11 @@ function BatchRecognitionSection() {
     if (!config || !detectedVariable) return;
     setProcessing(true);
     processingRef.current = true;
+
+    // Generate batch_id for this run
+    const batchId = `batch-${Date.now()}`;
+    currentBatchIdRef.current = batchId;
+
     const pending = imageItems.filter((i) => i.status === "pending");
     setProgress({ current: 0, total: pending.length });
 
@@ -245,16 +414,55 @@ function BatchRecognitionSection() {
             result: outputText,
             elapsed,
           });
+          // Save to backend (fire-and-forget)
+          saveRecognitionResult({
+            batch_id: batchId,
+            variable_name: detectedVariable,
+            source: item.source,
+            source_detail:
+              item.source === "file"
+                ? item.fileName || ""
+                : item.url || "",
+            status: "succeeded",
+            result: outputText,
+            elapsed,
+          });
         } else {
           updateItem(item.id, {
             status: "failed",
             error: result.error || "Workflow returned non-success status",
           });
+          saveRecognitionResult({
+            batch_id: batchId,
+            variable_name: detectedVariable,
+            source: item.source,
+            source_detail:
+              item.source === "file"
+                ? item.fileName || ""
+                : item.url || "",
+            status: "failed",
+            error: result.error || "Workflow returned non-success status",
+            elapsed,
+          });
         }
       } catch (err) {
+        const errMsg =
+          err instanceof Error ? err.message : String(err);
         updateItem(item.id, {
           status: "failed",
-          error: err instanceof Error ? err.message : String(err),
+          error: errMsg,
+        });
+        saveRecognitionResult({
+          batch_id: batchId,
+          variable_name: detectedVariable,
+          source: item.source,
+          source_detail:
+            item.source === "file"
+              ? item.fileName || ""
+              : item.url || "",
+          status: "failed",
+          error: errMsg,
+          elapsed: 0,
         });
       } finally {
         completed++;
@@ -267,7 +475,9 @@ function BatchRecognitionSection() {
     await Promise.all(lanes);
     setProcessing(false);
     processingRef.current = false;
-  }, [config, detectedVariable, imageItems, concurrency, uploadFileToDify, runWorkflow]);
+    // Refresh history after batch completes
+    loadHistory();
+  }, [config, detectedVariable, imageItems, concurrency, uploadFileToDify, runWorkflow, loadHistory]);
 
   const stopProcessing = useCallback(() => {
     processingRef.current = false;
@@ -318,6 +528,116 @@ function BatchRecognitionSection() {
     setImageItems([]);
     setProgress({ current: 0, total: 0 });
   }, [processing]);
+
+  // Toggle batch detail expansion
+  const toggleBatch = useCallback(
+    async (batchId: string) => {
+      if (expandedBatch === batchId) {
+        setExpandedBatch(null);
+        setBatchDetail(null);
+        return;
+      }
+      setExpandedBatch(batchId);
+      setLoadingDetail(true);
+      try {
+        const detail = await getBatchDetail(batchId);
+        setBatchDetail(detail);
+      } catch {
+        message.warning(
+          t("integration.dify.batchRecognition.loadHistoryFailed")
+        );
+        setExpandedBatch(null);
+      } finally {
+        setLoadingDetail(false);
+      }
+    },
+    [expandedBatch, t]
+  );
+
+  // Delete a batch and refresh history
+  const handleDeleteBatch = useCallback(
+    async (batchId: string) => {
+      const ok = await deleteBatch(batchId);
+      if (ok) {
+        if (expandedBatch === batchId) {
+          setExpandedBatch(null);
+          setBatchDetail(null);
+        }
+        loadHistory();
+      } else {
+        message.error(t("integration.dify.batchRecognition.deleteBatch"));
+      }
+    },
+    [expandedBatch, loadHistory, t]
+  );
+
+  // Clear all history
+  const handleClearAllHistory = useCallback(async () => {
+    for (const batch of historyBatches) {
+      await deleteBatch(batch.batch_id);
+    }
+    setExpandedBatch(null);
+    setBatchDetail(null);
+    loadHistory();
+  }, [historyBatches, loadHistory]);
+
+  // Open edit modal for a record
+  const openEditModal = useCallback((record: HistoryRecord) => {
+    setEditRecord(record);
+    setEditResult(record.result || "");
+    setEditStatus(record.status);
+    setEditError(record.error || "");
+    setEditModalOpen(true);
+  }, []);
+
+  // Open preview modal — parse JSON result, extract analysis_content as Markdown
+  const openPreview = useCallback((record: HistoryRecord) => {
+    let markdown = record.result || record.error || "";
+    try {
+      const parsed = JSON.parse(markdown);
+      // If parsed is an object with analysis_content, use that
+      if (parsed.analysis_content) {
+        markdown = parsed.analysis_content;
+      } else if (typeof parsed === "string") {
+        markdown = parsed;
+      }
+    } catch {
+      // Not JSON — use as-is
+    }
+    setPreviewMarkdown(markdown);
+    setPreviewSource(record.source_detail);
+    setPreviewOpen(true);
+  }, []);
+
+  // Save edits from modal
+  const saveEdit = useCallback(async () => {
+    if (!editRecord) return;
+    setSaving(true);
+    try {
+      await updateHistoryRecord(editRecord.id, {
+        result: editResult,
+        status: editStatus,
+        error: editError,
+      });
+      setEditModalOpen(false);
+      if (expandedBatch) {
+        const detail = await getBatchDetail(expandedBatch);
+        setBatchDetail(detail);
+        loadHistory();
+      }
+    } catch {
+      message.error("Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }, [
+    editRecord,
+    editResult,
+    editStatus,
+    editError,
+    expandedBatch,
+    loadHistory,
+  ]);
 
   const statusIcon = (status: BatchImageItem["status"]) => {
     switch (status) {
@@ -414,8 +734,247 @@ function BatchRecognitionSection() {
   const pendingItems = imageItems.filter((i) => i.status === "pending");
   const completedItems = imageItems.filter((i) => i.status !== "pending");
 
+  // History detail table columns
+  const historyColumns = [
+    {
+      title: "#",
+      key: "index",
+      width: 50,
+      render: (_: any, __: any, idx: number) => idx + 1,
+    },
+    {
+      title: t("integration.dify.batchRecognition.source"),
+      key: "source",
+      width: 120,
+      render: (_: any, record: HistoryRecord) => (
+        <Tag>
+          {record.source === "file"
+            ? record.source_detail
+            : record.source_detail.length > 50
+              ? record.source_detail.slice(0, 50) + "..."
+              : record.source_detail}
+        </Tag>
+      ),
+    },
+    {
+      title: t("integration.dify.batchRecognition.status"),
+      key: "status",
+      width: 100,
+      render: (_: any, record: HistoryRecord) => (
+        <Tag
+          color={
+            record.status === "succeeded" ? "success" : "error"
+          }
+        >
+          {t(
+            `integration.dify.batchRecognition.${record.status}`
+          )}
+        </Tag>
+      ),
+    },
+    {
+      title: t("integration.dify.batchRecognition.result"),
+      key: "result",
+      render: (_: any, record: HistoryRecord) => {
+        const value =
+          record.status === "failed"
+            ? record.error || "—"
+            : record.result || "—";
+        // Try to extract a short summary from JSON
+        let display = value;
+        try {
+          const parsed = JSON.parse(value);
+          if (parsed.analysis_content) {
+            const firstLine = parsed.analysis_content
+              .split("\n")
+              .find((l: string) => l.trim().length > 0);
+            display = firstLine || value;
+          }
+        } catch {
+          // Not JSON — use as-is
+        }
+        return (
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => openPreview(record)}
+            title={t(
+              "integration.dify.batchRecognition.viewResult"
+            )}
+          >
+            {display.length > 100
+              ? display.slice(0, 100) + "..."
+              : display}
+          </span>
+        );
+      },
+    },
+    {
+      title: t("integration.dify.batchRecognition.duration"),
+      key: "duration",
+      width: 80,
+      render: (_: any, record: HistoryRecord) =>
+        record.elapsed
+          ? `${record.elapsed.toFixed(1)}s`
+          : "—",
+    },
+    {
+      title: "",
+      key: "actions",
+      width: 40,
+      render: (_: any, record: HistoryRecord) => (
+        <Button
+          type="text"
+          size="small"
+          onClick={() => openEditModal(record)}
+          icon={<Pencil size={14} />}
+        />
+      ),
+    },
+  ];
+
   return (
     <div className={styles.batchSection}>
+      {/* History section */}
+      <Card
+        size="small"
+        className={styles.batchCard}
+        title={
+          <Space>
+            <Clock size={16} />
+            {t("integration.dify.batchRecognition.history")}
+          </Space>
+        }
+        extra={
+          historyBatches.length > 0 ? (
+            <Popconfirm
+              title={t(
+                "integration.dify.batchRecognition.clearAllHistoryConfirm"
+              )}
+              onConfirm={handleClearAllHistory}
+              okText={t("common.confirm", "OK")}
+              cancelText={t("common.cancel", "Cancel")}
+            >
+              <Button size="small" danger>
+                <Trash2 size={14} />
+                {t(
+                  "integration.dify.batchRecognition.clearAllHistory"
+                )}
+              </Button>
+            </Popconfirm>
+          ) : null
+        }
+      >
+        {loadingHistory ? (
+          <div style={{ textAlign: "center", padding: 16 }}>
+            <Loader2 size={16} className={styles.spin} />
+            {" "}
+            {t(
+              "integration.dify.batchRecognition.historyLoading"
+            )}
+          </div>
+        ) : historyBatches.length === 0 ? (
+          <Empty
+            description={t(
+              "integration.dify.batchRecognition.historyEmpty"
+            )}
+          />
+        ) : (
+          <Collapse
+            ghost
+            activeKey={expandedBatch ? [expandedBatch] : []}
+            onChange={(keys) => {
+              const key =
+                Array.isArray(keys) && keys.length > 0
+                  ? String(keys[0])
+                  : null;
+              if (key) toggleBatch(key);
+              else {
+                setExpandedBatch(null);
+                setBatchDetail(null);
+              }
+            }}
+            items={historyBatches.map((batch) => ({
+              key: batch.batch_id,
+              label: (
+                <div
+                  className={styles.batchHistoryRow}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Space size={8}>
+                    <span style={{ fontWeight: 500 }}>
+                      {batch.created_at
+                        ? new Date(batch.created_at).toLocaleString()
+                        : batch.batch_id}
+                    </span>
+                    <Tag>
+                      {t(
+                        "integration.dify.batchRecognition.batchSummary",
+                        {
+                          total: batch.total,
+                          succeeded: batch.succeeded,
+                          failed: batch.failed,
+                        }
+                      )}
+                    </Tag>
+                    {batch.variable_name && (
+                      <Tag color="blue">{batch.variable_name}</Tag>
+                    )}
+                  </Space>
+                  <Popconfirm
+                    title={t(
+                      "integration.dify.batchRecognition.deleteBatchConfirm"
+                    )}
+                    onConfirm={(e) => {
+                      e?.stopPropagation();
+                      handleDeleteBatch(batch.batch_id);
+                    }}
+                    okText={t("common.confirm", "OK")}
+                    cancelText={t("common.cancel", "Cancel")}
+                  >
+                    <Button
+                      size="small"
+                      type="text"
+                      danger
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Trash2 size={14} />
+                    </Button>
+                  </Popconfirm>
+                </div>
+              ),
+              children:
+                expandedBatch === batch.batch_id ? (
+                  loadingDetail ? (
+                    <div style={{ textAlign: "center", padding: 16 }}>
+                      <Loader2
+                        size={16}
+                        className={styles.spin}
+                      />{" "}
+                      {t(
+                        "integration.dify.batchRecognition.historyLoading"
+                      )}
+                    </div>
+                  ) : batchDetail ? (
+                    <Table
+                      className={styles.resultTable}
+                      columns={historyColumns}
+                      dataSource={batchDetail.items}
+                      rowKey="id"
+                      pagination={false}
+                      size="small"
+                      scroll={{ y: 300 }}
+                    />
+                  ) : null
+                ) : null,
+            }))}
+          />
+        )}
+      </Card>
+
       {/* Config warning */}
       {!config && (
         <Alert
@@ -635,6 +1194,110 @@ function BatchRecognitionSection() {
           />
         </>
       )}
+
+      {/* Preview result modal — Markdown rendered */}
+      <Modal
+        title={t(
+          "integration.dify.batchRecognition.viewResult"
+        )}
+        open={previewOpen}
+        onCancel={() => setPreviewOpen(false)}
+        footer={
+          <Button onClick={() => setPreviewOpen(false)}>
+            {t("common.close", "Close")}
+          </Button>
+        }
+        width={760}
+        styles={{ body: { maxHeight: "70vh", overflowY: "auto" } }}
+      >
+        {previewSource && (
+          <div style={{ marginBottom: 8 }}>
+            <Tag>{previewSource}</Tag>
+          </div>
+        )}
+        <div className={styles.markdownBody}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {previewMarkdown}
+          </ReactMarkdown>
+        </div>
+      </Modal>
+
+      {/* Edit record modal */}
+      <Modal
+        title={t("integration.dify.batchRecognition.editRecord")}
+        open={editModalOpen}
+        onCancel={() => setEditModalOpen(false)}
+        onOk={saveEdit}
+        confirmLoading={saving}
+        okText={t("common.save", "Save")}
+        cancelText={t("common.cancel", "Cancel")}
+        width={640}
+        destroyOnClose
+      >
+        {editRecord && (
+          <Space direction="vertical" style={{ width: "100%" }} size="middle">
+            <div>
+              <div style={{ marginBottom: 4, fontWeight: 500 }}>
+                {t("integration.dify.batchRecognition.source")}
+              </div>
+              <Tag>
+                {editRecord.source === "file"
+                  ? editRecord.source_detail
+                  : editRecord.source_detail.length > 80
+                    ? editRecord.source_detail.slice(0, 80) + "..."
+                    : editRecord.source_detail}
+              </Tag>
+            </div>
+            <div>
+              <div style={{ marginBottom: 4, fontWeight: 500 }}>
+                {t("integration.dify.batchRecognition.status")}
+              </div>
+              <Select
+                value={editStatus}
+                onChange={setEditStatus}
+                style={{ width: 160 }}
+                options={[
+                  {
+                    label: t(
+                      "integration.dify.batchRecognition.succeeded"
+                    ),
+                    value: "succeeded",
+                  },
+                  {
+                    label: t(
+                      "integration.dify.batchRecognition.failed"
+                    ),
+                    value: "failed",
+                  },
+                ]}
+              />
+            </div>
+            {editStatus === "succeeded" ? (
+              <div>
+                <div style={{ marginBottom: 4, fontWeight: 500 }}>
+                  {t("integration.dify.batchRecognition.result")}
+                </div>
+                <Input.TextArea
+                  rows={8}
+                  value={editResult}
+                  onChange={(e) => setEditResult(e.target.value)}
+                />
+              </div>
+            ) : (
+              <div>
+                <div style={{ marginBottom: 4, fontWeight: 500 }}>
+                  {t("integration.dify.batchRecognition.error")}
+                </div>
+                <Input.TextArea
+                  rows={4}
+                  value={editError}
+                  onChange={(e) => setEditError(e.target.value)}
+                />
+              </div>
+            )}
+          </Space>
+        )}
+      </Modal>
     </div>
   );
 }

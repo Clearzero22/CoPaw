@@ -1880,7 +1880,21 @@
         "uploadFailed": "文件上传失败",
         "workflowFailed": "工作流执行失败",
         "emptyQueue": "暂无待处理图片，请上传文件或添加链接。",
-        "clearQueue": "清空队列"
+        "clearQueue": "清空队列",
+        "history": "历史记录",
+        "historyEmpty": "暂无历史记录",
+        "loadHistoryFailed": "加载历史记录失败",
+        "saveFailed": "结果未同步到服务器",
+        "deleteBatch": "删除批次",
+        "deleteBatchConfirm": "删除该批次及其所有识别记录？",
+        "clearAllHistory": "清空所有历史",
+        "clearAllHistoryConfirm": "删除所有历史记录？此操作不可撤销。",
+        "batchSummary": "{{total}}张图片 · {{succeeded}}成功 · {{failed}}失败",
+        "batchDetail": "批次详情",
+        "historyLoading": "加载历史记录中...",
+        "edit": "点击编辑",
+        "editRecord": "编辑记录",
+        "viewResult": "查看结果"
       }
     },
     "n8n": {

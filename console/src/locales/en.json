@@ -1880,7 +1880,21 @@
         "uploadFailed": "File upload failed",
         "workflowFailed": "Workflow execution failed",
         "emptyQueue": "No images queued. Upload files or add URLs above.",
-        "clearQueue": "Clear Queue"
+        "clearQueue": "Clear Queue",
+        "history": "History",
+        "historyEmpty": "No history records yet",
+        "loadHistoryFailed": "Failed to load history",
+        "saveFailed": "Result not synced to server",
+        "deleteBatch": "Delete batch",
+        "deleteBatchConfirm": "Delete this batch and all its recognition records?",
+        "clearAllHistory": "Clear All History",
+        "clearAllHistoryConfirm": "Delete all history records? This cannot be undone.",
+        "batchSummary": "{{total}} images · {{succeeded}} succeeded · {{failed}} failed",
+        "batchDetail": "Batch Detail",
+        "historyLoading": "Loading history...",
+        "edit": "Click to edit",
+        "editRecord": "Edit Record",
+        "viewResult": "View Result"
       }
     },
     "n8n": {

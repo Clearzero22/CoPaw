@@ -354,3 +354,74 @@ async def generate_listings(request: Request):
         "listings": generated,
         "skipped_details": skipped,
     }
+
+
+# -- Dify Recognition History --
+
+
+_BATCH_ID_RE = re.compile(r"^[\w\-]+$")
+
+
+@router.post("/dify/history")
+async def dify_save_history(request: Request):
+    """Save Dify batch recognition results."""
+    body = await request.json()
+    return await _proxy(
+        "POST", "/api/dify/history", json_body=body
+    )
+
+
+@router.get("/dify/history/batches")
+async def dify_list_batches(request: Request):
+    """List Dify recognition batches with summary."""
+    params = dict(request.query_params)
+    return await _proxy(
+        "GET", "/api/dify/history/batches", params=params
+    )
+
+
+@router.get("/dify/history/batches/{batch_id}")
+async def dify_batch_detail(
+    batch_id: str,
+    request: Request,
+):
+    """Get all results for a specific batch."""
+    if not _BATCH_ID_RE.match(batch_id):
+        return JSONResponse(
+            content={"error": "invalid_batch_id"},
+            status_code=400,
+        )
+    params = dict(request.query_params)
+    return await _proxy(
+        "GET", f"/api/dify/history/batches/{batch_id}", params=params
+    )
+
+
+@router.delete("/dify/history/batches/{batch_id}")
+async def dify_delete_batch(batch_id: str):
+    """Delete all records for a specific batch."""
+    if not _BATCH_ID_RE.match(batch_id):
+        return JSONResponse(
+            content={"error": "invalid_batch_id"},
+            status_code=400,
+        )
+    return await _proxy(
+        "DELETE", f"/api/dify/history/batches/{batch_id}"
+    )
+
+
+@router.patch("/dify/history/{record_id}")
+async def dify_update_record(
+    record_id: str,
+    request: Request,
+):
+    """Edit result / status / error of a single record."""
+    if not _INT_ID_RE.match(record_id):
+        return JSONResponse(
+            content={"error": "invalid_record_id"},
+            status_code=400,
+        )
+    body = await request.json()
+    return await _proxy(
+        "PATCH", f"/api/dify/history/{record_id}", json_body=body
+    )

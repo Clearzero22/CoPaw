@@ -171,6 +171,11 @@
     }
   }
 
+  .batchHistoryRow {
+    width: 100%;
+    font-size: 13px;
+  }
+
   .imageQueueLabel {
     flex: 1;
     overflow: hidden;
@@ -208,6 +213,91 @@
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  /* ---- Markdown Preview ---- */
+
+  .markdownBody {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+
+    h1, h2, h3, h4, h5, h6 {
+      margin: 16px 0 8px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    h1 { font-size: 20px; }
+    h2 { font-size: 17px; }
+    h3 { font-size: 15px; }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 6px 0;
+    }
+
+    li {
+      margin: 3px 0;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: monospace;
+    }
+
+    pre {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid #d9d9d9;
+      padding-left: 12px;
+      margin: 8px 0;
+      color: #666;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 16px 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 8px 0;
+
+      th, td {
+        border: 1px solid #e8e8e8;
+        padding: 6px 10px;
+        text-align: left;
+      }
+
+      th {
+        background: #fafafa;
+        font-weight: 600;
+      }
     }
   }
 
@@ -290,6 +380,46 @@
 
       :global(.ant-table-tbody > tr > td) {
         border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+    }
+
+    .markdownBody {
+      color: rgba(255, 255, 255, 0.85);
+
+      h1, h2, h3, h4, h5, h6 {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      code {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      pre {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      blockquote {
+        border-left-color: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.55);
+      }
+
+      hr {
+        border-top-color: rgba(255, 255, 255, 0.08);
+      }
+
+      table {
+        th, td {
+          border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        th {
+          background: rgba(255, 255, 255, 0.04);
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+
+      strong {
+        color: rgba(255, 255, 255, 0.95);
       }
     }
   }
