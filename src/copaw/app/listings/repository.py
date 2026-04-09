@@ -7,7 +7,11 @@ import shutil
 from pathlib import Path
 from typing import List, Optional
 
+from pydantic import ValidationError
 from .models import Listing, ListingsFile
+
+# Fields that should never be overwritten via update
+_IMMUTABLE_FIELDS = {"id", "created_at"}
 
 
 class ListingRepository:
@@ -88,6 +92,9 @@ class ListingRepository:
         self, listing_id: str, updates: dict
     ) -> Optional[Listing]:
         """Update a listing by ID with partial fields."""
+        updates = {
+            k: v for k, v in updates.items() if k not in _IMMUTABLE_FIELDS
+        }
         data = await self.load()
         for i, listing in enumerate(data.listings):
             if listing.id == listing_id:
@@ -118,10 +125,16 @@ class ListingRepository:
         imported = 0
         skipped = 0
         for raw in new_listings:
-            listing = Listing(**raw)
+            try:
+                listing = Listing(**raw)
+            except ValidationError:
+                skipped += 1
+                continue
             if skip_existing and listing.asin and listing.asin in existing_asins:
                 skipped += 1
                 continue
+            if listing.asin:
+                existing_asins.add(listing.asin)
             data.listings.append(listing)
             imported += 1
         await self.save(data)

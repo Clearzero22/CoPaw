@@ -1,9 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { message } from "@agentscope-ai/design";
 import api from "../../../api";
 import type { ListingInfo, ListingCreateInput } from "../../../api/types";
 import { useTranslation } from "react-i18next";
 import { useAgentStore } from "../../../stores/agentStore";
+
+/** Debounce delay for search input (ms). */
+const SEARCH_DEBOUNCE_MS = 300;
 
 export function useListings() {
   const { t } = useTranslation();
@@ -12,12 +15,31 @@ export function useListings() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Debounced search value — updates 300ms after user stops typing
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setDebouncedSearch(value);
+    }, SEARCH_DEBOUNCE_MS);
+  }, []);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const fetchListings = useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.listListings({
-        search: search || undefined,
+        search: debouncedSearch || undefined,
         status: statusFilter || undefined,
       });
       setListings((data as ListingInfo[]) || []);
@@ -26,7 +48,7 @@ export function useListings() {
     } finally {
       setLoading(false);
     }
-  }, [search, statusFilter]);
+  }, [debouncedSearch, statusFilter]);
 
   useEffect(() => {
     fetchListings();
@@ -116,7 +138,7 @@ export function useListings() {
     listings,
     loading,
     search,
-    setSearch,
+    handleSearchChange,
     statusFilter,
     setStatusFilter,
     fetchListings,

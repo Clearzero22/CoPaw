@@ -24,7 +24,7 @@ import { createColumns } from "./components/columns";
 import { GenerateModal } from "./components/GenerateModal";
 import { ListingDrawer } from "./components/ListingDrawer";
 import styles from "./index.module.less";
-import type { ListingInfo } from "../../../api/types";
+import type { ListingInfo, ListingCreateInput } from "../../../api/types";
 import api from "../../../api";
 
 function ListingManagement() {
@@ -33,7 +33,7 @@ function ListingManagement() {
     listings,
     loading,
     search,
-    setSearch,
+    handleSearchChange,
     statusFilter,
     setStatusFilter,
     fetchListings,
@@ -48,10 +48,18 @@ function ListingManagement() {
   const [editingRecord, setEditingRecord] = useState<ListingInfo | null>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
-  const handleCopy = (record: ListingInfo) => {
+  const handleCopy = async (record: ListingInfo) => {
     const text = `${record.title}\n${record.bullet_points.join("\n")}\n${record.description}`;
-    navigator.clipboard.writeText(text);
-    message.success(t("common.copied"));
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        message.success(t("common.copied"));
+      } else {
+        message.error("Clipboard not available");
+      }
+    } catch {
+      message.error("Copy failed");
+    }
   };
 
   const handleEdit = (record: ListingInfo) => {
@@ -70,7 +78,7 @@ function ListingManagement() {
   };
 
   const handleDrawerSave = async (
-    values: Record<string, unknown>,
+    values: Partial<ListingCreateInput> & { status?: string },
   ) => {
     if (editingRecord) {
       return await updateListing(editingRecord.id, values);
@@ -115,7 +123,23 @@ function ListingManagement() {
     return false;
   };
 
-  const handleGenerated = () => {
+  const handleGenerated = async (listing: ListingInfo) => {
+    // Backend SSE endpoint auto-saves, but we ensure it exists
+    // by creating if missing (e.g. connection dropped mid-stream)
+    const existing = listings.find((l) => l.id === listing.id);
+    if (!existing) {
+      await createListing({
+        title: listing.title,
+        asin: listing.asin,
+        bullet_points: listing.bullet_points,
+        description: listing.description,
+        search_terms: listing.search_terms,
+        price: listing.price,
+        image_url: listing.image_url,
+        platform: listing.platform,
+        marketplace: listing.marketplace,
+      });
+    }
     fetchListings();
   };
 
@@ -167,7 +191,7 @@ function ListingManagement() {
                 "ecommerce.listingManagement.searchPlaceholder",
               )}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               allowClear
               style={{ width: 240 }}
               prefix={<Search size={14} />}

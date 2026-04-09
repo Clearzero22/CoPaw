@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { Drawer, Form, Input, Select, Button } from "@agentscope-ai/design";
 import { Space } from "antd";
 import { useTranslation } from "react-i18next";
-import type { ListingInfo } from "../../../../api/types";
+import type { ListingInfo, ListingCreateInput } from "../../../../api/types";
 
 interface ListingDrawerProps {
   open: boolean;
   listing: ListingInfo | null;
   onClose: () => void;
-  onSave: (values: Record<string, unknown>) => Promise<boolean>;
+  onSave: (values: Partial<ListingCreateInput> & { status?: string }) => Promise<boolean>;
 }
 
 const PLATFORM_OPTIONS = [

@@ -19,6 +19,9 @@ from ...constant import WORKING_DIR
 
 router = APIRouter(prefix="/listings", tags=["listings"])
 
+# Maximum CSV import file size (10 MB)
+_MAX_IMPORT_BYTES = 10 * 1024 * 1024
+
 
 def _get_repo() -> ListingRepository:
     """Get the global listing repository."""
@@ -278,7 +281,16 @@ async def import_listings(
         )
 
     content = await file.read()
-    text = content.decode("utf-8-sig")
+    if len(content) > _MAX_IMPORT_BYTES:
+        return JSONResponse(
+            content={"error": "file_too_large"}, status_code=400,
+        )
+    try:
+        text = content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return JSONResponse(
+            content={"error": "file_must_be_utf8"}, status_code=400,
+        )
     reader = csv.DictReader(io.StringIO(text))
 
     rows = []

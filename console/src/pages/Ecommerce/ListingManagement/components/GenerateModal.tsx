@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Modal,
   Input,
@@ -35,25 +35,27 @@ export function GenerateModal({
   const [marketplace, setMarketplace] = useState("us");
   const [statusText, setStatusText] = useState("");
   const [result, setResult] = useState<ListingInfo | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const handleGenerate = async () => {
     setStep("progress");
     setStatusText(t("ecommerce.listingManagement.generateScraping"));
 
+    abortRef.current = new AbortController();
+    const signal = abortRef.current.signal;
+
     try {
-      const response = await fetch(
-        getApiUrl("/listings/generate"),
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            asin: asin || undefined,
-            keyword: keyword || undefined,
-            platform,
-            marketplace,
-          }),
-        },
-      );
+      const response = await fetch(getApiUrl("/listings/generate"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          asin: asin || undefined,
+          keyword: keyword || undefined,
+          platform,
+          marketplace,
+        }),
+        signal,
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
@@ -66,6 +68,7 @@ export function GenerateModal({
       let buffer = "";
 
       while (true) {
+        if (signal.aborted) break;
         const { done, value } = await reader.read();
         if (done) break;
 
@@ -74,6 +77,7 @@ export function GenerateModal({
         buffer = lines.pop() || "";
 
         for (let i = 0; i < lines.length; i++) {
+          if (signal.aborted) break;
           const line = lines[i];
           if (line.startsWith("event: ")) {
             const eventType = line.slice(7).trim();
@@ -105,6 +109,7 @@ export function GenerateModal({
         }
       }
     } catch (error: unknown) {
+      if (signal.aborted) return;
       console.error("Generate failed:", error);
       setStatusText(
         t("ecommerce.listingManagement.generateError") +
@@ -116,6 +121,10 @@ export function GenerateModal({
   };
 
   const handleClose = () => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
     setStep("input");
     setAsin("");
     setKeyword("");
@@ -296,8 +305,8 @@ export function GenerateModal({
             </Typography.Paragraph>
           </Descriptions.Item>
           <Descriptions.Item label="Search Terms">
-            {result.search_terms?.map((st) => (
-              <Tag key={st} style={{ marginBottom: 4 }}>
+            {result.search_terms?.map((st, i) => (
+              <Tag key={`${st}-${i}`} style={{ marginBottom: 4 }}>
                 {st}
               </Tag>
             ))}
