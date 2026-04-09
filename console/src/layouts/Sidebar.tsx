@@ -339,6 +339,11 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           label: t("nav.crawlerData"),
           icon: <Globe size={16} />,
         },
+        {
+          key: "ecommerce-xiyouzhaoci",
+          label: t("nav.xiyouzhaoci"),
+          icon: <Search size={16} />,
+        },
       ],
     },
     {

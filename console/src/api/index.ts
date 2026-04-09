@@ -20,6 +20,7 @@ import { ollamaModelApi } from "./modules/ollamaModel";
 import { mcpApi } from "./modules/mcp";
 import { listingApi } from "./modules/listing";
 import { crawlerApi } from "./modules/crawler";
+import { xiyouzhaociApi } from "./modules/xiyouzhaoci";
 import { tokenUsageApi } from "./modules/tokenUsage";
 import { toolsApi } from "./modules/tools";
 import { securityApi } from "./modules/security";
@@ -73,6 +74,9 @@ export const api = {
 
   // Crawler Data
   ...crawlerApi,
+
+  // XiYouZhaoCi
+  ...xiyouzhaociApi,
 
   // Token Usage
   ...tokenUsageApi,

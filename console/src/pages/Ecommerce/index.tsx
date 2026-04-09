@@ -5,6 +5,7 @@ import KeywordResearch from "./KeywordResearch";
 import SupplierManagement from "./SupplierManagement";
 import ListingManagement from "./ListingManagement";
 import CrawlerData from "./CrawlerData";
+import XiYouZhaoCi from "./XiYouZhaoCi";
 
 function Ecommerce() {
   return (
@@ -17,6 +18,7 @@ function Ecommerce() {
         <Route path="/supplier-management" element={<SupplierManagement />} />
         <Route path="/listing-management" element={<ListingManagement />} />
         <Route path="/crawler-data" element={<CrawlerData />} />
+        <Route path="/xiyouzhaoci" element={<XiYouZhaoCi />} />
       </Routes>
     </div>
   );
