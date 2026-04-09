@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import {
   Tabs,
   Card,
@@ -17,7 +17,7 @@ import {
   Popconfirm,
   Empty,
 } from "@agentscope-ai/design";
-import { Space, List } from "antd";
+import { Space, List, Checkbox, Pagination, Spin } from "antd";
 import {
   Settings,
   Play,
@@ -37,6 +37,8 @@ import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getApiUrl } from "@/api/config";
+import { crawlerApi } from "@/api/modules/crawler";
+import type { CrawlerProduct } from "@/api/types/crawler";
 import styles from "./index.module.less";
 
 /* ─── Helpers ─── */
@@ -226,6 +228,17 @@ function BatchRecognitionSection() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewMarkdown, setPreviewMarkdown] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+
+  // DB product selector state
+  const [dbModalOpen, setDbModalOpen] = useState(false);
+  const [dbProducts, setDbProducts] = useState<CrawlerProduct[]>([]);
+  const [dbTotal, setDbTotal] = useState(0);
+  const [dbPage, setDbPage] = useState(1);
+  const [dbSearch, setDbSearch] = useState("");
+  const [dbSelectedAsins, setDbSelectedAsins] = useState<Set<string>>(
+    new Set()
+  );
+  const [dbLoading, setDbLoading] = useState(false);
 
   // Load Dify config on mount
   useEffect(() => {
@@ -528,6 +541,88 @@ function BatchRecognitionSection() {
     setImageItems([]);
     setProgress({ current: 0, total: 0 });
   }, [processing]);
+
+  // --- DB Product Selector ---
+
+  const loadDbProducts = useCallback(
+    async (page: number, search?: string) => {
+      setDbLoading(true);
+      try {
+        const data = await crawlerApi.listProducts({
+          page,
+          page_size: 20,
+          search: search || undefined,
+          sort_by: "scraped_at",
+          sort_order: "desc",
+        });
+        setDbProducts(data.products || []);
+        setDbTotal(data.total);
+      } catch {
+        message.error(
+          t("integration.dify.batchRecognition.loadProductsFailed")
+        );
+      } finally {
+        setDbLoading(false);
+      }
+    },
+    [t]
+  );
+
+  const openDbModal = useCallback(() => {
+    setDbSelectedAsins(new Set());
+    setDbSearch("");
+    setDbPage(1);
+    setDbModalOpen(true);
+    loadDbProducts(1);
+  }, [loadDbProducts]);
+
+  const toggleDbProduct = useCallback((asin: string) => {
+    setDbSelectedAsins((prev) => {
+      const next = new Set(prev);
+      if (next.has(asin)) next.delete(asin);
+      else next.add(asin);
+      return next;
+    });
+  }, []);
+
+  const selectedImageCount = useMemo(() => {
+    return dbProducts
+      .filter((p) => dbSelectedAsins.has(p.asin))
+      .reduce((sum, p) => {
+        return sum + (p.all_images?.length ?? (p.image_url ? 1 : 0));
+      }, 0);
+  }, [dbProducts, dbSelectedAsins]);
+
+  const addDbProductsToQueue = useCallback(() => {
+    const selected = dbProducts.filter((p) =>
+      dbSelectedAsins.has(p.asin)
+    );
+    const newItems: BatchImageItem[] = [];
+    for (const product of selected) {
+      const images: string[] = product.all_images?.length
+        ? product.all_images
+        : product.image_url
+          ? [product.image_url]
+          : [];
+      images.forEach((url, idx) => {
+        newItems.push({
+          id: crypto.randomUUID(),
+          source: "url",
+          url,
+          fileName: `${product.asin}_img${idx + 1}`,
+          status: "pending",
+        });
+      });
+    }
+    if (newItems.length === 0) {
+      message.warning(
+        t("integration.dify.batchRecognition.noImages")
+      );
+      return;
+    }
+    setImageItems((prev) => [...prev, ...newItems]);
+    setDbModalOpen(false);
+  }, [dbProducts, dbSelectedAsins, t]);
 
   // Toggle batch detail expansion
   const toggleBatch = useCallback(
@@ -1064,6 +1159,15 @@ function BatchRecognitionSection() {
           </Button>
         </Space>
 
+        <Button
+          onClick={openDbModal}
+          disabled={processing}
+          icon={<Inbox size={14} />}
+          style={{ marginTop: 8 }}
+        >
+          {t("integration.dify.batchRecognition.fromDatabase")}
+        </Button>
+
         {/* Pending queue */}
         {pendingItems.length > 0 && (
           <div className={styles.imageQueue}>
@@ -1220,6 +1324,132 @@ function BatchRecognitionSection() {
             {previewMarkdown}
           </ReactMarkdown>
         </div>
+      </Modal>
+
+      {/* DB product selector modal */}
+      <Modal
+        title={t(
+          "integration.dify.batchRecognition.selectProducts"
+        )}
+        open={dbModalOpen}
+        onCancel={() => setDbModalOpen(false)}
+        footer={
+          <Space>
+            <span style={{ color: "#666", fontSize: 13 }}>
+              {t(
+                "integration.dify.batchRecognition.selectedProductsSummary",
+                {
+                  products: dbSelectedAsins.size,
+                  images: selectedImageCount,
+                }
+              )}
+            </span>
+            <Button onClick={() => setDbModalOpen(false)}>
+              {t("common.cancel", "Cancel")}
+            </Button>
+            <Button
+              type="primary"
+              disabled={dbSelectedAsins.size === 0}
+              onClick={addDbProductsToQueue}
+            >
+              {t(
+                "integration.dify.batchRecognition.addSelected"
+              )}
+            </Button>
+          </Space>
+        }
+        width={720}
+      >
+        <Space style={{ marginBottom: 16 }}>
+          <Input.Search
+            placeholder={t(
+              "integration.dify.batchRecognition.searchProducts"
+            )}
+            value={dbSearch}
+            onChange={(e) => setDbSearch(e.target.value)}
+            onSearch={() => loadDbProducts(1, dbSearch)}
+            style={{ width: 300 }}
+            enterButton
+          />
+        </Space>
+
+        <Spin spinning={dbLoading}>
+          {dbProducts.length === 0 && !dbLoading ? (
+            <Empty
+              description={t(
+                "integration.dify.batchRecognition.noProducts"
+              )}
+            />
+          ) : (
+            <div className={styles.dbProductList}>
+              {dbProducts.map((product) => {
+                const imgCount =
+                  product.all_images?.length ??
+                  (product.image_url ? 1 : 0);
+                const hasImages = imgCount > 0;
+                return (
+                  <div
+                    key={product.asin}
+                    className={`${styles.dbProductRow} ${
+                      dbSelectedAsins.has(product.asin)
+                        ? styles.dbProductRowSelected
+                        : ""
+                    } ${!hasImages ? styles.dbProductRowDisabled : ""}`}
+                    onClick={() =>
+                      hasImages && toggleDbProduct(product.asin)
+                    }
+                  >
+                    <Checkbox
+                      checked={dbSelectedAsins.has(product.asin)}
+                      disabled={!hasImages}
+                    />
+                    {product.image_url && (
+                      <img
+                        src={product.image_url}
+                        alt=""
+                        className={styles.dbProductThumb}
+                      />
+                    )}
+                    <div className={styles.dbProductInfo}>
+                      <span className={styles.dbProductAsin}>
+                        {product.asin}
+                      </span>
+                      <span className={styles.dbProductTitle}>
+                        {product.title}
+                      </span>
+                    </div>
+                    <Tag color={hasImages ? "blue" : "default"}>
+                      {hasImages
+                        ? t(
+                            "integration.dify.batchRecognition.imageCount",
+                            { count: imgCount }
+                          )
+                        : t(
+                            "integration.dify.batchRecognition.noImages"
+                          )}
+                    </Tag>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </Spin>
+
+        {dbTotal > 20 && (
+          <div style={{ textAlign: "center", marginTop: 12 }}>
+            <Pagination
+              current={dbPage}
+              total={dbTotal}
+              pageSize={20}
+              onChange={(page) => {
+                setDbPage(page);
+                loadDbProducts(page, dbSearch);
+              }}
+              size="small"
+              showSizeChanger={false}
+            />
+          </div>
+        )}
       </Modal>
 
       {/* Edit record modal */}

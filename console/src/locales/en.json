@@ -1894,7 +1894,16 @@
         "historyLoading": "Loading history...",
         "edit": "Click to edit",
         "editRecord": "Edit Record",
-        "viewResult": "View Result"
+        "viewResult": "View Result",
+        "fromDatabase": "From Database",
+        "selectProducts": "Select Products",
+        "searchProducts": "Search products...",
+        "addSelected": "Add Selected",
+        "imageCount": "{{count}} images",
+        "noImages": "No images",
+        "noProducts": "No products found",
+        "selectedProductsSummary": "{{products}} products selected, {{images}} images total",
+        "loadProductsFailed": "Failed to load products"
       }
     },
     "n8n": {

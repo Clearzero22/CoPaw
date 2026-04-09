@@ -1894,7 +1894,16 @@
         "historyLoading": "加载历史记录中...",
         "edit": "点击编辑",
         "editRecord": "编辑记录",
-        "viewResult": "查看结果"
+        "viewResult": "查看结果",
+        "fromDatabase": "从数据库选择",
+        "selectProducts": "选择产品",
+        "searchProducts": "搜索产品...",
+        "addSelected": "添加选中",
+        "imageCount": "{{count}}张图片",
+        "noImages": "无图片",
+        "noProducts": "未找到产品",
+        "selectedProductsSummary": "已选 {{products}} 个产品，共 {{images}} 张图片",
+        "loadProductsFailed": "加载产品失败"
       }
     },
     "n8n": {
