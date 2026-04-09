@@ -50,6 +50,7 @@ import {
   Truck,
   Workflow,
   History,
+  FileText,
 } from "lucide-react";
 import { clearAuthToken } from "../api/config";
 import { authApi } from "../api/modules/auth";
@@ -327,6 +328,11 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           key: "ecommerce-supplier-management",
           label: t("nav.supplierManagement"),
           icon: <Truck size={16} />,
+        },
+        {
+          key: "ecommerce-listing-management",
+          label: t("nav.listingManagement"),
+          icon: <FileText size={16} />,
         },
       ],
     },

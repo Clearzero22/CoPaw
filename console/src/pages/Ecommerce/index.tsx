@@ -3,6 +3,7 @@ import ProductResearch from "./ProductResearch";
 import CompetitorAnalysis from "./CompetitorAnalysis";
 import KeywordResearch from "./KeywordResearch";
 import SupplierManagement from "./SupplierManagement";
+import ListingManagement from "./ListingManagement";
 
 function Ecommerce() {
   return (
@@ -13,6 +14,7 @@ function Ecommerce() {
         <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
         <Route path="/keyword-research" element={<KeywordResearch />} />
         <Route path="/supplier-management" element={<SupplierManagement />} />
+        <Route path="/listing-management" element={<ListingManagement />} />
       </Routes>
     </div>
   );
