@@ -51,6 +51,13 @@ import {
   Workflow,
   History,
   FileText,
+  Store,
+  Package,
+  Tags,
+  LineChart,
+  Rocket,
+  Image,
+  CalendarDays,
 } from "lucide-react";
 import { clearAuthToken } from "../api/config";
 import { authApi } from "../api/modules/auth";
@@ -348,6 +355,78 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
           key: "ecommerce-prompt-templates",
           label: t("nav.promptTemplates"),
           icon: <FileText size={16} />,
+        },
+      ],
+    },
+    {
+      key: "seller-tools-group",
+      label: t("nav.sellerTools"),
+      icon: <Store size={16} />,
+      children: [
+        {
+          key: "seller-erp-listing",
+          label: t("nav.sellerErpListing"),
+          icon: <Package size={16} />,
+        },
+        {
+          key: "seller-tag-manager",
+          label: t("nav.sellerTagManager"),
+          icon: <Tags size={16} />,
+        },
+        {
+          key: "seller-keyword-kimi",
+          label: t("nav.sellerKeywordKimi"),
+          icon: <BarChart3 size={16} />,
+        },
+        {
+          key: "seller-keyword-gemini",
+          label: t("nav.sellerKeywordGemini"),
+          icon: <LineChart size={16} />,
+        },
+        {
+          key: "seller-seller-sprite-tools",
+          label: t("nav.sellerSpriteTools"),
+          icon: <Sparkles size={16} />,
+        },
+        {
+          key: "seller-seller-sprite-home",
+          label: t("nav.sellerSpriteHome"),
+          icon: <Store size={16} />,
+        },
+        {
+          key: "seller-copywriting",
+          label: t("nav.sellerCopywriting"),
+          icon: <FileText size={16} />,
+        },
+        {
+          key: "seller-ai-assistant",
+          label: t("nav.sellerAiAssistant"),
+          icon: <Bot size={16} />,
+        },
+        {
+          key: "seller-ai-product-intro",
+          label: t("nav.sellerAiProductIntro"),
+          icon: <Rocket size={16} />,
+        },
+        {
+          key: "seller-ai-product-image",
+          label: t("nav.sellerAiProductImage"),
+          icon: <Image size={16} />,
+        },
+        {
+          key: "seller-calendar",
+          label: t("nav.sellerCalendar"),
+          icon: <CalendarDays size={16} />,
+        },
+        {
+          key: "seller-product-landing",
+          label: t("nav.sellerProductLanding"),
+          icon: <Rocket size={16} />,
+        },
+        {
+          key: "seller-kimi-chat",
+          label: t("nav.sellerKimiChat"),
+          icon: <Bot size={16} />,
         },
       ],
     },

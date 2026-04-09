@@ -1,0 +1,821 @@
+/* ===================== Brand colors ===================== */
+@brand: #6b4df6;
+@brand-dark: #5c4fff;
+@brand-bg: #f4f2ff;
+
+/* ===================== Page container ===================== */
+.page {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+  min-height: 100%;
+}
+
+/* ===================== Upload card ===================== */
+.uploadCard {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.uploadLeft {
+  flex: 1;
+  padding: 24px;
+}
+
+.dropzone {
+  border: 2px dashed #e0e0e0;
+  border-radius: 12px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: @brand;
+    background: fade(@brand-bg, 30%);
+  }
+}
+
+.uploadBtn {
+  background: @brand-dark;
+  color: #fff;
+  border: none;
+  padding: 10px 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px fade(@brand, 30%);
+  transition: background 0.2s;
+
+  &:hover {
+    background: @brand;
+  }
+}
+
+.dropzoneHint {
+  color: #bfbfbf;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.sampleDivider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 384px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.sampleDividerLine {
+  flex: 1;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+.sampleDividerText {
+  padding: 0 16px;
+  font-size: 12px;
+  color: #bfbfbf;
+}
+
+.sampleGrid {
+  display: flex;
+  gap: 12px;
+}
+
+.sampleThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #e8e8e8;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    box-shadow: 0 0 0 2px @brand;
+    outline: 2px solid #fff;
+  }
+}
+
+/* ─── Before/after panel ─── */
+.uploadRight {
+  width: 350px;
+  flex-shrink: 0;
+  border-left: 1px solid #f0f0f0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.examplePanel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.exampleBefore,
+.exampleAfter {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e8e8e8;
+}
+
+.exampleAfter {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.exampleLabel {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 10px;
+  color: #666;
+  font-weight: 500;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+.exampleBadge {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 10px;
+  background: #fbbf24;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.exampleImg {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  aspect-ratio: auto !important;
+}
+
+.exampleArrow {
+  color: #d9d9d9;
+  flex-shrink: 0;
+}
+
+/* ===================== Placeholder image ===================== */
+.placeholderImg {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bfbfbf;
+}
+
+.placeholderDark {
+  background: #1f1f1f;
+  color: #595959;
+}
+
+/* ===================== Scene section ===================== */
+.sceneSection {
+  // margin-top is handled by uploadCard margin-bottom
+}
+
+.sceneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sceneTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.sceneTools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #bfbfbf;
+  pointer-events: none;
+}
+
+.searchInput {
+  padding: 6px 16px 6px 36px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 256px;
+  outline: none;
+  transition: all 0.2s;
+  color: #333;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1px @brand;
+    background: #fff;
+  }
+}
+
+.sortTabs {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 2px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.sortTab {
+  padding: 6px 16px;
+  color: #8c8c8c;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.15s;
+
+  &:hover:not(.sortTabActive) {
+    color: #595959;
+  }
+
+  &.sortTabActive {
+    background: #fff;
+    color: @brand;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* ===================== Category tabs ===================== */
+.categoryBar {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  font-size: 15px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+
+.categoryTab {
+  padding: 12px 0;
+  white-space: nowrap;
+  color: #8c8c8c;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  font-size: 15px;
+  transition: all 0.15s;
+
+  &:hover:not(.categoryTabActive) {
+    color: #333;
+  }
+
+  &.categoryTabActive {
+    color: #1a1a1a;
+    font-weight: 600;
+    border-bottom-color: #1a1a1a;
+  }
+}
+
+.categoryMore {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: #8c8c8c;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+  padding-bottom: 12px;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+/* ===================== Scene card grid ===================== */
+.sceneGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 16px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.sceneCard {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.sceneCardThumb {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1;
+  background: #f0f0f0;
+}
+
+.sceneCardDark {
+  background: #1a1a1a;
+}
+
+.sceneCardImg {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  aspect-ratio: auto !important;
+  transition: transform 0.5s ease;
+
+  .sceneCardThumb:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.sceneCardImgDark {
+  opacity: 0.9;
+}
+
+/* Promo badge */
+.promoBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.promoFlame {
+  color: #fef08a;
+}
+
+/* Hover overlay */
+.hoverOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 3;
+
+  .sceneCardThumb:hover & {
+    opacity: 1;
+  }
+}
+
+.hoverBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+.hoverGenerateBtn {
+  background: @brand;
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: darken(@brand, 5%);
+  }
+}
+
+/* Thumbnail overlay on card */
+.cardThumbnail {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+}
+
+.cardThumbnailImg {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 !important;
+  border-radius: 2px !important;
+}
+
+.sceneCardLabel {
+  text-align: center;
+  font-size: 13px;
+  color: #595959;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+/* ===================== Floating action buttons ===================== */
+.floatActions {
+  position: fixed;
+  right: 24px;
+  bottom: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 50;
+}
+
+.floatBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: @brand;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px fade(@brand, 30%);
+  transition: background 0.2s;
+  position: relative;
+
+  &:hover {
+    background: fade(@brand, 90%);
+
+    .floatTooltip {
+      opacity: 1;
+    }
+  }
+}
+
+.floatTooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* ===================== Promo card ===================== */
+.promoCard {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 128px;
+  cursor: pointer;
+  z-index: 50;
+  transition: transform 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-4px);
+
+    .promoClose {
+      opacity: 1;
+    }
+  }
+}
+
+.promoClose {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.promoCardImg {
+  width: 100% !important;
+  border-radius: 8px !important;
+  aspect-ratio: auto !important;
+  height: 128px;
+}
+
+.promoCardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, #dc2626, transparent);
+  padding: 8px;
+  border-radius: 0 0 8px 8px;
+}
+
+.promoCardText {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+/* ====================== DARK MODE ====================== */
+:global(.dark-mode) & {
+  .scrollArea {
+    background: #141414;
+  }
+
+  .content {
+    // scroll area handles background
+  }
+
+  /* Upload card */
+  .uploadCard {
+    background: #1f1f1f;
+    border-color: #303030;
+  }
+
+  .dropzone {
+    background: #1a1a1a;
+    border-color: #434343;
+
+    &:hover {
+      border-color: @brand;
+      background: fade(@brand-bg, 10%);
+    }
+  }
+
+  .dropzoneHint {
+    color: #434343;
+  }
+
+  .sampleDividerLine {
+    background: #303030;
+  }
+
+  .sampleDividerText {
+    color: #434343;
+  }
+
+  .sampleThumb {
+    background: #2a2a2a;
+
+    &:hover {
+      box-shadow: 0 0 0 2px @brand;
+      outline-color: #1f1f1f;
+    }
+  }
+
+  /* Before/after panel */
+  .uploadRight {
+    border-left-color: #303030;
+  }
+
+  .exampleBefore,
+  .exampleAfter {
+    border-color: #434343;
+  }
+
+  .exampleLabel {
+    color: #8c8c8c;
+    background: rgba(31, 31, 31, 0.8);
+  }
+
+  .exampleArrow {
+    color: #434343;
+  }
+
+  /* Placeholder */
+  .placeholderImg {
+    background: #2a2a2a;
+    color: #434343;
+  }
+
+  .placeholderDark {
+    background: #141414;
+    color: #434343;
+  }
+
+  /* Scene section */
+  .sceneTitle {
+    color: #e5e5e5;
+  }
+
+  .searchInput {
+    background: #2a2a2a;
+    color: #d9d9d9;
+
+    &::placeholder {
+      color: #434343;
+    }
+
+    &:focus {
+      background: #1f1f1f;
+      box-shadow: 0 0 0 1px @brand;
+    }
+  }
+
+  .searchIcon {
+    color: #434343;
+  }
+
+  .sortTabs {
+    background: #2a2a2a;
+  }
+
+  .sortTab {
+    color: #595959;
+
+    &:hover:not(.sortTabActive) {
+      color: #8c8c8c;
+    }
+
+    &.sortTabActive {
+      background: #1f1f1f;
+      color: @brand;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* Category tabs */
+  .categoryBar {
+    border-bottom-color: #303030;
+  }
+
+  .categoryTab {
+    color: #595959;
+
+    &:hover:not(.categoryTabActive) {
+      color: #d9d9d9;
+    }
+
+    &.categoryTabActive {
+      color: #e5e5e5;
+      border-bottom-color: #e5e5e5;
+    }
+  }
+
+  .categoryMore {
+    color: #595959;
+
+    &:hover {
+      color: #d9d9d9;
+    }
+  }
+
+  /* Scene cards */
+  .sceneCardThumb {
+    background: #2a2a2a;
+  }
+
+  .sceneCardDark {
+    background: #141414;
+  }
+
+  .sceneCardLabel {
+    color: #8c8c8c;
+  }
+
+  .cardThumbnail {
+    background: #2a2a2a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .cardThumbnailImg {
+    // placeholder inside thumbnail adapts
+  }
+
+  /* Float buttons */
+  .floatBtn {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .floatTooltip {
+    background: #d9d9d9;
+    color: #141414;
+  }
+
+  /* Promo card */
+  .promoCard {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .promoClose {
+    background: rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
+}

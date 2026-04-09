@@ -1,0 +1,689 @@
+/* ===================== Color Constants ===================== */
+@bg-dark: #090a0f;
+@bg-card: #13151a;
+@text-primary: #ffffff;
+@text-secondary: #8b8e98;
+@text-muted: #6b6e78;
+@green-primary: #00d97e;
+@green-hover: #00c06f;
+@red-primary: #ff4d4f;
+@border-dark: #262830;
+@border-subtle: rgba(120, 120, 130, 0.15);
+@border-subtle-50: rgba(120, 120, 130, 0.08);
+
+/* ===================== Icon Color Classes ===================== */
+.iconAmber    { background: #f59e0b; }
+.iconYellow   { background: #eab308; }
+.iconBlue     { background: #3b82f6; }
+.iconBlueDark { background: #2563eb; }
+.iconGreen    { background: #10b981; }
+.iconOrange   { background: #f97316; }
+.iconPurple   { background: #8b5cf6; }
+.iconPink     { background: #ec4899; }
+.iconIndigo   { background: #6366f1; }
+.iconLime     { background: #84cc16; }
+.iconCyan     { background: #0ea5e9; }
+.iconWhite    { background: #ffffff; }
+
+.textBlack { color: #000; }
+.textWhite { color: #fff; }
+
+/* ===================== Background Effects ===================== */
+.bgGrid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.bgOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0, 217, 126, 0.06), transparent 60%),
+              radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255, 77, 79, 0.04), transparent 50%);
+}
+
+/* ===================== Page Container ===================== */
+.page {
+  position: relative;
+  min-height: 100%;
+  background-color: @bg-dark;
+  color: @text-primary;
+  overflow-x: hidden;
+}
+
+/* ===================== Hero Section ===================== */
+.heroSection {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 160px 24px 80px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+}
+
+.heroLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: @bg-card;
+  border: 1px solid @border-subtle;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: @text-secondary;
+  width: fit-content;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: @green-primary;
+  box-shadow: 0 0 8px rgba(0, 217, 126, 0.8);
+}
+
+.heroTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heroTitle {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: @text-primary;
+  margin: 0;
+
+  @media (min-width: 1024px) {
+    font-size: 60px;
+  }
+}
+
+.heroSubtitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: @text-secondary;
+  margin: 0;
+
+  @media (min-width: 1024px) {
+    font-size: 30px;
+  }
+}
+
+.heroDescription {
+  color: @text-secondary;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 512px;
+  margin: 0;
+}
+
+.heroCtas {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.ctaPrimary {
+  background: @green-primary !important;
+  border-color: @green-primary !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  height: 52px !important;
+  padding: 0 32px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 20px rgba(0, 217, 126, 0.2) !important;
+
+  &:hover {
+    background: @green-hover !important;
+    border-color: @green-hover !important;
+  }
+}
+
+.ctaSecondary {
+  background: @border-dark !important;
+  border-color: @border-subtle !important;
+  color: @text-primary !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  height: 52px !important;
+  padding: 0 32px !important;
+  border-radius: 8px !important;
+
+  &:hover {
+    background: #32353f !important;
+    border-color: #3a3d48 !important;
+  }
+}
+
+/* ===================== Capability Matrix ===================== */
+.heroRight {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    justify-content: flex-end;
+  }
+}
+
+.matrixGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 512px;
+  width: 100%;
+}
+
+.matrixCard {
+  background: @bg-card;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid @border-subtle;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matrixCardLabel {
+  font-size: 12px;
+  color: @text-muted;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.gridCols2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.gridCols3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.matrixIcon {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================== Platform Logos ===================== */
+.platformBar {
+  margin-top: 96px;
+  border-top: 1px solid @border-subtle-50;
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.platformLabel {
+  font-size: 12px;
+  color: @text-muted;
+  margin-bottom: 24px;
+}
+
+.platformList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  opacity: 0.6;
+  filter: grayscale(100%);
+  transition: all 0.5s ease;
+
+  @media (min-width: 1024px) {
+    gap: 64px;
+  }
+
+  &:hover {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+}
+
+.platformItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: @text-primary;
+
+  svg {
+    color: #f97316;
+  }
+
+  // Specific icon overrides
+  :nth-child(1) {
+    color: #f97316;
+  }
+}
+
+/* ===================== Pain Points Section ===================== */
+.painSection {
+  position: relative;
+  z-index: 2;
+  padding: 96px 24px;
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+.painHeader {
+  text-align: center;
+  margin-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.painBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: @bg-card;
+  border: 1px solid @border-subtle;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: @text-secondary;
+}
+
+.painBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: @red-primary;
+  box-shadow: 0 0 8px rgba(255, 77, 79, 0.8);
+}
+
+.painTitle {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+
+  @media (min-width: 1024px) {
+    font-size: 52px;
+  }
+}
+
+.painTitleHighlight {
+  color: @text-secondary;
+}
+
+.painDescription {
+  color: @text-secondary;
+  font-size: 18px;
+  max-width: 672px;
+  margin: 0;
+}
+
+/* ===================== Pain / Solution Cards ===================== */
+.painCards {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+/* Animated border card base */
+.animatedBorderCard {
+  position: relative;
+  border-radius: 16px;
+  padding: 1px;
+  background: @border-dark;
+}
+
+.animatedBorderInner {
+  background: @bg-card;
+  border-radius: 15px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+}
+
+/* Red glow variant */
+.borderGlowRed {
+  box-shadow: 0 0 15px rgba(255, 77, 79, 0.15), inset 0 0 15px rgba(255, 77, 79, 0.05);
+  animation: borderGlowRed 3s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlowRed {
+  0% { box-shadow: 0 0 10px rgba(255, 77, 79, 0.1), inset 0 0 10px rgba(255, 77, 79, 0.03); }
+  100% { box-shadow: 0 0 25px rgba(255, 77, 79, 0.2), inset 0 0 20px rgba(255, 77, 79, 0.08); }
+}
+
+/* Green glow variant */
+.borderGlowGreen {
+  box-shadow: 0 0 15px rgba(0, 217, 126, 0.15), inset 0 0 15px rgba(0, 217, 126, 0.05);
+  animation: borderGlowGreen 3s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlowGreen {
+  0% { box-shadow: 0 0 10px rgba(0, 217, 126, 0.1), inset 0 0 10px rgba(0, 217, 126, 0.03); }
+  100% { box-shadow: 0 0 25px rgba(0, 217, 126, 0.2), inset 0 0 20px rgba(0, 217, 126, 0.08); }
+}
+
+/* Pain card (red) */
+.painCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: @red-primary;
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.painCardContent {
+  background: rgba(255, 77, 79, 0.15);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.painCardGlow {
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 128px;
+  height: 128px;
+  background: @red-primary;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.2;
+}
+
+.painCardHeading {
+  font-size: 30px;
+  font-weight: 700;
+  color: @red-primary;
+  margin-bottom: 12px;
+}
+
+.glowTextRed {
+  text-shadow: 0 0 20px rgba(255, 77, 79, 0.5), 0 0 40px rgba(255, 77, 79, 0.2);
+}
+
+.painCardText {
+  color: @text-secondary;
+  font-size: 14px;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.painList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.painListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.painDotRed {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: @red-primary;
+  margin-top: 8px;
+  box-shadow: 0 0 8px rgba(255, 77, 79, 0.8);
+  flex-shrink: 0;
+}
+
+.painListItemText {
+  color: @text-secondary;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Solution card (green) */
+.solutionCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: @green-primary;
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.solutionCardContent {
+  background: rgba(0, 217, 126, 0.15);
+  border: 1px solid rgba(0, 217, 126, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.solutionCardGlow {
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 128px;
+  height: 128px;
+  background: @green-primary;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.2;
+}
+
+.solutionCardHeading {
+  font-size: 30px;
+  font-weight: 700;
+  color: @green-primary;
+  margin-bottom: 12px;
+}
+
+.glowTextGreen {
+  text-shadow: 0 0 20px rgba(0, 217, 126, 0.5), 0 0 40px rgba(0, 217, 126, 0.2);
+}
+
+.solutionCardText {
+  color: @text-secondary;
+  font-size: 14px;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.solutionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.solutionListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.solutionIcon {
+  color: @green-primary;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.solutionListItemText {
+  color: @text-secondary;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===================== Bottom CTA ===================== */
+.bottomCta {
+  margin-top: 32px;
+  background: @bg-card;
+  border: 1px solid @border-subtle;
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+}
+
+.bottomCtaTitle {
+  font-size: 30px;
+  font-weight: 700;
+  color: @text-primary;
+  margin-bottom: 16px;
+}
+
+.bottomCtaText {
+  color: @text-secondary;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ===================== Floating Widgets ===================== */
+.floatSidebar {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 50;
+}
+
+.floatWidgetEA {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 77, 79, 0.1);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: @red-primary;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 77, 79, 0.2);
+  }
+}
+
+.floatWidgetGradient {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #4b5563;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: #9ca3af;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #60a5fa, #a855f7);
+  }
+}
+
+.floatSearch {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: @text-secondary !important;
+  background: @bg-card !important;
+  border: 1px solid @border-subtle !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+
+  &:hover {
+    color: @text-primary !important;
+    border-color: #4b5563 !important;
+  }
+}

@@ -1,0 +1,569 @@
+.erpListing {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+/* ── Filter Bar ── */
+.filterCard {
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subTabGroup {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.subTabBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+  border: none;
+  background: transparent;
+  color: #999;
+  position: relative;
+
+  &:hover {
+    color: #1677ff;
+  }
+
+  &.active {
+    color: #1677ff;
+    font-weight: 500;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: #1677ff;
+    }
+  }
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.activeFilterTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background: #fafafa;
+  font-size: 13px;
+  color: #666;
+
+  .clearAll {
+    color: #1677ff;
+    cursor: pointer;
+    border-left: 1px solid #d9d9d9;
+    margin-left: 8px;
+    padding-left: 8px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .removeTag {
+    cursor: pointer;
+    color: #999;
+    margin-left: 4px;
+
+    &:hover {
+      color: #ff4d4f;
+    }
+  }
+}
+
+/* ── Content Card ── */
+.contentCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* ── Action Bar ── */
+.actionBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+  flex-shrink: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.leftActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.rightActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── Table ── */
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+.tableWrapper :global(.ant-table) {
+  font-size: 13px;
+}
+
+.imagePlaceholder {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: #fff;
+}
+
+.mskuLink {
+  color: #1677ff;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.fnskuText {
+  color: #999;
+  font-size: 12px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .copyIcon {
+    cursor: pointer;
+    color: #999;
+
+    &:hover {
+      color: #1677ff;
+    }
+  }
+}
+
+.statusActive {
+  color: #52c41a;
+}
+
+.statusInactive {
+  color: #bfbfbf;
+}
+
+.analysisBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .icon {
+    color: #bfbfbf;
+    cursor: pointer;
+
+    &:hover {
+      color: #1677ff;
+    }
+  }
+}
+
+.tagsCell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tagCount {
+  color: #1677ff;
+  font-size: 12px;
+}
+
+.tagEditIcon {
+  color: #1677ff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.priceCell {
+  text-align: right;
+
+  .mainPrice {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .adjustingPrice {
+    color: #999;
+    font-size: 12px;
+  }
+}
+
+.stockCell {
+  text-align: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.titleCell {
+  max-width: 192px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.operationsCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  color: #1677ff;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.actionBtnDefault {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+/* ── Pagination ── */
+.paginationRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 13px;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+/* ── Stats Modal ── */
+.statsOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statsModal {
+  background: #fff;
+  width: 75%;
+  max-width: 896px;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: statsModalIn 0.2s ease-out;
+}
+
+@keyframes statsModalIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.statsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.statsTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  color: #333;
+}
+
+.statsCloseBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  display: flex;
+
+  &:hover {
+    color: #666;
+  }
+}
+
+.statsBody {
+  padding: 24px;
+}
+
+.statsProductInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.statsProductImage {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.statsProductName {
+  font-weight: 500;
+}
+
+.statsProductMsku {
+  font-size: 14px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.statsLegend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendLine {
+  display: block;
+  width: 16px;
+  height: 2px;
+}
+
+.chartContainer {
+  height: 400px;
+  width: 100%;
+}
+
+/* ── Dark Mode ── */
+:global(.dark-mode) & {
+  .filterCard {
+    background: #141414;
+  }
+
+  .subTabGroup {
+    border-bottom-color: #303030;
+  }
+
+  .subTabBtn {
+    color: #666;
+
+    &:hover {
+      color: #4096ff;
+    }
+
+    &.active {
+      color: #1677ff;
+
+      &::after {
+        background: #1677ff;
+      }
+    }
+  }
+
+  .activeFilterTag {
+    border-color: #303030;
+    background: #1f1f1f;
+    color: #8c8c8c;
+
+    .clearAll {
+      color: #4096ff;
+      border-left-color: #434343;
+    }
+
+    .removeTag {
+      color: #595959;
+
+      &:hover {
+        color: #ff7875;
+      }
+    }
+  }
+
+  .contentCard {
+    background: #141414;
+  }
+
+  .actionBar {
+    background: rgba(0, 0, 0, 0.15);
+    border-bottom-color: #303030;
+  }
+
+  .imagePlaceholder {
+    background: #1f1f1f;
+    border-color: #303030;
+  }
+
+  .mskuLink {
+    color: #4096ff;
+
+    &:hover {
+      color: #69b1ff;
+    }
+  }
+
+  .fnskuText {
+    color: #595959;
+
+    .copyIcon:hover {
+      color: #4096ff;
+    }
+  }
+
+  .analysisBtn .icon {
+    color: #595959;
+
+    &:hover {
+      color: #4096ff;
+    }
+  }
+
+  .statusActive {
+    color: #73d13d;
+  }
+
+  .statusInactive {
+    color: #595959;
+  }
+
+  .priceCell .adjustingPrice {
+    color: #595959;
+  }
+
+  .titleCell {
+    color: #d9d9d9;
+  }
+
+  .actionBtn {
+    color: #4096ff;
+  }
+
+  .actionBtnDefault {
+    color: #8c8c8c;
+
+    &:hover {
+      color: #d9d9d9;
+    }
+  }
+
+  .paginationRow {
+    border-top-color: #303030;
+    color: #595959;
+  }
+
+  .statsOverlay {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  .statsModal {
+    background: #141414;
+  }
+
+  .statsHeader {
+    border-bottom-color: #303030;
+  }
+
+  .statsTitle {
+    color: #d9d9d9;
+  }
+
+  .statsCloseBtn {
+    color: #595959;
+
+    &:hover {
+      color: #8c8c8c;
+    }
+  }
+
+  .statsProductImage {
+    border-color: #303030;
+    background: #1f1f1f;
+  }
+
+  .statsProductMsku {
+    color: #595959;
+  }
+}

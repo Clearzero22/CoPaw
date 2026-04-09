@@ -1,0 +1,1009 @@
+/* ===================== Page layout ===================== */
+.page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  color: #374151;
+}
+
+.inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #fff;
+  position: relative;
+  z-index: 10;
+}
+
+/* ===================== Header ===================== */
+.header {
+  height: 56px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plusBtn {
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #bfbfbf;
+
+  &:hover {
+    background: #f5f5f5;
+    color: #595959;
+  }
+}
+
+.plusIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.headerTitle {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #111827;
+  margin: 0;
+}
+
+.headerTimezone {
+  font-size: 12px;
+  color: #bfbfbf;
+  margin-left: 8px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.avatarIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.viewSwitcher {
+  display: flex;
+  align-items: center;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.viewSwitcherBtn {
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #595959;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  font-size: 13px;
+  border-right: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    background: #fafafa;
+  }
+}
+
+.viewChevron {
+  width: 12px;
+  height: 12px;
+  color: #bfbfbf;
+}
+
+.viewArrow {
+  width: 16px;
+  height: 16px;
+  color: #8c8c8c;
+}
+
+/* ===================== Calendar body ===================== */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===================== All-day header ===================== */
+.allDayHeader {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  position: relative;
+  z-index: 10;
+  padding-right: 6px;
+}
+
+.timeGutter {
+  width: 56px;
+  flex-shrink: 0;
+  border-right: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.gutterClose {
+  width: 12px;
+  height: 12px;
+  color: #d9d9d9;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+}
+
+.allDayGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 14px;
+}
+
+.allDayCol {
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.dayLabel {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.dayLabelDefault {
+  color: #8c8c8c;
+}
+
+.dayLabelToday {
+  color: #374151;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.todayBadge {
+  background: #ef4444;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.allDayEvents {
+  padding: 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 4px;
+}
+
+/* All-day event chips */
+.allDayEvt {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.allDayBold {
+  font-weight: 500;
+}
+
+.allDayBlue {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.allDayOrange {
+  background: #fff7ed;
+  color: #f97316;
+}
+
+.allDayGreen {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+/* Past day column */
+.colPast {
+  opacity: 0.55;
+}
+
+/* ===================== Scrollable time grid ===================== */
+.timeGrid {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.timeGridInner {
+  display: flex;
+  min-width: 800px;
+}
+
+.timeLabels {
+  width: 56px;
+  flex-shrink: 0;
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  position: relative;
+  z-index: 10;
+}
+
+.timeLabelCell {
+  height: 60px;
+  position: relative;
+}
+
+.timeLabelText {
+  position: absolute;
+  top: -10px;
+  right: 8px;
+  font-size: 10px;
+  color: #bfbfbf;
+}
+
+.dayColumnsGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+}
+
+/* Grid lines */
+.gridLines {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.gridLine {
+  height: 60px;
+  border-bottom: 1px solid rgba(243, 244, 246, 0.6);
+}
+
+/* Current time red line */
+.currentTimeLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #ef4444;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.currentTimeBadge {
+  position: absolute;
+  left: -50px;
+  top: -10px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.currentTimeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  position: absolute;
+  left: -4px;
+  top: -5px;
+}
+
+/* Day column */
+.dayCol {
+  border-right: 1px solid rgba(243, 244, 246, 0.6);
+  position: relative;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.colToday {
+  background: rgba(250, 250, 250, 0.3);
+}
+
+.colLast {
+  padding-right: 8px;
+}
+
+/* Reading indicator */
+.readingIndicator {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.readingPast {
+  color: #93c5fd;
+}
+
+.readingFuture {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.readingDot {
+  width: 6px;
+  height: 12px;
+  border-radius: 9999px;
+}
+
+.readingDotPast {
+  background: #bfdbfe;
+}
+
+.readingDotFuture {
+  background: #3b82f6;
+}
+
+.readingTime {
+  color: #9ca3af;
+  transform: scale(0.75);
+  font-weight: 400;
+}
+
+.readingTimePast {
+  color: #d1d5db;
+}
+
+/* ===================== Time Event Cards ===================== */
+
+/* Line mode */
+.eventLine {
+  position: absolute;
+  left: 8px;
+  right: 16px;
+  border-top: 2px solid #60a5fa;
+}
+
+.eventLineText {
+  font-size: 10px;
+  color: #2563eb;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.eventLineTime {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Checkpoint mode */
+.eventCheckpoint {
+  position: absolute;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 9px;
+  width: auto;
+  display: inline-block;
+  border: 1px solid #bbf7d0;
+}
+
+.eventCheckpointActive {
+  font-weight: 500;
+  border-color: #86efac;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Normal event card */
+.eventCard {
+  position: absolute;
+  border-radius: 4px;
+  padding: 2px 4px;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.eventCardFuture {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.eventCardTruncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventCardTitle {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: pre-line;
+}
+
+.eventCardTime {
+  font-size: 9px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+/* Event color variants */
+.evtBlue {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.evtOrange {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.evtYellow {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.evtGreen {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* Inner pill */
+.innerPill {
+  font-size: 9px;
+  float: right;
+  margin-top: 8px;
+  margin-right: 4px;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.innerPillShadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pillBlue {
+  color: #3b82f6;
+  background: #eff6ff;
+}
+
+.pillGreen {
+  color: #22c55e;
+  background: #f0fdf4;
+}
+
+/* Bottom spacer */
+.bottomSpacer {
+  height: 60px;
+  grid-column: span 7;
+}
+
+/* ===================== Right sidebar ===================== */
+.sidebar {
+  width: 280px;
+  background: #fff;
+  border-left: 1px solid #f0f0f0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: -4px 0 15px -3px rgba(0, 0, 0, 0.03);
+  z-index: 20;
+}
+
+.sidebarSearch {
+  padding: 16px;
+  padding-bottom: 8px;
+}
+
+.searchWrapper {
+  position: relative;
+}
+
+.searchIcon {
+  width: 16px;
+  height: 16px;
+  color: #bfbfbf;
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.searchInput {
+  width: 100%;
+  background: #fafafa;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 6px 16px 6px 36px;
+  font-size: 14px;
+  outline: none;
+  color: #333;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  &:focus {
+    background: #fff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  }
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+}
+
+.searchSlash {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 0 6px;
+  font-size: 10px;
+  color: #bfbfbf;
+  background: #fff;
+}
+
+.sidebarShortcuts {
+  padding: 16px 20px;
+  flex: 1;
+}
+
+.shortcutsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px;
+}
+
+.shortcutsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcutItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #595959;
+  cursor: pointer;
+
+  &:hover .shortcutLabel {
+    color: #1a1a1a;
+  }
+}
+
+.shortcutLabel {
+  transition: color 0.2s;
+}
+
+.shortcutKeys {
+  display: flex;
+  gap: 4px;
+}
+
+.kbd {
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  background: #fafafa;
+  color: #6b7280;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Floating side buttons */
+.floatingBtns {
+  position: absolute;
+  right: 0;
+  top: 128px;
+  transform: translateX(50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-right: 16px;
+}
+
+.floatBtnPink {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fce7f3;
+  color: #ec4899;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #fbcfe8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.floatBtnIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.floatBtnGradient {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: linear-gradient(135deg, #60a5fa, #a855f7);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* ====================== DARK MODE ====================== */
+:global(.dark-mode) & {
+  .page {
+    color: #d1d5db;
+  }
+
+  .main {
+    background: #141414;
+  }
+
+  /* Header */
+  .header {
+    border-bottom-color: #303030;
+    background: #141414;
+  }
+
+  .plusBtn {
+    color: #434343;
+
+    &:hover {
+      background: #2a2a2a;
+      color: #8c8c8c;
+    }
+  }
+
+  .headerTitle {
+    color: #e5e5e5;
+  }
+
+  .headerTimezone {
+    color: #434343;
+  }
+
+  .avatar {
+    background: #7c3aed;
+  }
+
+  .viewSwitcher {
+    background: #1f1f1f;
+    border-color: #303030;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .viewSwitcherBtn {
+    color: #8c8c8c;
+    border-right-color: #303030;
+
+    &:hover {
+      background: #2a2a2a;
+    }
+  }
+
+  .viewChevron {
+    color: #434343;
+  }
+
+  .viewArrow {
+    color: #595959;
+  }
+
+  /* All-day header */
+  .allDayHeader {
+    border-bottom-color: #303030;
+    background: #141414;
+  }
+
+  .timeGutter {
+    border-right-color: #303030;
+  }
+
+  .gutterClose {
+    color: #434343;
+  }
+
+  .allDayCol {
+    border-right-color: #303030;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .dayLabelDefault {
+    color: #595959;
+  }
+
+  .dayLabelToday {
+    color: #d1d5db;
+  }
+
+  .allDayBlue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+  }
+
+  .allDayOrange {
+    background: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
+  }
+
+  .allDayGreen {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+  }
+
+  /* Time grid */
+  .timeLabels {
+    background: #141414;
+    border-right-color: #303030;
+  }
+
+  .timeLabelText {
+    color: #434343;
+  }
+
+  .gridLine {
+    border-bottom-color: rgba(48, 48, 48, 0.6);
+  }
+
+  .dayCol {
+    border-right-color: rgba(48, 48, 48, 0.6);
+  }
+
+  .colToday {
+    background: rgba(30, 30, 30, 0.3);
+  }
+
+  /* Reading indicator */
+  .readingFuture {
+    color: #60a5fa;
+  }
+
+  .readingPast {
+    color: #60a5fa;
+    opacity: 0.6;
+  }
+
+  .readingDotPast {
+    background: #3b82f6;
+    opacity: 0.4;
+  }
+
+  .readingDotFuture {
+    background: #3b82f6;
+  }
+
+  .readingTime {
+    color: #434343;
+  }
+
+  .readingTimePast {
+    color: #303030;
+  }
+
+  /* Event line */
+  .eventLine {
+    border-top-color: #3b82f6;
+  }
+
+  .eventLineText {
+    color: #60a5fa;
+  }
+
+  .eventLineTime {
+    color: #434343;
+  }
+
+  /* Event checkpoint */
+  .eventCheckpoint {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+
+  .eventCheckpointActive {
+    border-color: rgba(34, 197, 94, 0.4);
+  }
+
+  /* Event card colors */
+  .evtBlue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+  }
+
+  .evtOrange {
+    background: rgba(249, 115, 22, 0.15);
+    color: #fdba74;
+  }
+
+  .evtYellow {
+    background: rgba(234, 179, 8, 0.15);
+    color: #fcd34d;
+  }
+
+  .evtGreen {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+  }
+
+  .eventCardTime {
+    color: #434343;
+  }
+
+  /* Inner pill */
+  .pillBlue {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.15);
+  }
+
+  .pillGreen {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.15);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: #141414;
+    border-left-color: #303030;
+    box-shadow: -4px 0 15px -3px rgba(0, 0, 0, 0.2);
+  }
+
+  .searchInput {
+    background: #1f1f1f;
+    color: #d9d9d9;
+
+    &:hover {
+      background: #2a2a2a;
+    }
+
+    &:focus {
+      background: #1f1f1f;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    &::placeholder {
+      color: #434343;
+    }
+  }
+
+  .searchSlash {
+    background: #1f1f1f;
+    border-color: #303030;
+    color: #434343;
+  }
+
+  .searchIcon {
+    color: #434343;
+  }
+
+  .shortcutsTitle {
+    color: #d1d5db;
+  }
+
+  .shortcutItem {
+    color: #8c8c8c;
+
+    &:hover .shortcutLabel {
+      color: #e5e5e5;
+    }
+  }
+
+  .kbd {
+    background: #1f1f1f;
+    border-color: #303030;
+    color: #595959;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  /* Floating buttons */
+  .floatBtnPink {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
+    border-color: rgba(236, 72, 153, 0.3);
+  }
+
+  .floatBtnGradient {
+    border-color: #303030;
+  }
+}

@@ -1,0 +1,852 @@
+/* ── Main Container ── */
+.sellerSpriteTools {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Content Area (replaces removed sidebar+header layout) ── */
+.contentArea {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Listing Panel ── */
+.listingPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+  padding: 10vh 24px 80px;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.brandIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7a45, #722ed1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(114, 46, 209, 0.3);
+}
+
+.heroTitle {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #333;
+}
+
+.heroTitleHighlight {
+  color: #ff7a45;
+}
+
+.heroTitleAi {
+  background: linear-gradient(90deg, #722ed1, #9254de);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroTitleSeparator {
+  color: #722ed1;
+  font-weight: 300;
+}
+
+.analysisContainer {
+  width: 100%;
+  max-width: 720px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Analysis Tabs ── */
+.analysisTabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.analysisTab {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  color: #666;
+  border: none;
+  background: transparent;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #722ed1, #9254de);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(114, 46, 209, 0.25);
+    transform: translateY(1px);
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.tabSparkle {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+/* ── Input Bar ── */
+.inputBar {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+  margin-bottom: 32px;
+}
+
+.marketSelector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-right: 1px solid #f0f0f0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #fafafa;
+  }
+}
+
+.marketFlag {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.marketLabel {
+  font-size: 14px;
+  color: #595959;
+}
+
+.inputField {
+  flex: 1;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+
+  &::placeholder {
+    color: #bbb;
+  }
+}
+
+.submitBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #722ed1, #9254de);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(114, 46, 209, 0.25);
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+/* ── History Items ── */
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.historyItem {
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: #d3adf7;
+  }
+}
+
+.historyImage {
+  width: 48px;
+  height: 48px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #d9d9d9;
+}
+
+.historyInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyAsin {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.2s;
+
+  .historyItem:hover & {
+    color: #722ed1;
+  }
+}
+
+.historyTitle {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.helpText {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #8c8c8c;
+
+  a {
+    color: #ff7a45;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ── Generic Panel (Keepa / Insight / Competitor / API / MCP) ── */
+.genericPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15vh 24px 80px;
+}
+
+.genericIconWrap {
+  margin-bottom: 24px;
+}
+
+.genericTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.genericDesc {
+  color: #8c8c8c;
+  margin-bottom: 32px;
+  text-align: center;
+  max-width: 560px;
+}
+
+.genericInputBar {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.genericInputField {
+  flex: 1;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+
+  &::placeholder {
+    color: #bbb;
+  }
+}
+
+.genericActionBtn {
+  padding: 8px 24px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+
+  &.blue {
+    background: #1677ff;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &.teal {
+    background: #13c2c2;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &.pink {
+    background: #eb2f96;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &.green {
+    background: transparent;
+    color: #52c41a;
+    border: 1px solid #52c41a;
+
+    &:hover {
+      background: #f6ffed;
+    }
+  }
+
+  &.indigo {
+    background: #5b5fc7;
+    box-shadow: 0 2px 8px rgba(91, 95, 199, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+.competitorInputWrap {
+  flex: 1;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #f0f0f0;
+}
+
+.competitorLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #595959;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+/* ── Tools Modal ── */
+.favoritesPanel {
+  width: 200px;
+  background: #fafafa;
+  border-right: 1px solid #f0f0f0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.favoritesHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8c8c8c;
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.favoritesDivider {
+  border-bottom: 1px dashed #d9d9d9;
+  margin-bottom: 24px;
+}
+
+.favoritesEmpty {
+  font-size: 12px;
+  color: #bfbfbf;
+  line-height: 2;
+  text-align: center;
+}
+
+.toolsGridContainer {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.promoBanner {
+  background: #f2efff;
+  font-size: 14px;
+  border-radius: 6px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.promoText1 {
+  color: #1677ff;
+}
+
+.promoText2 {
+  color: #722ed1;
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  flex: 1;
+}
+
+.toolsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &.withBorderLeft {
+    border-left: 1px solid #f0f0f0;
+    padding-left: 24px;
+  }
+
+  &.lastColumn {
+    padding-left: 8px;
+  }
+}
+
+.toolGroupTitle {
+  font-size: 12px;
+  color: #bfbfbf;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolLinkItem {
+  a {
+    font-size: 13px;
+    color: #595959;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #ff7a45;
+    }
+  }
+}
+
+.exploreMore {
+  color: #ff7a45;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ── QR Code Placeholders ── */
+.qrSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.qrItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrPlaceholder {
+  width: 96px;
+  height: 96px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 4px;
+  position: relative;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e8e8e8;
+}
+
+.qrBadge {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  padding: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.qrBadgeGreen {
+  background: #18c360;
+  border-radius: 50%;
+}
+
+.qrBadgeBrand {
+  background: #ff7a45;
+  font-style: italic;
+  border-radius: 4px;
+}
+
+.qrCaption {
+  font-size: 11px;
+  color: #8c8c8c;
+  margin-top: 8px;
+}
+
+/* ── Floating Side Button ── */
+.floatingSideBtn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  padding-right: 4px;
+}
+
+.floatingSideInner {
+  background: #fff;
+  padding: 6px;
+  border-radius: 6px 0 0 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.floatingIconBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+
+  &.pinkBg {
+    background: #fff0f6;
+    color: #eb2f96;
+
+    &:hover {
+      background: #ffadd2;
+    }
+  }
+
+  &.grayBg {
+    background: #f5f5f5;
+    color: #8c8c8c;
+    font-size: 12px;
+  }
+}
+
+/* ── Tools Button (opens modal) ── */
+.toolsTriggerBtn {
+  margin-bottom: 24px;
+}
+
+/* ── Dark Mode ── */
+:global(.dark-mode) & {
+  .listingPanel,
+  .genericPanel {
+    background: transparent;
+  }
+
+  .heroTitle {
+    color: #d9d9d9;
+  }
+
+  .analysisTabs {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .analysisTab {
+    color: #8c8c8c;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #722ed1, #9254de);
+      color: #fff;
+    }
+  }
+
+  .inputBar {
+    background: #1f1f1f;
+    border-color: #303030;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .marketSelector {
+    border-right-color: #303030;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .marketLabel {
+    color: #bfbfbf;
+  }
+
+  .inputField {
+    color: #d9d9d9;
+
+    &::placeholder {
+      color: #595959;
+    }
+  }
+
+  .historyItem {
+    background: #1f1f1f;
+    border-color: #303030;
+
+    &:hover {
+      border-color: #9254de;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .historyImage {
+    background: #141414;
+    border-color: #303030;
+    color: #434343;
+  }
+
+  .historyAsin {
+    color: #d9d9d9;
+
+    .historyItem:hover & {
+      color: #b37feb;
+    }
+  }
+
+  .historyTitle {
+    color: #595959;
+  }
+
+  .helpText {
+    color: #595959;
+
+    a {
+      color: #ff9c6e;
+    }
+  }
+
+  .genericTitle {
+    color: #d9d9d9;
+  }
+
+  .genericDesc {
+    color: #595959;
+  }
+
+  .genericInputBar {
+    background: #1f1f1f;
+    border-color: #303030;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .genericInputField {
+    color: #d9d9d9;
+
+    &::placeholder {
+      color: #595959;
+    }
+  }
+
+  .competitorInputWrap {
+    border-right-color: #303030;
+  }
+
+  .competitorLabel {
+    color: #bfbfbf;
+  }
+
+  .favoritesPanel {
+    background: #141414;
+    border-right-color: #303030;
+  }
+
+  .favoritesHeader {
+    color: #595959;
+  }
+
+  .favoritesDivider {
+    border-bottom-color: #434343;
+  }
+
+  .favoritesEmpty {
+    color: #434343;
+  }
+
+  .promoBanner {
+    background: #1a1633;
+  }
+
+  .promoText1 {
+    color: #4096ff;
+  }
+
+  .promoText2 {
+    color: #b37feb;
+  }
+
+  .toolsColumn {
+    &.withBorderLeft {
+      border-left-color: #303030;
+    }
+  }
+
+  .toolGroupTitle {
+    color: #595959;
+  }
+
+  .toolLinkItem a {
+    color: #bfbfbf;
+
+    &:hover {
+      color: #ff9c6e;
+    }
+  }
+
+  .exploreMore {
+    color: #ff9c6e;
+  }
+
+  .qrPlaceholder {
+    background: #1f1f1f;
+    border-color: #303030;
+    color: #434343;
+  }
+
+  .qrBadge {
+    background: #1f1f1f;
+  }
+
+  .qrCaption {
+    color: #595959;
+  }
+
+  .floatingSideInner {
+    background: #1f1f1f;
+    border-color: #303030;
+  }
+
+  .floatingIconBtn {
+    &.pinkBg {
+      background: #331a2a;
+      color: #f759ab;
+
+      &:hover {
+        background: #4a2040;
+      }
+    }
+
+    &.grayBg {
+      background: #262626;
+      color: #595959;
+    }
+  }
+}

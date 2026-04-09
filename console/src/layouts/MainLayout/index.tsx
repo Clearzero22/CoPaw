@@ -22,6 +22,7 @@ import VoiceTranscriptionPage from "../../pages/Settings/VoiceTranscription";
 import AgentsPage from "../../pages/Settings/Agents";
 import StatusPage from "../../pages/Status";
 import EcommercePage from "../../pages/Ecommerce";
+import SellerToolsPage from "../../pages/SellerTools";
 import IntegrationPage from "../../pages/Integration";
 
 const { Content } = Layout;
@@ -46,6 +47,8 @@ const pathToKey: Record<string, string> = {
   "/status": "status",
   "/ecommerce": "ecommerce",
   "/ecommerce/*": "ecommerce",
+  "/seller-tools": "seller-tools-group",
+  "/seller-tools/*": "seller-tools-group",
   "/integration": "integration",
   "/integration/*": "integration",
 };
@@ -86,6 +89,7 @@ export default function MainLayout() {
               />
               <Route path="/status" element={<StatusPage />} />
               <Route path="/ecommerce/*" element={<EcommercePage />} />
+              <Route path="/seller-tools/*" element={<SellerToolsPage />} />
               <Route path="/integration/*" element={<IntegrationPage />} />
             </Routes>
           </div>

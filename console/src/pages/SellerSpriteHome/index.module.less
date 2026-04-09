@@ -1,0 +1,1043 @@
+@brand-orange: #f56c1d;
+@brand-orange-hover: #e25b10;
+@brand-dark: #ff8a3d;
+
+/* ─── Page Container ─────────────────────────────────────────────────── */
+.pageContainer {
+  min-height: 100%;
+  padding-bottom: 24px;
+}
+
+/* ─── Orange Header ──────────────────────────────────────────────────── */
+.brandHeader {
+  background: linear-gradient(135deg, @brand-orange 0%, @brand-dark 100%);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(245, 108, 29, 0.2);
+  margin: -24px -24px 0 -24px;
+  padding: 0 24px;
+
+  .headerInner {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .logoLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .logoIcon {
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    color: @brand-orange;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    font-style: normal;
+  }
+
+  .headerNav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .navLink {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &:hover {
+      color: rgba(255, 255, 255, 1);
+    }
+
+    &.active {
+      font-weight: 500;
+    }
+  }
+
+  .navDropdown {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.2s;
+
+    &:hover {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .headerRight {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .userBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    background: rgba(245, 108, 29, 0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(245, 108, 29, 0.5);
+    }
+  }
+}
+
+/* ─── Main Content ──────────────────────────────────────────────────── */
+.mainContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 24px;
+}
+
+/* ─── Welcome Card ──────────────────────────────────────────────────── */
+.welcomeSection {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  padding: 20px;
+}
+
+.welcomeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.welcomeTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #262626;
+  margin: 0;
+}
+
+.assistantBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: @brand-orange;
+  border: 1px solid @brand-orange;
+  background: transparent;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #fff7ed;
+  }
+}
+
+.welcomeBanner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  padding: 12px 16px;
+  border-radius: 6px;
+  gap: 12px;
+}
+
+.bannerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bannerAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+
+  &.orange {
+    background: @brand-orange;
+  }
+
+  &.lightOrange {
+    background: #fb923c;
+  }
+
+  &.indigo {
+    background: #6366f1;
+  }
+}
+
+.bannerPlus {
+  color: #d9d9d9;
+  font-size: 16px;
+}
+
+.bannerText {
+  color: #595959;
+  font-weight: 500;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.bannerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.bannerActionBtn {
+  color: #fff;
+  border: none;
+  padding: 4px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &.orange {
+    background: @brand-orange;
+  }
+
+  &.lightOrange {
+    background: #fb923c;
+  }
+
+  &.indigo {
+    background: #6366f1;
+  }
+}
+
+/* ─── Content Grid ──────────────────────────────────────────────────── */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 20px;
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ─── Section Card ──────────────────────────────────────────────────── */
+.sectionCard {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  padding: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #262626;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionMoreLink {
+  font-size: 13px;
+  color: #bfbfbf;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: @brand-orange;
+  }
+}
+
+/* ─── Tab Group ─────────────────────────────────────────────────────── */
+.tabGroup {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.tabItem {
+  cursor: pointer;
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 4px;
+  user-select: none;
+
+  &:hover {
+    color: #262626;
+  }
+
+  &.active {
+    color: @brand-orange;
+    font-weight: 500;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: @brand-orange;
+      border-radius: 2px;
+    }
+  }
+}
+
+/* ─── Quick Search ──────────────────────────────────────────────────── */
+.searchRow {
+  display: flex;
+  border: 1px solid @brand-orange;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(245, 108, 29, 0.1);
+}
+
+.searchMarketplace,
+.searchTimeRange {
+  background: #fafafa;
+  border-right: 1px solid #e8e8e8;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  min-width: 100px;
+  justify-content: space-between;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+.searchInputWrapper {
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchInputWrapper :global(.ant-input) {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  font-size: 13px;
+  padding: 8px 16px;
+  height: auto;
+}
+
+.searchBtn {
+  background: @brand-orange !important;
+  border-color: @brand-orange !important;
+  color: #fff !important;
+  font-weight: 500;
+  padding: 0 32px;
+  font-size: 14px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s !important;
+
+  &:hover {
+    background: @brand-orange-hover !important;
+    border-color: @brand-orange-hover !important;
+  }
+}
+
+.searchExamples {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #bfbfbf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.exampleAsin {
+  border-bottom: 1px dashed #d9d9d9;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: @brand-orange;
+  }
+}
+
+/* ─── Market Table ──────────────────────────────────────────────────── */
+.marketDesc {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-bottom: 16px;
+}
+
+.marketTable :global(.ant-table-thead > tr > th) {
+  background: #fafafa;
+  font-weight: 400;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.marketTable :global(.ant-table-tbody > tr > td) {
+  font-size: 13px;
+}
+
+.rankCell {
+  text-align: center;
+  color: #bfbfbf;
+}
+
+.keywordCell {
+  .keywordMain {
+    color: #262626;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: @brand-orange;
+    }
+  }
+
+  .keywordTranslation {
+    font-size: 12px;
+    color: #bfbfbf;
+    margin-top: 2px;
+  }
+}
+
+.changeCell {
+  color: #52c41a;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* ─── Quick Access ──────────────────────────────────────────────────── */
+.quickAccessGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quickAccessItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 8px;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    background: #fff7ed;
+
+    .quickAccessIconBox {
+      transform: scale(1.1);
+    }
+
+    .quickAccessLabel {
+      color: @brand-orange;
+    }
+  }
+}
+
+.quickAccessIconBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #ffedd5;
+  color: @brand-orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: transform 0.2s;
+}
+
+.quickAccessLabel {
+  font-size: 13px;
+  color: #595959;
+  transition: color 0.2s;
+}
+
+/* ─── Course Cards ──────────────────────────────────────────────────── */
+.courseList {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d9d9d9;
+    border-radius: 2px;
+  }
+}
+
+.courseCard {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #fafafa;
+  position: relative;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.courseThumbnail {
+  width: 120px;
+  height: 75px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.courseThumbnailInner {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.courseBadge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: @brand-orange;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.courseInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.courseTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #262626;
+  cursor: pointer;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s;
+
+  &:hover {
+    color: @brand-orange;
+  }
+}
+
+.courseMeta {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 4px;
+}
+
+.courseBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 4px;
+  gap: 8px;
+}
+
+.courseDesc {
+  font-size: 12px;
+  color: #bfbfbf;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.courseBookBtn {
+  border: 1px solid @brand-orange;
+  color: @brand-orange;
+  background: transparent;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s;
+
+  &:hover {
+    background: @brand-orange;
+    color: #fff;
+  }
+}
+
+/* ─── Tips Section ──────────────────────────────────────────────────── */
+.tipsCard {
+  display: flex;
+  gap: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    .tipsTitle {
+      color: @brand-orange;
+    }
+  }
+}
+
+.tipsThumbnail {
+  width: 140px;
+  height: 80px;
+  background: #fffbeb;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fef3c7;
+  position: relative;
+  overflow: hidden;
+}
+
+.tipsThumbnailDecor {
+  position: absolute;
+  bottom: 0;
+  width: 48px;
+  height: 64px;
+  background: #fde68a;
+}
+
+.tipsThumbnailIcon {
+  position: relative;
+  z-index: 1;
+  color: @brand-orange;
+}
+
+.tipsInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.tipsTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #262626;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.tipsDate {
+  font-size: 12px;
+  color: #bfbfbf;
+  margin-bottom: 4px;
+}
+
+.tipsDesc {
+  font-size: 12px;
+  color: #8c8c8c;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Floating Sidebar ──────────────────────────────────────────────── */
+.floatSidebar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.floatAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+
+  &.pink {
+    background: #fce7f3;
+    color: #ec4899;
+  }
+
+  &.gray {
+    background: #f5f5f5;
+    color: #8c8c8c;
+    border: 1px solid #e8e8e8;
+  }
+}
+
+/* ─── Customer Service ──────────────────────────────────────────────── */
+.customerService {
+  position: fixed;
+  right: 0;
+  bottom: 80px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.csButton {
+  background: #2563eb;
+  color: #fff;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  gap: 4px;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+.csText {
+  font-size: 12px;
+  writing-mode: vertical-rl;
+  letter-spacing: 2px;
+}
+
+/* ─── History Replay Link ───────────────────────────────────────────── */
+.historyLink {
+  font-size: 13px;
+  color: #bfbfbf;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: @brand-orange;
+  }
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quickAccessGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .headerNav {
+    display: none;
+  }
+
+  .welcomeBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bannerActions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .bannerActionBtn {
+    flex: 1;
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .searchRow {
+    flex-direction: column;
+  }
+
+  .searchMarketplace,
+  .searchTimeRange {
+    border-right: none;
+    border-bottom: 1px solid #e8e8e8;
+    min-width: auto;
+  }
+
+  .searchBtn {
+    padding: 8px 32px;
+  }
+}
+
+/* ─── Dark Mode ─────────────────────────────────────────────────────── */
+:global(.dark-mode) {
+  .welcomeSection,
+  .sectionCard {
+    background: #1f1f1f;
+    border-color: #303030;
+  }
+
+  .welcomeTitle,
+  .sectionTitle {
+    color: #e0e0e0;
+  }
+
+  .bannerText {
+    color: #b0b0b0;
+  }
+
+  .welcomeBanner {
+    background: #181818;
+  }
+
+  .tabGroup {
+    border-bottom-color: #303030;
+  }
+
+  .tabItem {
+    color: #6b6b6b;
+
+    &:hover {
+      color: #d0d0d0;
+    }
+  }
+
+  .searchRow {
+    background: #141414;
+  }
+
+  .searchMarketplace,
+  .searchTimeRange {
+    background: #1a1a1a;
+    border-color: #303030;
+    color: #b0b0b0;
+
+    &:hover {
+      background: #262626;
+    }
+  }
+
+  .quickAccessItem {
+    background: #1a1a1a;
+
+    &:hover {
+      background: #262626;
+    }
+  }
+
+  .quickAccessLabel {
+    color: #b0b0b0;
+  }
+
+  .marketDesc {
+    color: #6b6b6b;
+  }
+
+  .marketTable :global(.ant-table) {
+    background: #1f1f1f;
+  }
+
+  .marketTable :global(.ant-table-thead > tr > th) {
+    background: #181818;
+    color: #6b6b6b;
+    border-bottom-color: #303030;
+  }
+
+  .marketTable :global(.ant-table-tbody > tr > td) {
+    color: #b0b0b0;
+    border-bottom-color: #262626;
+  }
+
+  .marketTable :global(.ant-table-tbody > tr:hover > td) {
+    background: #262626;
+  }
+
+  .rankCell {
+    color: #6b6b6b;
+  }
+
+  .keywordCell .keywordMain {
+    color: #d0d0d0;
+  }
+
+  .keywordCell .keywordTranslation {
+    color: #6b6b6b;
+  }
+
+  .courseCard {
+    border-bottom-color: #262626;
+  }
+
+  .courseTitle {
+    color: #d0d0d0;
+  }
+
+  .courseMeta {
+    color: #6b6b6b;
+  }
+
+  .courseDesc {
+    color: #6b6b6b;
+  }
+
+  .tipsThumbnail {
+    background: #1a1a1a;
+    border-color: #303030;
+  }
+
+  .tipsThumbnailDecor {
+    background: #78716c;
+  }
+
+  .tipsTitle {
+    color: #d0d0d0;
+  }
+
+  .tipsDate {
+    color: #6b6b6b;
+  }
+
+  .tipsDesc {
+    color: #8c8c8c;
+  }
+
+  .floatSidebar {
+    background: #1f1f1f;
+    border-color: #303030;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .courseList::-webkit-scrollbar-thumb {
+    background: #404040;
+  }
+
+  .searchExamples {
+    color: #6b6b6b;
+  }
+
+  .exampleAsin {
+    border-color: #404040;
+
+    &:hover {
+      color: @brand-orange;
+    }
+  }
+
+  .sectionMoreLink,
+  .historyLink {
+    color: #6b6b6b;
+
+    &:hover {
+      color: @brand-orange;
+    }
+  }
+}
