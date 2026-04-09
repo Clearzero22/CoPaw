@@ -221,3 +221,88 @@ API 层：
 | Commit | 说明 |
 |--------|------|
 | `44b5592` | feat: add Crawler Data page with Amazon Crawler API integration |
+
+---
+
+## 2026-04-09 — XiYouZhaoCi 西柚找词集成（关键词研究）
+
+> 集成 xiyouzhaoci.com 关键词爬虫，支持从 CoPaw 控制台一键触发爬取、查看关键词数据、批量管理。
+
+### 架构
+
+```
+浏览器 → CoPaw 前端(5173) → CoPaw 后端(8088) → Crawler API(8000) → PostgreSQL(5433)
+                                (代理层)               (REST API)       ↑
+                                                         POST /scrape →  Bun subprocess
+                                                         xi_you_zhao_ci/index.ts
+                                                              ↓ Playwright
+                                                      xiyouzhaoci.com
+```
+
+爬虫使用 Playwright 浏览器自动化抓取 xiyouzhaoci.com，结果直接写入 PostgreSQL（Bun.sql），CSV 作为备份。
+
+### 后端
+
+**Crawler API** (`00_project_ai/amazon_crawler/api/routers/keywords.py`)：
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| `GET` | `/api/keywords/` | 关键词列表（分页、搜索、ASIN/难度筛选、排序） |
+| `GET` | `/api/keywords/stats` | 统计概览（总数、ASIN 数、热门关键词） |
+| `DELETE` | `/api/keywords/{asin}` | 按 ASIN 删除关键词 |
+| `POST` | `/api/keywords/batch-delete` | 按 ASIN 列表批量删除 |
+| `POST` | `/api/keywords/scrape` | 触发爬取（异步子进程，Bun + Playwright） |
+| `GET` | `/api/keywords/scrape/status` | 爬取任务状态（运行中 + 最近） |
+
+**CoPaw 代理** (`src/copaw/app/routers/xiyouzhaoci.py`)：
+
+透传端点（前缀 `/api/xiyouzhaoci`），含 ASIN 格式校验、超时处理、错误映射。
+
+**爬虫改造** (`00_project_ai/xi_you_zhao_ci/index.ts`)：
+
+- CLI 参数接收 ASIN（`process.argv.slice(2)`）
+- CSV 解析 → 18 列映射 → PostgreSQL 写入（Bun.sql + ON CONFLICT upsert）
+- 并发控制（semaphore，默认 3 个标签页）
+- `scraped_at` 使用 `new Date()` 确保每条记录时间独立
+
+### 前端
+
+新增文件：
+
+```
+console/src/pages/Ecommerce/XiYouZhaoCi/
+├── index.tsx                    # 主页面（3 Tab）
+├── index.module.less            # 样式
+├── useKeywords.ts               # 关键词数据 Hook（300ms 搜索防抖）
+├── useScrape.ts                 # 爬取状态 Hook（3s 自动轮询）
+└── components/
+    ├── KeywordColumns.tsx       # 表格列定义（难度颜色标签）
+    ├── KeywordDrawer.tsx        # 关键词详情抽屉
+    ├── StatsCards.tsx           # 统计卡片（总数/ASIN/热门/最近）
+    └── AsinPicker.tsx           # ASIN 选择弹窗（从 Crawler Data 选取）
+```
+
+API 层：
+- `console/src/api/types/xiyouzhaoci.ts` — TypeScript 类型
+- `console/src/api/modules/xiyouzhaoci.ts` — API 客户端
+
+功能特性：
+- **关键词数据 Tab**：表格展示 + 关键词/ASIN 搜索 + 分页 + 详情抽屉 + 单条/批量删除（行选择 + Popconfirm 确认）
+- **触发爬取 Tab**：手动输入 ASIN / 从 Crawler Data 选择 → 异步爬取 + 实时进度展示
+- **统计概览 Tab**：关键词总数、覆盖 ASIN 数、热门关键词、最近爬取时间
+- 难度标签颜色编码（难=红色、中等=橙色、低=绿色）
+
+涉及修改：
+- `console/src/api/index.ts` — 注册 xiyouzhaoci API 模块
+- `console/src/api/types/index.ts` — 导出类型
+- `console/src/layouts/Sidebar.tsx` — 添加侧边栏菜单项（Search 图标）
+- `console/src/layouts/constants.ts` — 添加路由映射
+- `console/src/pages/Ecommerce/index.tsx` — 添加路由
+- `console/src/locales/en.json` / `zh.json` — 约 55 个 i18n key
+- `src/copaw/app/routers/__init__.py` — 注册路由
+
+### 提交记录
+
+| Commit | 说明 |
+|--------|------|
+| `3e3f426` | feat: add XiYouZhaoCi keyword research integration page |
