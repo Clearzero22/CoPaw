@@ -4,6 +4,81 @@
 
 ---
 
+## 2026-04-09 — Prompt Templates 提示词模板管理
+
+> 独立管理页面，用于管理 Listing 文案生成的提示词模板。支持按品类/平台/站点分类，标题/五点/描述/关键词各自独立的 prompt 字段，以及全文覆盖提示词。数据存储在 PostgreSQL。
+
+### 架构
+
+```
+浏览器 → CoPaw 前端(5173) → CoPaw 后端(8088) → Crawler API(8000) → PostgreSQL(5433)
+                                (代理层)               (REST API)
+```
+
+### 后端
+
+**Crawler API**（`00_project_ai/amazon_crawler/api/`）：
+
+新增文件：
+- `api/models.py` — `PromptTemplate` SQLAlchemy 模型（15 个字段）
+- `api/schemas.py` — `PromptTemplateCreateRequest`、`PromptTemplateListResponse`
+- `api/routers/prompt_templates.py` — CRUD 路由
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| `GET` | `/api/prompt-templates/` | 列表查询（分页、搜索、品类/平台/站点筛选） |
+| `GET` | `/api/prompt-templates/{id}` | 获取单个模板 |
+| `POST` | `/api/prompt-templates/` | 创建模板 |
+| `PUT` | `/api/prompt-templates/{id}` | 更新模板 |
+| `DELETE` | `/api/prompt-templates/{id}` | 删除模板 |
+| `POST` | `/api/prompt-templates/set-default/{id}` | 设为默认（自动清除同组其他默认） |
+| `POST` | `/api/prompt-templates/batch-delete` | 批量删除 |
+
+**CoPaw 代理**（`src/copaw/app/routers/prompt_templates.py`）：
+
+透传端点（前缀 `/api/prompt-templates`），使用 `_proxy()` 通用转发函数，路由使用显式路径段（`/list`、`/item/{id}`、`/create`、`/update/{id}`、`/delete/{id}`）避免 FastAPI 路由冲突。
+
+### 前端
+
+新增文件：
+
+```
+console/src/pages/Ecommerce/PromptTemplates/
+├── index.tsx                    # 主页面（筛选栏 + 表格 + 批量删除）
+├── usePromptTemplates.ts        # 数据 Hook（300ms 搜索防抖、CRUD、乐观更新）
+└── components/
+    ├── columns.tsx              # 表格列定义（品类/平台彩色标签、默认金色标签）
+    └── PromptDrawer.tsx         # 创建/编辑抽屉（4 个独立 prompt 字段 + 全文覆盖）
+```
+
+API 层：
+- `console/src/api/types/prompt.ts` — TypeScript 类型（扩展 PromptTemplate 接口）
+- `console/src/api/modules/promptTemplate.ts` — API 客户端（7 个方法）
+
+功能特性：
+- **筛选栏**：关键词搜索 + 品类/平台/站点下拉筛选
+- **表格**：名称、品类（彩色标签）、平台、站点、默认标记、更新时间、操作（编辑/设为默认/删除）
+- **PromptDrawer**：模板名称/描述 + 品类/平台/站点选择 + 4 个独立 TextArea（标题/五点/描述/关键词提示词）+ 全文覆盖提示词
+- **批量操作**：行选择 + 批量删除（Popconfirm 确认）
+- **设为默认**：同一品类+平台+站点组合下仅一个默认模板
+- **i18n**：英文 + 中文翻译（~40 个 key）
+
+### 问题与修复
+
+| 问题 | 根因 | 修复 |
+|------|------|------|
+| 保存无反应 | `usePromptTemplates.createTemplate` 吞掉 API 错误，返回 `false` 但无错误提示 | `handleSubmit` 中 `ok === false` 时显示 `message.error()` |
+| 405 Method Not Allowed | FastAPI 路由冲突：`POST /` 与 `GET /{template_id}` 同前缀下歧义 | 路由改为显式路径段（`/create`、`/list`、`/item/{id}` 等） |
+| 404 Not Found | Crawler API 未重启，新路由未加载 | 重启 Crawler API |
+
+### 提交记录
+
+| Commit | 说明 |
+|--------|------|
+| `357e7c6` | feat: add Prompt Templates management page for listing copywriting |
+
+---
+
 ## 2026-04-09 — Listing Management 模块 + AI Listing 生成 Skill
 
 ### 一、Listing Management（商品列表管理）
