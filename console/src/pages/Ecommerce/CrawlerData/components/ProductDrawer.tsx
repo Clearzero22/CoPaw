@@ -27,6 +27,7 @@ export function ProductDrawer({
       open={open}
       onClose={onClose}
       width={640}
+      destroyOnClose
       title={product.asin}
       footer={
         <Space>
@@ -53,7 +54,7 @@ export function ProductDrawer({
               <img
                 key={i}
                 src={url}
-                alt=""
+                alt={product.title || product.asin}
                 style={{
                   width: 80,
                   height: 80,
@@ -86,7 +87,7 @@ export function ProductDrawer({
         <Descriptions.Item label={t("ecommerce.crawlerData.colRating")}>
           {product.rating || "-"} / {product.review_count || "0"} reviews
         </Descriptions.Item>
-        <Descriptions.Item label="Prime">
+        <Descriptions.Item label={t("ecommerce.crawlerData.colPrime")}>
           <Tag color={product.is_prime === "Yes" ? "green" : "default"}>
             {product.is_prime || "No"}
           </Tag>
@@ -107,7 +108,7 @@ export function ProductDrawer({
         <>
           <Descriptions column={1} bordered size="small" title={t("ecommerce.crawlerData.detailInfo")} style={{ marginTop: 16 }}>
             {product.subtitle && (
-              <Descriptions.Item label="Subtitle">{product.subtitle}</Descriptions.Item>
+              <Descriptions.Item label={t("ecommerce.crawlerData.colSubtitle")}>{product.subtitle}</Descriptions.Item>
             )}
             <Descriptions.Item label={t("ecommerce.crawlerData.colDescription")}>
               <div style={{ maxHeight: 200, overflow: "auto" }}>

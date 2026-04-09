@@ -1220,7 +1220,21 @@
       "totalLabel": "条记录",
       "statTotal": "商品总数",
       "statDetailScraped": "已采集详情",
-      "statLastScrape": "最近爬取"
+      "statLastScrape": "最近爬取",
+      "colAsin": "ASIN",
+      "colPrime": "Prime",
+      "prime": "Prime",
+      "jobId": "任务 ID",
+      "colJobId": "任务 ID",
+      "cancelled": "已取消",
+      "cancel": "取消",
+      "read": "已读",
+      "markRead": "标为已读",
+      "done": "完成",
+      "failed": "失败",
+      "statPrime": "Prime 商品",
+      "colSubtitle": "副标题",
+      "colRank": "BSR 排名"
     }
   },
   "integration": {

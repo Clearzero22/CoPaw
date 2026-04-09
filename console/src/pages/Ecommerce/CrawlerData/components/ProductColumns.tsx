@@ -16,7 +16,7 @@ export function createProductColumns({
 }: ProductColumnsProps) {
   return [
     {
-      title: "ASIN",
+      title: t("ecommerce.crawlerData.colAsin"),
       dataIndex: "asin",
       key: "asin",
       width: 120,
@@ -35,11 +35,11 @@ export function createProductColumns({
       dataIndex: "image_url",
       key: "image_url",
       width: 60,
-      render: (url: string | null) =>
+      render: (url: string | null, record: CrawlerProduct) =>
         url ? (
           <img
             src={url}
-            alt=""
+            alt={record.title || record.asin || ""}
             style={{ width: 40, height: 40, objectFit: "cover", borderRadius: 4 }}
           />
         ) : (
@@ -80,7 +80,7 @@ export function createProductColumns({
       width: 80,
     },
     {
-      title: "Prime",
+      title: t("ecommerce.crawlerData.colPrime"),
       dataIndex: "is_prime",
       key: "is_prime",
       width: 60,

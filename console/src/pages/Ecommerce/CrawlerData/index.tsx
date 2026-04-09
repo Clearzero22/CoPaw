@@ -27,7 +27,7 @@ import { createProductColumns } from "./components/ProductColumns";
 import { ProductDrawer } from "./components/ProductDrawer";
 import { StatsCards } from "./components/StatsCards";
 import styles from "./index.module.less";
-import type { CrawlerProduct, CrawlerNotification } from "../../../api/types";
+import type { CrawlerProduct, CrawlerNotification, ScrapingJob } from "../../../api/types";
 
 function CrawlerData() {
   const { t } = useTranslation();
@@ -146,7 +146,7 @@ function CrawlerData() {
                   checked={primeOnly}
                   onChange={setPrimeOnly}
                 />
-                <span>Prime</span>
+                <span>{t("ecommerce.crawlerData.prime")}</span>
               </Space>
             </Space>
             <Button
@@ -241,15 +241,14 @@ function CrawlerData() {
             pagination={false}
             size="small"
             columns={[
-              { title: "Job ID", dataIndex: "job_id", width: 120, ellipsis: true },
+              { title: t("ecommerce.crawlerData.colJobId"), dataIndex: "job_id", width: 120, ellipsis: true },
               { title: t("ecommerce.crawlerData.jobType"), dataIndex: "job_type", width: 100 },
               {
                 title: t("ecommerce.crawlerData.keyword"),
                 dataIndex: "keyword",
                 width: 150,
                 ellipsis: true,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                render: (v: string | null, record: any) =>
+                render: (v: string | null, record: ScrapingJob) =>
                   v || record?.target_asin || "-",
               },
               {
@@ -261,8 +260,7 @@ function CrawlerData() {
               {
                 title: t("ecommerce.crawlerData.jobProgress"),
                 width: 100,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                render: (_: unknown, record: any) =>
+                render: (_: unknown, record: ScrapingJob) =>
                   `${record.successful_products}/${record.total_products}`,
               },
               {
@@ -282,8 +280,7 @@ function CrawlerData() {
               {
                 title: "",
                 width: 80,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                render: (_: unknown, record: any) =>
+                render: (_: unknown, record: ScrapingJob) =>
                   record.status === "running" || record.status === "pending" ? (
                     <Button
                       danger
@@ -291,11 +288,11 @@ function CrawlerData() {
                       onClick={() =>
                         withError(async () => {
                           const ok = await cancelJob(record.job_id);
-                          if (ok) message.success("Cancelled");
+                          if (ok) message.success(t("ecommerce.crawlerData.cancelled"));
                         })
                       }
                     >
-                      Cancel
+                      {t("ecommerce.crawlerData.cancel")}
                     </Button>
                   ) : null,
               },
@@ -339,7 +336,7 @@ function CrawlerData() {
                     onClick={() => markRead(item.id)}
                     disabled={item.is_read}
                   >
-                    {item.is_read ? "Read" : "Mark read"}
+                    {item.is_read ? t("ecommerce.crawlerData.read") : t("ecommerce.crawlerData.markRead")}
                   </Button>,
                   <Button
                     type="text"
@@ -362,7 +359,7 @@ function CrawlerData() {
                         }
                         style={{ marginRight: 8 }}
                       >
-                        {item.notification_type === "scrape_completed" ? "Done" : "Failed"}
+                        {item.notification_type === "scrape_completed" ? t("ecommerce.crawlerData.done") : t("ecommerce.crawlerData.failed")}
                       </Tag>
                       {item.title}
                     </span>

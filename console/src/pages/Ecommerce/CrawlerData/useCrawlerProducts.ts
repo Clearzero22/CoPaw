@@ -8,7 +8,6 @@ export function useCrawlerProducts() {
   const [products, setProducts] = useState<CrawlerProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(20);
 
@@ -18,7 +17,6 @@ export function useCrawlerProducts() {
   const [primeOnly, setPrimeOnly] = useState(false);
   const [detailScraped, setDetailScraped] = useState<boolean | undefined>(undefined);
   const [sortBy, setSortBy] = useState("scraped_at");
-  const [sortOrder, setSortOrder] = useState("desc");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearchChange = useCallback((value: string) => {
@@ -46,19 +44,18 @@ export function useCrawlerProducts() {
         prime_only: primeOnly || undefined,
         detail_scraped: detailScraped,
         sort_by: sortBy,
-        sort_order: sortOrder,
+        sort_order: "desc" as const,
       });
       const res = data as CrawlerProductListResponse;
       setProducts(res.products || []);
       setTotal(res.total);
-      setTotalPages(res.total_pages);
     } catch (error) {
       console.error("Failed to load crawler products:", error);
       setProducts([]);
     } finally {
       setLoading(false);
     }
-  }, [page, pageSize, debouncedSearch, primeOnly, detailScraped, sortBy, sortOrder]);
+  }, [page, pageSize, debouncedSearch, primeOnly, detailScraped, sortBy]);
 
   useEffect(() => {
     fetchProducts();
@@ -79,7 +76,6 @@ export function useCrawlerProducts() {
     products,
     loading,
     total,
-    totalPages,
     page,
     setPage,
     search,
@@ -90,8 +86,6 @@ export function useCrawlerProducts() {
     setDetailScraped,
     sortBy,
     setSortBy,
-    sortOrder,
-    setSortOrder,
     generateListing,
     fetchProducts,
   };

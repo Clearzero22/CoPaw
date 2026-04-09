@@ -1220,7 +1220,21 @@
       "totalLabel": "items in total",
       "statTotal": "Total Products",
       "statDetailScraped": "Detail Scraped",
-      "statLastScrape": "Last Scrape"
+      "statLastScrape": "Last Scrape",
+      "colAsin": "ASIN",
+      "colPrime": "Prime",
+      "prime": "Prime",
+      "jobId": "Job ID",
+      "colJobId": "Job ID",
+      "cancelled": "Cancelled",
+      "cancel": "Cancel",
+      "read": "Read",
+      "markRead": "Mark read",
+      "done": "Done",
+      "failed": "Failed",
+      "statPrime": "Prime Products",
+      "colSubtitle": "Subtitle",
+      "colRank": "BSR Rank"
     }
   },
   "integration": {

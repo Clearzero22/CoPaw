@@ -38,7 +38,7 @@ export function StatsCards() {
       color: "#52c41a",
     },
     {
-      title: "Prime",
+      title: t("ecommerce.crawlerData.statPrime"),
       value: stats.prime_products,
       icon: <Star size={20} />,
       color: "#faad14",
