@@ -84,4 +84,213 @@
       }
     }
   }
+
+  /* ---- Tabs ---- */
+
+  .mainTabs {
+    :global(.copaw-tabs-nav) {
+      margin-bottom: 16px;
+
+      &::before {
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+
+    :global(.copaw-tabs-tab) {
+      padding: 8px 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666 !important;
+
+      &:hover {
+        color: #615ced !important;
+      }
+    }
+
+    :global(.copaw-tabs-tab-active .copaw-tabs-tab-btn) {
+      color: #615ced !important;
+      font-weight: 600;
+    }
+
+    :global(.copaw-tabs-ink-bar) {
+      background: #615ced !important;
+      height: 3px;
+      border-radius: 2px 2px 0 0;
+    }
+  }
+
+  .tabLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .tabContent {
+    padding-top: 4px;
+  }
+
+  /* ---- Batch Recognition ---- */
+
+  .batchSection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .batchCard {
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+
+    :global(.ant-card-head) {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .imageQueue {
+    margin-top: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 8px;
+  }
+
+  .imageQueueItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+
+    &:hover {
+      background: #fafafa;
+    }
+  }
+
+  .imageQueueLabel {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #666;
+  }
+
+  .resultHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .resultTable {
+    margin-top: 8px;
+    border-radius: 8px;
+
+    :global(.ant-table-thead > tr > th) {
+      background: #fafafa;
+      font-weight: 600;
+    }
+  }
+
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ---- Dark Mode ---- */
+
+  :global(.dark-mode) & {
+    .mainTabs {
+      :global(.copaw-tabs-tab .copaw-tabs-tab-btn) {
+        color: #ffffff !important;
+      }
+
+      :global(.copaw-tabs-tab-active .copaw-tabs-tab-btn) {
+        color: #8b87f5 !important;
+        font-weight: 600;
+      }
+
+      :global(.copaw-tabs-ink-bar) {
+        background: #8b87f5 !important;
+      }
+
+      :global(.copaw-tabs-nav::before) {
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .dashboardContainer,
+    .chatbotContainer {
+      border-color: rgba(255, 255, 255, 0.1);
+      background: transparent;
+    }
+
+    .dashboardBar {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .dashboardHelp {
+      background: rgba(30, 30, 40, 0.95);
+      color: rgba(255, 255, 255, 0.65);
+
+      ul li code {
+        background: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .batchCard {
+      border-color: rgba(255, 255, 255, 0.1);
+
+      :global(.ant-card-head) {
+        color: rgba(255, 255, 255, 0.85);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .imageQueue {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .imageQueueItem:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .imageQueueLabel {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .resultHeader {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .resultTable {
+      :global(.ant-table-thead > tr > th) {
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.7);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+
+      :global(.ant-table-tbody > tr:hover > td) {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      :global(.ant-table-tbody > tr > td) {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+    }
+  }
 }
