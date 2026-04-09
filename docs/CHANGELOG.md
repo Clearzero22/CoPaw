@@ -4,6 +4,42 @@
 
 ---
 
+## 2026-04-10 — Dify 批量识别历史持久化 + 编辑 + Markdown 预览 + 数据库选图
+
+> 为批量识别 Tab 添加完整的历史记录持久化、编辑和预览能力。识别结果自动保存到 Amazon Crawler PostgreSQL 数据库，支持历史批次回溯查看、编辑结果/状态/错误字段，以及 Markdown 渲染预览。新增从数据库已爬取产品中批量选择图片加入识别队列的功能。
+
+### 修改文件
+
+```
+00_project_ai/amazon_crawler/api/
+├── models.py              # 新增 DifyRecognitionResult ORM 模型
+├── schemas.py             # 新增 DifyRecognitionItem/Response/Update 等 schema
+├── routers/dify_history.py # 新增 4 端点（POST/GET/GET detail/DELETE/PATCH）
+├── main.py                # 注册 dify_history 路由
+
+src/copaw/app/routers/
+└── crawler.py             # 新增 5 个代理端点（/dify/history/*）
+
+console/src/pages/Integration/Dify/
+├── index.tsx              # 历史记录 UI、编辑弹窗、Markdown 预览、数据库选图弹窗
+├── index.module.less      # 历史记录样式、Markdown 渲染样式、产品选择器样式、暗色模式
+console/src/locales/
+├── en.json                # 新增 history/edit/preview/database 相关 i18n key
+├── zh.json                # 对应中文翻译
+```
+
+### 关键改动
+
+- **后端持久化（Amazon Crawler）**：新增 `dify_recognition_results` 表，通过 SQLAlchemy ORM 存储，支持 CRUD 操作
+- **增量保存**：每张图片识别完成即 POST 保存，中途刷新不丢失已完成的记录
+- **历史记录 UI**：折叠面板展示批次列表（时间倒序），展开查看详情表格，支持删除批次和清空历史
+- **编辑记录**：点击铅笔图标打开编辑弹窗，可修改 result、status（Select 下拉）、error 字段
+- **Markdown 预览**：点击结果文本打开 760px 弹窗，自动解析 JSON 提取 `analysis_content`，用 `react-markdown` + `remark-gfm` 渲染完整 Markdown（标题、列表、表格、引用等）
+- **数据库选图**：点击"从数据库选择"打开产品选择弹窗，复用 `crawlerApi.listProducts()` 搜索过滤，勾选产品后一键批量添加图片 URL 到识别队列
+- **代理链路**：CoPaw 后端 (`:8088`) → Crawler API (`:8000`) → PostgreSQL (`:5433`)
+
+---
+
 ## 2026-04-10 — Dify 批量图片识别集成
 
 > 在 Dify 集成页面新增"批量识别"Tab，支持通过 Dify Workflow API 批量处理产品图片识别。自动检测工作流图片输入参数，支持本地文件上传和远程 URL 两种输入方式，可配置并发数（1x-10x）。
