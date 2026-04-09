@@ -4,6 +4,108 @@
 
 ---
 
+## 2026-04-10 — Dify 批量图片识别集成
+
+> 在 Dify 集成页面新增"批量识别"Tab，支持通过 Dify Workflow API 批量处理产品图片识别。自动检测工作流图片输入参数，支持本地文件上传和远程 URL 两种输入方式，可配置并发数（1x-10x）。
+
+### 修改文件
+
+```
+console/src/pages/Integration/Dify/
+├── index.tsx            # 按钮切换 → Tabs 布局（4 标签）；BatchRecognitionSection 组件
+├── index.module.less    # Tabs 样式、批量识别布局、暗色模式
+console/src/locales/
+├── en.json              # 新增 integration.dify.batchRecognition.*（30 个 key）
+├── zh.json              # 对应中文翻译
+```
+
+### 关键改动
+
+- **Tabs 重构**：将 Dify 页面原来的 3 按钮视图切换改为 Ant Design Tabs（Applications / Dashboard / Chatbot / Batch Recognition）
+- **自动参数检测**：通过 `/v1/parameters` API 自动识别工作流的 `file-list` 类型输入变量，无需手动配置
+- **App-specific Key 兼容**：连接测试改用 `/v1/parameters`（而非 `/v1/apps`），兼容 Dify 的 app-specific API key
+- **Base URL 路径修复**：添加 `difyApiUrl()` 辅助函数，避免 `/v1/v1` 路径重复
+- **并发批量处理**：队列式并发控制（1x-10x），支持中途停止，实时进度显示
+- **结果表格**：展示每张图片的状态、识别结果、耗时
+
+---
+
+## 2026-04-10 — Seller Tools（卖家工具）13 页面迁移
+
+> 将 bun_project 中的 13 个亚马逊卖家管理页面集成到 CoPaw 控制台，新建侧边栏"卖家工具"目录。所有页面从 Tailwind CSS 转为 Ant Design + CSS Modules，支持暗色模式，包含完整中英文 i18n。
+
+### 新增文件
+
+```
+console/src/pages/SellerTools/
+├── index.tsx                              # 路由包装组件（13 条路由）
+├── TagManager/                            # 标签管理
+│   ├── index.tsx, index.module.less, mockData.ts
+├── SellerSpriteHome/                      # 卖家精灵首页
+│   ├── index.tsx, index.module.less, types.ts
+├── KimiChat/                              # Kimi 聊天（品牌命名建议）
+│   ├── index.tsx, index.module.less, mockData.tsx
+├── ErpListing/                            # ERP 产品列表
+│   ├── index.tsx, index.module.less, types.ts, mockData.ts
+│   ├── components/
+│   │   ├── FilterBar.tsx, ActionBar.tsx, ListingTable.tsx
+│   │   ├── Pagination.tsx, StatsModal.tsx
+├── KeywordMonitorKimi/                    # 关键词监控 (Kimi)
+│   ├── index.tsx, index.module.less, types.ts
+├── KeywordMonitorGemini/                  # 关键词监控 (Gemini)
+│   ├── index.tsx, index.module.less, types.ts
+├── AiAssistant/                           # AI 助手（5 页仪表盘）
+│   ├── index.tsx, index.module.less, types.ts
+├── SellerSpriteTools/                     # 卖家精灵工具（50+ 工具网格）
+│   ├── index.tsx, index.module.less, types.ts
+├── CopywritingAnalysis/                   # 文案分析（4 节报告）
+│   ├── index.tsx, index.module.less, types.ts
+├── AiProductIntro/                        # AI 产品介绍（暗色科幻风格）
+│   ├── index.tsx, index.module.less
+├── AiProductImage/                        # AI 产品图片
+│   ├── index.tsx, index.module.less
+├── ProductLanding/                        # 产品落地页（暗色营销页）
+│   ├── index.tsx, index.module.less
+├── Calendar/                              # 日历（自定义周视图 + 拖拽）
+│   └── index.tsx, index.module.less
+```
+
+另外 `console/src/pages/SellerSpriteHome/` 也已独立迁移（非 SellerTools 子路由）。
+
+### 涉及修改
+
+- `console/src/layouts/Sidebar.tsx` — 新增 seller-tools-group 菜单组（13 项）
+- `console/src/layouts/constants.ts` — 新增 DEFAULT_OPEN_KEYS、KEY_TO_PATH、KEY_TO_LABEL 映射
+- `console/src/layouts/MainLayout/index.tsx` — 新增 SellerToolsPage 路由
+- `console/src/locales/{en,zh,ja,ru}.json` — 新增 sellerTools.* i18n 节点
+- `console/package.json` — 新增 chart.js + react-chartjs-2 依赖
+
+### 各页面亮点
+
+| 页面 | 关键特性 |
+|------|---------|
+| TagManager | 11 列 Ant Design Table，标签选择 Modal |
+| SellerSpriteHome | 欢迎卡片、增长市场表格、快捷访问、直播课程 |
+| KimiChat | 品牌命名建议表、白牌命名、TrendSparkline SVG |
+| ErpListing | Chart.js 统计弹窗（订单量 + 销量折线图）、FilterBar |
+| KeywordMonitorKimi | 5 秒实时排名趋势更新、ASIN 面板 |
+| KeywordMonitorGemini | PC/Mobile 双列表头、TrendLine SVG（3 种类型） |
+| AiAssistant | 工具选择面板（8 类别）、@-提及聊天输入、ClawSvg |
+| SellerSpriteTools | 5 列工具网格、工具弹窗（Modal）、标签徽章 |
+| CopywritingAnalysis | scroll-spy 侧边导航、进度条、叙事流程步骤 |
+| AiProductIntro | 暗色科幻主题、CSS 动画（tech-grid、float、glow） |
+| AiProductImage | 紫色品牌、上传拖拽区、12 场景卡片网格 |
+| ProductLanding | 暗色营销页、红/绿痛点对比卡片、动态边框光效 |
+| Calendar | 自定义周视图日历、拖拽 15 分钟吸附、当前时间红线 |
+
+### 提交记录
+
+| Commit | 说明 |
+|--------|------|
+| `be4019f` | feat: add Seller Tools section with 13 migrated pages from bun_project |
+
+---
+
 ## 2026-04-10 — Product Context Selector（商品上下文选择器）
 
 > 聊天页面新增商品上下文下拉选择器，从 Crawler Data 商品库中选择商品后，将格式化的商品数据加载到聊天输入框，用户可编辑后发送。
