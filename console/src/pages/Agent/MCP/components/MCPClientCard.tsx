@@ -108,15 +108,27 @@ export function MCPClientCard({
           <div className={styles.statusContainer}>
             <span
               className={`${styles.statusDot} ${
-                client.enabled ? styles.enabled : styles.disabled
+                client.status === "connected"
+                  ? styles.enabled
+                  : client.status === "error"
+                    ? styles.error
+                    : styles.disabled
               }`}
             />
             <span
               className={`${styles.statusText} ${
-                client.enabled ? styles.enabled : styles.disabled
+                client.status === "connected"
+                  ? styles.enabled
+                  : client.status === "error"
+                    ? styles.error
+                    : styles.disabled
               }`}
             >
-              {client.enabled ? t("common.enabled") : t("common.disabled")}
+              {client.status === "connected"
+                ? t("mcp.statusConnected")
+                : client.status === "error"
+                  ? t("mcp.statusError")
+                  : t("common.disabled")}
             </span>
           </div>
         </div>

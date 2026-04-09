@@ -122,6 +122,11 @@
   &.disabled {
     background-color: #d9d9d9;
   }
+
+  &.error {
+    background-color: #ff4d4f;
+    animation: pulse 2s infinite;
+  }
 }
 
 .statusText {
@@ -133,6 +138,20 @@
 
   &.disabled {
     color: #999;
+  }
+
+  &.error {
+    color: #ff4d4f;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
   }
 }
 

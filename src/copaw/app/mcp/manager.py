@@ -75,6 +75,17 @@ class MCPClientManager:
                 if client is not None
             ]
 
+    def get_client(self, key: str) -> Optional[Any]:
+        """Get a single client by key for status checks.
+
+        Args:
+            key: Client configuration key
+
+        Returns:
+            Client instance or None if not found
+        """
+        return self._clients.get(key)
+
     async def replace_client(
         self,
         key: str,

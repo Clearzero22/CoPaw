@@ -20,6 +20,10 @@ class MCPClientInfo(BaseModel):
     name: str = Field(..., description="Client display name")
     description: str = Field(default="", description="Client description")
     enabled: bool = Field(..., description="Whether the client is enabled")
+    status: Literal["connected", "error", "disabled"] = Field(
+        default="disabled",
+        description="Runtime connection status",
+    )
     transport: Literal["stdio", "streamable_http", "sse"] = Field(
         ...,
         description="MCP transport type",
@@ -159,7 +163,29 @@ def _mask_env_value(value: str) -> str:
     return f"{prefix}{'*' * masked_len}{suffix}"
 
 
-def _build_client_info(key: str, client: MCPClientConfig) -> MCPClientInfo:
+def _get_client_status(
+    client_config: MCPClientConfig,
+    mcp_manager,
+    key: str,
+) -> str:
+    """Determine runtime connection status of an MCP client."""
+    if not client_config.enabled:
+        return "disabled"
+    if mcp_manager is None:
+        return "error"
+    live_client = mcp_manager.get_client(key)
+    if live_client is None:
+        return "error"
+    if getattr(live_client, "is_connected", False):
+        return "connected"
+    return "error"
+
+
+def _build_client_info(
+    key: str,
+    client: MCPClientConfig,
+    status: str = "disabled",
+) -> MCPClientInfo:
     """Build MCPClientInfo from config with masked env values."""
     # Mask environment variable values for security
     masked_env = (
@@ -178,6 +204,7 @@ def _build_client_info(key: str, client: MCPClientConfig) -> MCPClientInfo:
         name=client.name,
         description=client.description,
         enabled=client.enabled,
+        status=status,
         transport=client.transport,
         url=client.url,
         headers=masked_headers,
@@ -202,8 +229,13 @@ async def list_mcp_clients(request: Request) -> List[MCPClientInfo]:
     if mcp_config is None or not mcp_config.clients:
         return []
 
+    mcp_manager = agent.mcp_manager
     return [
-        _build_client_info(key, client)
+        _build_client_info(
+            key,
+            client,
+            status=_get_client_status(client, mcp_manager, key),
+        )
         for key, client in mcp_config.clients.items()
     ]
 
@@ -228,7 +260,11 @@ async def get_mcp_client(
     client = mcp_config.clients.get(client_key)
     if client is None:
         raise HTTPException(404, detail=f"MCP client '{client_key}' not found")
-    return _build_client_info(client_key, client)
+    return _build_client_info(
+        client_key,
+        client,
+        status=_get_client_status(client, agent.mcp_manager, client_key),
+    )
 
 
 @router.post(
@@ -298,7 +334,11 @@ async def create_mcp_client(
 
     asyncio.create_task(reload_in_background())
 
-    return _build_client_info(client_key, new_client)
+    return _build_client_info(
+        client_key,
+        new_client,
+        status=_get_client_status(new_client, agent.mcp_manager, client_key),
+    )
 
 
 @router.put(
@@ -359,7 +399,13 @@ async def update_mcp_client(
 
     asyncio.create_task(reload_in_background())
 
-    return _build_client_info(client_key, updated_client)
+    return _build_client_info(
+        client_key,
+        updated_client,
+        status=_get_client_status(
+            updated_client, agent.mcp_manager, client_key
+        ),
+    )
 
 
 @router.patch(
@@ -406,7 +452,11 @@ async def toggle_mcp_client(
 
     asyncio.create_task(reload_in_background())
 
-    return _build_client_info(client_key, client)
+    return _build_client_info(
+        client_key,
+        client,
+        status=_get_client_status(client, agent.mcp_manager, client_key),
+    )
 
 
 @router.delete(

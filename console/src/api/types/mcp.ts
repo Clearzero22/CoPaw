@@ -2,6 +2,8 @@
  * MCP (Model Context Protocol) client types
  */
 
+export type MCPClientStatus = "connected" | "error" | "disabled";
+
 export interface MCPClientInfo {
   /** Unique client key identifier */
   key: string;
@@ -11,6 +13,8 @@ export interface MCPClientInfo {
   description: string;
   /** Whether the client is enabled */
   enabled: boolean;
+  /** Runtime connection status */
+  status: MCPClientStatus;
   /** MCP transport type */
   transport: "stdio" | "streamable_http" | "sse";
   /** Remote MCP endpoint URL for HTTP/SSE transport */

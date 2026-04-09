@@ -215,7 +215,9 @@
     "toggleError": "Failed to toggle MCP client status",
     "deleteConfirm": "Are you sure you want to delete this MCP client?",
     "deleteSuccess": "MCP client deleted successfully",
-    "deleteError": "Failed to delete MCP client"
+    "deleteError": "Failed to delete MCP client",
+    "statusConnected": "Connected",
+    "statusError": "Error"
   },
   "heartbeat": {
     "title": "Heartbeat",

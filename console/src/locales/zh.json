@@ -181,7 +181,9 @@
     "toggleError": "切换 MCP 客户端状态失败",
     "deleteConfirm": "确定要删除此 MCP 客户端吗？",
     "deleteSuccess": "MCP 客户端删除成功",
-    "deleteError": "MCP 客户端删除失败"
+    "deleteError": "MCP 客户端删除失败",
+    "statusConnected": "已连接",
+    "statusError": "连接错误"
   },
   "heartbeat": {
     "title": "心跳",

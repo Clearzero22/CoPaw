@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Optional, TYPE_CHECKING, Dict
 
@@ -21,6 +23,15 @@ logger = logging.getLogger(__name__)
 
 # How often to poll (seconds)
 DEFAULT_POLL_INTERVAL = 2.0
+
+
+@dataclass
+class _ClientRetryState:
+    """Track retry state for a failed MCP client with exponential backoff."""
+
+    count: int = 0
+    config_hash: int = 0
+    next_retry_time: float = 0.0
 
 
 class MCPConfigWatcher:
@@ -62,9 +73,12 @@ class MCPConfigWatcher:
         self._reload_task: Optional[asyncio.Task] = None
 
         # Track failed reload attempts per client to prevent infinite retries
-        # Format: {client_key: (retry_count, last_config_hash)}
-        self._client_failures: Dict[str, tuple[int, int]] = {}
+        self._client_failures: Dict[str, _ClientRetryState] = {}
         self._max_retries: int = 3
+
+        # Exponential backoff parameters (seconds)
+        self._backoff_base: float = 2.0
+        self._backoff_cap: float = 60.0
 
     async def start(self) -> None:
         """Take initial snapshot and start the polling task."""
@@ -282,27 +296,41 @@ class MCPConfigWatcher:
             self._track_client_failure(key, client_hash)
 
     def _should_skip_client(self, key: str, client_hash: int) -> bool:
-        """Check if client should be skipped due to failures."""
+        """Check if client should be skipped due to failures or backoff."""
         if key in self._client_failures:
-            retry_count, last_hash = self._client_failures[key]
-            if last_hash == client_hash and retry_count >= self._max_retries:
-                logger.debug(
-                    f"MCPConfigWatcher: skipping client '{key}', "
-                    f"failed {retry_count} times. "
-                    f"Modify config to retry.",
-                )
+            state = self._client_failures[key]
+            if state.config_hash != client_hash:
+                return False
+            # Permanently skipped after max retries (until config changes)
+            if state.count >= self._max_retries:
+                return True
+            # Skip if backoff period has not elapsed
+            if time.monotonic() < state.next_retry_time:
                 return True
         return False
 
     def _track_client_failure(self, key: str, client_hash: int) -> None:
-        """Track failure for a specific client."""
+        """Track failure for a specific client with exponential backoff."""
         if key in self._client_failures:
-            old_count, old_hash = self._client_failures[key]
-            new_count = old_count + 1 if old_hash == client_hash else 1
+            state = self._client_failures[key]
+            if state.config_hash == client_hash:
+                new_count = state.count + 1
+            else:
+                new_count = 1
         else:
             new_count = 1
 
-        self._client_failures[key] = (new_count, client_hash)
+        delay = min(
+            self._backoff_base * (2 ** (new_count - 1)),
+            self._backoff_cap,
+        )
+        next_retry = time.monotonic() + delay
+
+        self._client_failures[key] = _ClientRetryState(
+            count=new_count,
+            config_hash=client_hash,
+            next_retry_time=next_retry,
+        )
 
         if new_count >= self._max_retries:
             logger.warning(
@@ -314,7 +342,8 @@ class MCPConfigWatcher:
             logger.debug(
                 f"MCPConfigWatcher: failed to reload "
                 f"client '{key}' "
-                f"(attempt {new_count}/{self._max_retries})",
+                f"(attempt {new_count}/{self._max_retries}), "
+                f"next retry in {delay:.1f}s",
             )
 
     async def _handle_client_removal(self, key: str) -> None:
