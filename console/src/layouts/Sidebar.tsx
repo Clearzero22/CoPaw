@@ -2,7 +2,6 @@ import {
   Layout,
   Menu,
   Button,
-  Badge,
   Modal,
   Spin,
   Tooltip,
@@ -52,7 +51,6 @@ import {
   Workflow,
   History,
 } from "lucide-react";
-import api from "../api";
 import { clearAuthToken } from "../api/config";
 import { authApi } from "../api/modules/auth";
 import styles from "./index.module.less";
@@ -62,7 +60,6 @@ import {
   ONE_HOUR_MS,
   DEFAULT_OPEN_KEYS,
   KEY_TO_PATH,
-  UPDATE_MD,
   isStableVersion,
   compareVersions,
 } from "./constants";
@@ -115,10 +112,9 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
   const { isDark } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
   const [openKeys, setOpenKeys] = useState<string[]>(DEFAULT_OPEN_KEYS);
-  const [version, setVersion] = useState<string>("");
   const [latestVersion, setLatestVersion] = useState<string>("");
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const [updateMarkdown, setUpdateMarkdown] = useState<string>("");
+  const [updateMarkdown] = useState<string>("");
   const [authEnabled, setAuthEnabled] = useState(false);
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [accountLoading, setAccountLoading] = useState(false);
@@ -136,13 +132,6 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
   useEffect(() => {
     if (!collapsed) setOpenKeys(DEFAULT_OPEN_KEYS);
   }, [collapsed]);
-
-  useEffect(() => {
-    api
-      .getVersion()
-      .then((res) => setVersion(res?.version ?? ""))
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     fetch(PYPI_URL)
@@ -194,39 +183,6 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
   }, []);
 
   // ── Derived state ─────────────────────────────────────────────────────────
-
-  // Show update notification only when latestVersion is strictly newer than current version.
-  const hasUpdate =
-    !!version && !!latestVersion && compareVersions(latestVersion, version) > 0;
-
-  // ── Handlers ──────────────────────────────────────────────────────────────
-
-  const handleOpenUpdateModal = () => {
-    setUpdateMarkdown("");
-    setUpdateModalOpen(true);
-    const lang = i18n.language?.startsWith("zh")
-      ? "zh"
-      : i18n.language?.startsWith("ru")
-      ? "ru"
-      : "en";
-    const faqLang = lang === "zh" ? "zh" : "en";
-    const url = `https://copaw.agentscope.io/docs/faq.${faqLang}.md`;
-    fetch(url, { cache: "no-cache" })
-      .then((res) => (res.ok ? res.text() : Promise.reject()))
-      .then((text) => {
-        const zhPattern = /###\s*CoPaw如何更新[\s\S]*?(?=\n###|$)/;
-        const enPattern = /###\s*How to update CoPaw[\s\S]*?(?=\n###|$)/;
-        const match = text.match(faqLang === "zh" ? zhPattern : enPattern);
-        setUpdateMarkdown(
-          match && lang !== "ru"
-            ? match[0].trim()
-            : UPDATE_MD[lang] ?? UPDATE_MD.en,
-        );
-      })
-      .catch(() => {
-        setUpdateMarkdown(UPDATE_MD[lang] ?? UPDATE_MD.en);
-      });
-  };
 
   // ── Menu items ────────────────────────────────────────────────────────────
 
