@@ -544,11 +544,10 @@ function BatchRecognitionSection() {
             value={concurrency}
             onChange={setConcurrency}
             disabled={processing}
-            options={[
-              { label: "1x", value: 1 },
-              { label: "2x", value: 2 },
-              { label: "3x", value: 3 },
-            ]}
+            options={Array.from({ length: 10 }, (_, i) => ({
+              label: `${i + 1}x`,
+              value: i + 1,
+            }))}
           />
           {processing ? (
             <Button danger onClick={stopProcessing}>
