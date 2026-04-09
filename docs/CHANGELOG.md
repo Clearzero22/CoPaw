@@ -4,6 +4,53 @@
 
 ---
 
+## 2026-04-10 — Product Context Selector（商品上下文选择器）
+
+> 聊天页面新增商品上下文下拉选择器，从 Crawler Data 商品库中选择商品后，将格式化的商品数据加载到聊天输入框，用户可编辑后发送。
+
+### 前端
+
+新增文件：
+
+```
+console/src/pages/Chat/ProductSelector/
+├── index.tsx                    # 下拉选择组件（搜索、列表、选中状态）
+└── index.module.less            # 样式（含暗色模式）
+```
+
+组件功能：
+- **下拉面板**：ShoppingBag 图标 + 标题 + 搜索框 + 商品列表 + 清除按钮
+- **搜索**：300ms 防抖，调用 `crawlerApi.listProducts({ search, page_size: 20, detail_scraped: true })`
+- **商品展示**：ASIN（等宽字体）、标题（单行截断）、价格、评分
+- **选中状态**：紫色高亮 + CheckOutlined 图标
+- **输入框写入**：选择商品后通过 DOM 操作将格式化的商品上下文写入聊天输入框（原生 value setter + `_valueTracker` 重置 + input 事件派发），用户可预览编辑后再发送
+- **清除选择**：清空输入框内容
+
+涉及修改：
+- `console/src/pages/Chat/index.tsx` — 导入并渲染 `<ProductSelector />` 到 rightHeader
+- `console/src/locales/en.json` / `zh.json` — 7 个 i18n key（`productSelector.*`）
+
+### 技术要点
+
+`@agentscope-ai/chat` 的 `AgentScopeRuntimeWebUI` ref 未暴露 `setInputContent` 方法，因此使用 DOM 操作绕过 React 受控组件限制：
+
+```ts
+// 1. 重置 Ant Design value tracker
+textarea._valueTracker?.setValue("");
+// 2. 原生 setter 设置值
+Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")?.set.call(textarea, text);
+// 3. 派发 input 事件触发 React onChange
+textarea.dispatchEvent(new Event("input", { bubbles: true }));
+```
+
+### 提交记录
+
+| Commit | 说明 |
+|--------|------|
+| `e948de6` | feat: add Product Context Selector to chat page |
+
+---
+
 ## 2026-04-09 — Prompt Templates 提示词模板管理
 
 > 独立管理页面，用于管理 Listing 文案生成的提示词模板。支持按品类/平台/站点分类，标题/五点/描述/关键词各自独立的 prompt 字段，以及全文覆盖提示词。数据存储在 PostgreSQL。
