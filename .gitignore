@@ -37,3 +37,8 @@ uv.lock
 logs/
 my_doc/
 learning-CoPaw/
+.playwright-mcp/
+.codex
+conversation-*.txt
+*-bun-build-copaw.txt
+*-browser-use-*.txt

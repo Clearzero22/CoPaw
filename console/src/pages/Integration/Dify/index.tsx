@@ -43,6 +43,15 @@ import styles from "./index.module.less";
 
 /* ─── Helpers ─── */
 
+/** Generate a unique ID with fallback for browsers that don't support crypto.randomUUID() */
+function generateUniqueId(): string {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // Fallback: timestamp + random string
+  return `id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
 /** Normalize Dify base URL: strip trailing /v1 to avoid double /v1/v1/... */
 function difyApiUrl(baseUrl: string, path: string): string {
   const base = baseUrl.replace(/\/+$/, "").replace(/\/v1$/, "");
@@ -502,7 +511,7 @@ function BatchRecognitionSection() {
       setImageItems((prev) => [
         ...prev,
         {
-          id: crypto.randomUUID(),
+          id: generateUniqueId(),
           source: "file",
           fileName: file.name,
           file,
@@ -521,7 +530,7 @@ function BatchRecognitionSection() {
     setImageItems((prev) => [
       ...prev,
       {
-        id: crypto.randomUUID(),
+        id: generateUniqueId(),
         source: "url",
         url,
         status: "pending",
@@ -606,7 +615,7 @@ function BatchRecognitionSection() {
           : [];
       images.forEach((url, idx) => {
         newItems.push({
-          id: crypto.randomUUID(),
+          id: generateUniqueId(),
           source: "url",
           url,
           fileName: `${product.asin}_img${idx + 1}`,
