@@ -28,9 +28,11 @@ echo "[2/5] 使用 uv 创建独立的 Python 环境..."
 # 使用 uv 创建独立的 Python 环境（不依赖系统 Python）
 uv venv "$OUTPUT_DIR/python" --python 3.12
 
-echo "[3/5] 安装 CoPaw 及依赖..."
-# 使用 uv 安装 CoPaw（从源码，包含前端）
-uv pip install -e "$REPO_ROOT[full]" --python "$OUTPUT_DIR/python/bin/python"
+echo "[3/5] 安装 CoPaw 核心依赖（不含本地 AI 模型）..."
+# 只安装核心依赖，不安装 [full] 避免拉入 torch、llama-cpp 等大型包
+# 使用 --no-deps 先安装 copaw，然后手动安装核心依赖
+uv pip install -e "$REPO_ROOT" --python "$OUTPUT_DIR/python/bin/python" --no-deps
+uv pip install -e "$REPO_ROOT" --python "$OUTPUT_DIR/python/bin/python"
 
 echo "[4/5] 复制前端资源..."
 # 确保前端已构建
