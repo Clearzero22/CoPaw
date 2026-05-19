@@ -7,6 +7,7 @@
     "dev": "vite --host",
     "dev:proxy": "vite --config vite.config.dev.ts",
     "dev:no-proxy": "./dev-no-proxy.sh",
+    "dev:no-proxy:win": "powershell -ExecutionPolicy Bypass -File ./dev-no-proxy.ps1",
     "build": "tsc -b && vite build",
     "build:prod": "tsc -b && vite build --mode production",
     "build:test": "tsc -b && vite build --mode test",

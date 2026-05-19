@@ -182,3 +182,85 @@ All runtime data lives at `~/.copaw/`:
 - **TypeScript:** ESLint + Prettier (flat config at `console/eslint.config.js`).
 - **Skills directory** (`agents/skills/`) is excluded from all linters.
 - Python comments use English; follow existing patterns in each file.
+
+## Windows Setup
+
+### Prerequisites
+
+| Tool | Install |
+|------|---------|
+| Python 3.10-3.13 | https://www.python.org/downloads/ |
+| Node.js 18+ | https://nodejs.org/ |
+| Docker Desktop | https://www.docker.com/products/docker-desktop/ (for crawler PostgreSQL) |
+| uv | `pip install uv` |
+| bun | `npm install -g bun` |
+
+### Full Stack Startup on Windows
+
+```
+PostgreSQL (5433) → Crawler API (8888) → CoPaw Backend (8088)
+```
+
+**Terminal 1: PostgreSQL (Docker Desktop)**
+```powershell
+cd services/crawler
+docker-compose up -d postgres
+```
+
+**Terminal 2: Crawler API**
+```powershell
+cd services/crawler
+uv venv --python 3.12
+uv pip install -e ".[api]"
+.\start.ps1
+```
+
+**Terminal 3: CoPaw Backend**
+```powershell
+uv sync --dev --all-extras
+cd console && bun install && bun run build && cd ..
+mkdir -p src/copaw/console; Copy-Item -Recurse console/dist/* src/copaw/console/
+uv run copaw app
+```
+
+Or use the one-click script: `.\start.ps1`
+
+### PowerShell Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `start.ps1` | Start CoPaw backend |
+| `stop.ps1` | Stop all CoPaw processes |
+| `scripts/dev.ps1` | Start frontend dev server (port 5173) |
+| `services/crawler/start.ps1` | Start crawler API |
+| `services/crawler/stop.ps1` | Stop crawler API |
+
+### Frontend Dev Server on Windows
+
+```powershell
+# With proxy to backend
+cd console && bun run dev:proxy
+
+# Without system proxy
+cd console && bun run dev:no-proxy:win
+```
+
+### Verification on Windows
+
+```powershell
+curl http://localhost:8888/health                        # Crawler direct
+curl http://localhost:8088/api/crawler/products/stats    # CoPaw proxy to crawler
+curl http://localhost:8088/api/agents                     # CoPaw backend
+```
+
+### Known Windows Limitations
+
+- **iMessage channel** — macOS only (auto-disabled on Windows)
+- **Shell scripts** (`.sh`) — use `.ps1` equivalents instead
+- **`os.chmod()`** — permission mode restrictions silently ignored (wrapped in try/except)
+- **Playwright** — use `playwright install` to download browsers; sync mode used on Windows
+
+- **Python:** black (line-length 79), flake8, pylint, mypy (all via pre-commit). Max line length 79.
+- **TypeScript:** ESLint + Prettier (flat config at `console/eslint.config.js`).
+- **Skills directory** (`agents/skills/`) is excluded from all linters.
+- Python comments use English; follow existing patterns in each file.
