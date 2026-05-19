@@ -260,7 +260,73 @@ curl http://localhost:8088/api/agents                     # CoPaw backend
 - **`os.chmod()`** — permission mode restrictions silently ignored (wrapped in try/except)
 - **Playwright** — use `playwright install` to download browsers; sync mode used on Windows
 
-- **Python:** black (line-length 79), flake8, pylint, mypy (all via pre-commit). Max line length 79.
-- **TypeScript:** ESLint + Prettier (flat config at `console/eslint.config.js`).
-- **Skills directory** (`agents/skills/`) is excluded from all linters.
-- Python comments use English; follow existing patterns in each file.
+## Package Build
+
+### Build Methods Overview
+
+| Method | Script | Output | Platform | Self-contained |
+|--------|--------|--------|----------|---------------|
+| Wheel/sdist | `scripts/wheel_build.sh` / `.ps1` | `.whl`, `.tar.gz` | All | No (requires Python) |
+| Lite (uv) | `scripts/pack/build_lite.sh` | `CoPaw-Lite-*.zip` (~454MB) | Linux/macOS | Yes (no local AI) |
+| Standalone (uv) | `scripts/pack/build_with_uv.sh` | `CoPaw-Standalone-*.zip` | Linux/macOS | Yes (full deps) |
+| Windows Portable | `scripts/pack/build_win_portable.ps1` | `CoPaw-Windows-Portable-*.zip` | Windows | No (requires Python) |
+| Windows EXE | `scripts/pack/build_standalone_exe.py` | `CoPaw.exe` (~200MB) | Windows | Yes (PyInstaller) |
+| Windows Installer | `scripts/pack/build_win.ps1` | `CoPaw-Setup-*.exe` | Windows | Yes (conda-pack + NSIS) |
+| macOS .app | `scripts/pack/build_macos.sh` | `CoPaw.app` | macOS | Yes (conda-pack) |
+| Docker | `deploy/Dockerfile` | Docker image | Linux (multi-arch) | Yes (container) |
+
+### Linux Lite Build (Recommended for distribution)
+
+```bash
+bash scripts/pack/build_lite.sh
+# Output: dist/CoPaw-Lite-<version>.zip (~454MB)
+# Run: ./start-copaw.sh
+```
+
+### Wheel Build (for PyPI)
+
+```bash
+# Linux/macOS
+bash scripts/wheel_build.sh
+
+# Windows
+powershell -ExecutionPolicy Bypass -File scripts/wheel_build.ps1
+# Output: dist/copaw-<version>-py3-none-any.whl
+```
+
+### Windows Builds (must run on Windows)
+
+```powershell
+# Portable (user needs Python)
+powershell -ExecutionPolicy Bypass -File scripts/pack/build_win_portable.ps1
+
+# Single EXE (no Python needed)
+python scripts/pack/build_standalone_exe.py
+
+# NSIS Installer (requires conda + NSIS)
+powershell -ExecutionPolicy Bypass -File scripts/pack/build_win.ps1
+```
+
+### Docker Build
+
+```bash
+# Build image
+docker build -f deploy/Dockerfile -t copaw .
+
+# Run
+docker-compose up
+```
+
+### Database Migration
+
+When moving to a new machine, export/import the crawler PostgreSQL database:
+
+```bash
+# Export (current machine)
+docker exec amazon_crawler_db pg_dump -U amazon amazon_crawler > backups/amazon_crawler_dump.sql
+
+# Import (new machine)
+docker-compose up -d postgres
+# Wait for PostgreSQL to be ready
+Get-Content backups/amazon_crawler_dump.sql | docker exec -i amazon_crawler_db psql -U amazon amazon_crawler
+```
