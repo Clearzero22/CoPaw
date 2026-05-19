@@ -42,3 +42,6 @@ learning-CoPaw/
 conversation-*.txt
 *-bun-build-copaw.txt
 *-browser-use-*.txt
+
+# Crawler service (separate git repo)
+services/crawler/

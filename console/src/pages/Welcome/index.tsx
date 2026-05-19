@@ -1,7 +1,7 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import UniverseBackground from "./components/UniverseBackground";
 import HeroContent from "./components/HeroContent";
 import GameTelemetry from "./components/GameTelemetry";
@@ -14,10 +14,10 @@ interface WelcomePageProps {
 export default function WelcomePage({ onComplete }: WelcomePageProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [blackSwanActive, setBlackSwanActive] = useState(false);
+  // const [blackSwanActive, setBlackSwanActive] = useState(false);
 
   // Debug log to verify component is rendering
-  console.log('[WelcomePage] Component rendering, blackSwanActive:', blackSwanActive);
+  // console.log('[WelcomePage] Component rendering, blackSwanActive:', blackSwanActive);
 
   const handleGetStarted = useCallback(() => {
     onComplete?.();
@@ -33,10 +33,13 @@ export default function WelcomePage({ onComplete }: WelcomePageProps) {
     }
   }, [navigate, onComplete]);
 
-  const handleBlackSwanTriggered = useCallback(() => {
-    setBlackSwanActive(true);
-    setTimeout(() => setBlackSwanActive(false), 2500);
-  }, []);
+  // Black Swan event - DISABLED
+  // const handleBlackSwanTriggered = useCallback(() => {
+  //   setBlackSwanActive(true);
+  //   setTimeout(() => setBlackSwanActive(false), 2500);
+  // }, []);
+
+  // Handle Escape key to skip
 
   // Handle Escape key to skip
   useEffect(() => {
@@ -50,19 +53,19 @@ export default function WelcomePage({ onComplete }: WelcomePageProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleSkip]);
 
-  // Handle global click for black swan event (exclude buttons)
-  useEffect(() => {
-    const handleGlobalClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('button') || target.closest('a') || target.closest('.no-black-swan')) {
-        return;
-      }
-      handleBlackSwanTriggered();
-    };
+  // Handle global click for black swan event (exclude buttons) - DISABLED
+  // useEffect(() => {
+  //   const handleGlobalClick = (e: MouseEvent) => {
+  //     const target = e.target as HTMLElement;
+  //     if (target.closest('button') || target.closest('a') || target.closest('.no-black-swan')) {
+  //       return;
+  //     }
+  //     handleBlackSwanTriggered();
+  //   };
 
-    window.addEventListener("click", handleGlobalClick);
-    return () => window.removeEventListener("click", handleGlobalClick);
-  }, [handleBlackSwanTriggered]);
+  //   window.addEventListener("click", handleGlobalClick);
+  //   return () => window.removeEventListener("click", handleGlobalClick);
+  // }, [handleBlackSwanTriggered]);
 
   // Debug log to verify rendering
   useEffect(() => {
@@ -81,8 +84,8 @@ export default function WelcomePage({ onComplete }: WelcomePageProps) {
           transition={{ duration: 1 }}
         >
           <HeroContent
-            onBlackSwanTriggered={handleBlackSwanTriggered}
-            scrambleTrigger={blackSwanActive}
+            // onBlackSwanTriggered={handleBlackSwanTriggered}
+            // scrambleTrigger={blackSwanActive}
           />
         </motion.div>
 
@@ -115,8 +118,8 @@ export default function WelcomePage({ onComplete }: WelcomePageProps) {
       {/* Game Telemetry Panel */}
       <GameTelemetry />
 
-      {/* Black Swan Event Overlay */}
-      <AnimatePresence>
+      {/* Black Swan Event Overlay - DISABLED */}
+      {/* <AnimatePresence>
         {blackSwanActive && (
           <motion.div
             className={styles.blackSwanOverlay}
@@ -136,7 +139,7 @@ export default function WelcomePage({ onComplete }: WelcomePageProps) {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }

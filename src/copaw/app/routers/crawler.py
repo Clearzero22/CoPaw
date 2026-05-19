@@ -17,7 +17,7 @@ from ...constant import WORKING_DIR
 router = APIRouter(prefix="/crawler", tags=["crawler"])
 
 # Crawler API base URL (configurable via env var)
-_CRAWLER_BASE = "http://localhost:8000"
+_CRAWLER_BASE = "http://localhost:8888"  # Updated to match actual crawler service port
 _TIMEOUT = 10.0
 
 # Input validation patterns

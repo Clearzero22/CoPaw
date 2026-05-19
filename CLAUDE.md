@@ -42,6 +42,84 @@ uv run copaw app
 docker-compose up                    # Uses agentscope/copaw:latest
 ```
 
+## Full Stack Startup
+
+The full stack has 3 services that must start in order:
+
+```
+PostgreSQL (5433) → Crawler API (8888) → CoPaw Backend (8088)
+```
+
+### Step 1: PostgreSQL (Docker)
+```bash
+cd services/crawler
+docker-compose up -d postgres        # Start PostgreSQL only (port 5433)
+# Verify: docker ps | grep amazon_crawler_db
+```
+
+### Step 2: Crawler API
+```bash
+cd services/crawler
+uv venv --python 3.12                # Create venv if not exists
+uv pip install -e ".[api]"           # Install dependencies
+.venv/bin/uvicorn api.main:app --host 0.0.0.0 --port 8888
+# Verify: curl -s http://localhost:8888/health → 200
+```
+
+### Step 3: CoPaw Backend (includes built frontend)
+```bash
+# Build frontend first (if not already built)
+cd console && bun install && bun run build && cd ..
+mkdir -p src/copaw/console && cp -R console/dist/. src/copaw/console/
+
+# Start backend
+uv run copaw app
+# Verify: curl -s http://localhost:8088/api/agents → 200
+```
+
+### Quick Start (all at once)
+```bash
+# Terminal 1: Crawler API
+cd services/crawler && .venv/bin/uvicorn api.main:app --host 0.0.0.0 --port 8888
+
+# Terminal 2: CoPaw Backend
+uv run copaw app
+```
+
+### Verification
+```bash
+# Crawler direct
+curl -s http://localhost:8888/health                         # → 200
+# CoPaw proxy to crawler
+curl -s http://localhost:8088/api/crawler/products/stats     # → 200
+# CoPaw backend
+curl -s http://localhost:8088/api/agents                      # → 200
+# CoPaw console (built frontend)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:8088  # → 200
+```
+
+### Access Points
+| Service | URL |
+|---------|-----|
+| CoPaw Console | http://localhost:8088 |
+| Crawler Dashboard (dev) | http://localhost:5173 (run `cd services/crawler/dashboard && bun run dev`) |
+| Crawler API Docs | http://localhost:8888/docs |
+| CoPaw API | http://localhost:8088/api |
+
+### Crawler Service (`services/crawler/`)
+
+The crawler is an independent project with its own `.git`, stored as a subdirectory and excluded from CoPaw's git via `.gitignore`. CoPaw proxies crawler requests via `src/copaw/app/routers/crawler.py` (forwards to `localhost:8888`).
+
+**Crawler standalone commands:**
+```bash
+cd services/crawler
+.venv/bin/uvicorn api.main:app --host 0.0.0.0 --port 8888 --reload  # Dev with hot-reload
+docker-compose up -d postgres     # Start PostgreSQL
+docker-compose down               # Stop PostgreSQL
+```
+
+**Note:** After moving the crawler directory, the `.venv` shebangs may break. Fix by rebuilding: `uv venv --python 3.12 --clear && uv pip install -e ".[api]"`
+
 ## Architecture
 
 ### Backend (`src/copaw/`)

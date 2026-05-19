@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ScrambleText from "./ScrambleText";
 import styles from "../index.module.less";
 
 interface HeroContentProps {
-  onBlackSwanTriggered?: () => void;
-  scrambleTrigger?: boolean;
+  // onBlackSwanTriggered?: () => void;
+  // scrambleTrigger?: boolean;
 }
 
-export default function HeroContent({ scrambleTrigger = false }: HeroContentProps) {
+export default function HeroContent({ /* scrambleTrigger = false */ }: HeroContentProps) {
   const { t } = useTranslation();
-  const [keyword, setKeyword] = useState(t("welcome.keyword"));
+  const [keyword] = useState(t("welcome.keyword"));
 
-  useEffect(() => {
-    if (scrambleTrigger) {
-      setKeyword(t("welcome.blackSwanEvent"));
-      const timeout = setTimeout(() => {
-        setKeyword(t("welcome.keyword"));
-      }, 2500);
-      return () => clearTimeout(timeout);
-    }
-  }, [scrambleTrigger, t]);
+  // Black Swan effect - DISABLED
+  // useEffect(() => {
+  //   if (scrambleTrigger) {
+  //     setKeyword(t("welcome.blackSwanEvent"));
+  //     const timeout = setTimeout(() => {
+  //       setKeyword(t("welcome.keyword"));
+  //     }, 2500);
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [scrambleTrigger, t]);
 
   return (
     <div className={styles.heroContent}>
@@ -33,9 +34,10 @@ export default function HeroContent({ scrambleTrigger = false }: HeroContentProp
         <h1 className={styles.mainTitle}>
           {t("welcome.title")}<br />
           <span
-            className={`${styles.keyword} ${scrambleTrigger ? styles.blackSwan : ""}`}
+            className={styles.keyword}
+            // className={`${styles.keyword} ${scrambleTrigger ? styles.blackSwan : ""}`}
           >
-            <ScrambleText text={keyword} trigger={scrambleTrigger} />
+            <ScrambleText text={keyword} trigger={false} />
           </span>
           <br />
           <span className={styles.subtitle}>{t("welcome.subtitle")}</span>
