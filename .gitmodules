@@ -1,0 +1,3 @@
+[submodule "services/crawler"]
+	path = services/crawler
+	url = https://github.com/Clearzero22/amazon-crawler.git
